@@ -1,0 +1,4 @@
+add_subdirectory(open_loop_motor_control)
+#add_subdirectory(position_motion_control)
+#add_subdirectory(torque_control)
+#add_subdirectory(velocity_motion_control)

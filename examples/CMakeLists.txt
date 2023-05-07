@@ -1,0 +1,5 @@
+#add_subdirectory(hardware_specific_examples)
+add_subdirectory(motion_control)
+#add_subdirectory(motor_commands_serial_examples)
+#add_subdirectory(osc_control_examples)
+#add_subdirectory(utils)

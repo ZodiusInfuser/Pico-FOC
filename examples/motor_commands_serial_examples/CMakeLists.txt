@@ -1,0 +1,3 @@
+add_subdirectory(encoder)
+add_subdirectory(hall_sensor)
+add_subdirectory(magnetic_sensor)

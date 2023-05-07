@@ -1,0 +1,2 @@
+add_subdirectory(open_loop_position_example)
+add_subdirectory(open_loop_velocity_example)
