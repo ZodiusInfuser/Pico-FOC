@@ -44,8 +44,8 @@ StepperDriver2PWM::StepperDriver2PWM(int _pwm1, int _dir1, int _pwm2, int _dir2,
 // enable motor driver
 void  StepperDriver2PWM::enable(){
     // enable_pin the driver - if enable_pin pin available
-    if ( _isset(enable_pin1) ) digitalWrite(enable_pin1, HIGH);
-    if ( _isset(enable_pin2) ) digitalWrite(enable_pin2, HIGH);
+    if ( _isset(enable_pin1) ) gpio_put(enable_pin1, HIGH);
+    if ( _isset(enable_pin2) ) gpio_put(enable_pin2, HIGH);
     // set zero to PWM
     setPwm(0,0);
 }
@@ -56,8 +56,8 @@ void StepperDriver2PWM::disable()
   // set zero to PWM
   setPwm(0, 0);
   // disable the driver - if enable_pin pin available
-  if ( _isset(enable_pin1) ) digitalWrite(enable_pin1, LOW);
-  if ( _isset(enable_pin2) ) digitalWrite(enable_pin2, LOW);
+  if ( _isset(enable_pin1) ) gpio_put(enable_pin1, LOW);
+  if ( _isset(enable_pin2) ) gpio_put(enable_pin2, LOW);
 
 }
 
@@ -96,11 +96,11 @@ void StepperDriver2PWM::setPwm(float Ua, float Ub) {
   duty_cycle2 = _constrain(abs(Ub)/voltage_power_supply,0.0f,1.0f);
 
   // phase 1 direction
-  digitalWrite(dir1a, Ua >= 0 ? LOW : HIGH);
-  if( _isset(dir1b) ) digitalWrite(dir1b, Ua >= 0 ? HIGH : LOW );
+  gpio_put(dir1a, Ua >= 0 ? LOW : HIGH);
+  if( _isset(dir1b) ) gpio_put(dir1b, Ua >= 0 ? HIGH : LOW );
   // phase 2 direction
-  digitalWrite(dir2a, Ub >= 0 ? LOW : HIGH);
-  if( _isset(dir2b) ) digitalWrite(dir2b, Ub >= 0 ? HIGH : LOW );
+  gpio_put(dir2a, Ub >= 0 ? LOW : HIGH);
+  if( _isset(dir2b) ) gpio_put(dir2b, Ub >= 0 ? HIGH : LOW );
 
   // write to hardware
   _writeDutyCycle2PWM(duty_cycle1, duty_cycle2, params);

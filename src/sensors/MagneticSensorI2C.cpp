@@ -135,9 +135,9 @@ int MagneticSensorI2C::checkBus(uint8_t sda_pin, uint8_t scl_pin) {
     pinMode(scl_pin, OUTPUT);
     for (uint8_t i = 0; i < 16; i++) {
       // toggle clock for 2 bytes of data
-      digitalWrite(scl_pin, LOW);
+      gpio_put(scl_pin, LOW);
       delayMicroseconds(20);
-      digitalWrite(scl_pin, HIGH);
+      gpio_put(scl_pin, HIGH);
       delayMicroseconds(20);
     }
     pinMode(sda_pin, INPUT);

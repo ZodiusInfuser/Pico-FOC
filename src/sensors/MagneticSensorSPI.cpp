@@ -72,7 +72,7 @@ void MagneticSensorSPI::init(spi_inst_t* _spi){
 	spi->begin();
 	// do any architectures need to set the clock divider for SPI? Why was this in the code?
   //spi->setClockDivider(SPI_CLOCK_DIV8);
-	digitalWrite(chip_select_pin, HIGH);
+	gpio_put(chip_select_pin, HIGH);
 
   this->Sensor::init(); // call base class init
 }
@@ -125,9 +125,9 @@ int16_t MagneticSensorSPI::read(int16_t angle_register){
   spi->beginTransaction(settings);
 
   //Send the command
-  digitalWrite(chip_select_pin, LOW);
+  gpio_put(chip_select_pin, LOW);
   spi->transfer16(command);
-  digitalWrite(chip_select_pin,HIGH);
+  gpio_put(chip_select_pin,HIGH);
   
 #if defined(ESP_H) && defined(ARDUINO_ARCH_ESP32) // if ESP32 board
   delayMicroseconds(50); // why do we need to delay 50us on ESP32? In my experience no extra delays are needed, on any of the architectures I've tested...
@@ -136,9 +136,9 @@ int16_t MagneticSensorSPI::read(int16_t angle_register){
 #endif
 
   //Now read the response
-  digitalWrite(chip_select_pin, LOW);
+  gpio_put(chip_select_pin, LOW);
   int16_t register_value = spi->transfer16(0x00);
-  digitalWrite(chip_select_pin, HIGH);
+  gpio_put(chip_select_pin, HIGH);
 
   //SPI - end transaction
   spi->endTransaction();

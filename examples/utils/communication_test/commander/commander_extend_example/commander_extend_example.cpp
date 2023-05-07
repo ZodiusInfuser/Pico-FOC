@@ -9,8 +9,8 @@ Commander command = Commander(Serial);
 
 // led control function
 void doLed(char* cmd){ 
-    if(atoi(cmd)) digitalWrite(LED_BUILTIN, HIGH); 
-    else digitalWrite(LED_BUILTIN, LOW); 
+    if(atoi(cmd)) gpio_put(LED_BUILTIN, HIGH); 
+    else gpio_put(LED_BUILTIN, LOW); 
 };
 // get analog input 
 void doAnalog(char* cmd){ 

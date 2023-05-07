@@ -60,16 +60,16 @@ void setup() {
   // DRV8302 specific code
   // M_OC  - enable overcurrent protection
   pinMode(M_OC,OUTPUT);
-  digitalWrite(M_OC,LOW);
+  gpio_put(M_OC,LOW);
   // M_PWM  - enable 3pwm mode
   pinMode(M_PWM,OUTPUT);
-  digitalWrite(M_PWM,HIGH);
+  gpio_put(M_PWM,HIGH);
   // OD_ADJ - set the maximum overcurrent limit possible
   // Better option would be to use voltage divisor to set exact value
   pinMode(OC_ADJ,OUTPUT);
-  digitalWrite(OC_ADJ,HIGH);
+  gpio_put(OC_ADJ,HIGH);
   pinMode(OC_GAIN,OUTPUT);
-  digitalWrite(OC_GAIN,LOW);
+  gpio_put(OC_GAIN,LOW);
 
 
   // driver config

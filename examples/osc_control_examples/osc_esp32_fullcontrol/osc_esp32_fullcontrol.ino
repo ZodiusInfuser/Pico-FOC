@@ -97,12 +97,12 @@ void setup() {
 	pinMode(25,OUTPUT);
 	pinMode(26,OUTPUT);
 	pinMode(27,OUTPUT);
-	digitalWrite(0, 0);
-	digitalWrite(4, 0);
-	digitalWrite(16, 0);
-	digitalWrite(25, 0);
-	digitalWrite(26, 0);
-	digitalWrite(27, 0);
+	gpio_put(0, 0);
+	gpio_put(4, 0);
+	gpio_put(16, 0);
+	gpio_put(25, 0);
+	gpio_put(26, 0);
+	gpio_put(27, 0);
 
 	Serial.begin(115200);
     delay(200);

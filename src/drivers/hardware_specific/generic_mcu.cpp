@@ -5,6 +5,10 @@
   __attribute__((weak)) void analogWrite(uint8_t pin, int value){ };
 #endif
 
+void analogWrite(int pin, int value) {
+  
+}
+
 // function setting the high pwm frequency to the supplied pin
 // - Stepper motor - 1PWM setting
 // - hardware speciffic

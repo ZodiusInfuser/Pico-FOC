@@ -25,7 +25,7 @@ BLDCDriver6PWM::BLDCDriver6PWM(int phA_h,int phA_l,int phB_h,int phB_l,int phC_h
 // enable motor driver
 void  BLDCDriver6PWM::enable(){
     // enable_pin the driver - if enable_pin pin available
-    if ( _isset(enable_pin) ) digitalWrite(enable_pin, enable_active_high);
+    if ( _isset(enable_pin) ) gpio_put(enable_pin, enable_active_high);
     // set phase state enabled
     setPhaseState(PhaseState::PHASE_ON, PhaseState::PHASE_ON, PhaseState::PHASE_ON);
     // set zero to PWM
@@ -40,7 +40,7 @@ void BLDCDriver6PWM::disable()
   // set zero to PWM
   setPwm(0, 0, 0);
   // disable the driver - if enable_pin pin available
-  if ( _isset(enable_pin) ) digitalWrite(enable_pin, !enable_active_high);
+  if ( _isset(enable_pin) ) gpio_put(enable_pin, !enable_active_high);
 
 }
 

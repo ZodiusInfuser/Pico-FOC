@@ -1,6 +1,8 @@
 #include "BLDCMotor.h"
 #include "./communication/SimpleFOCDebug.h"
 #include "math.h"
+#include "common/lowpass_filter.h"
+#include "common/foc_utils.h"
 
 
 // see https://www.youtube.com/watch?v=InzXA7mWBWE Slide 5

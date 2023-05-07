@@ -46,7 +46,7 @@ class Commander
      * @param eol - the end of line sentinel character
      * @param echo - echo last typed character (for command line feedback)
      */
-    Commander(Stream &serial, char eol = '\n', bool echo = false);
+    //Commander(Stream &serial, char eol = '\n', bool echo = false);
     Commander(char eol = '\n', bool echo = false);
 
     /**
@@ -71,7 +71,7 @@ class Commander
      * @param reader - temporary stream to read user input
      * @param eol - temporary end of line sentinel
      */
-    void run(Stream &reader, char eol = '\n');
+    void run(char eol);
     /**
      * Function reading the string of user input and firing callbacks that have been added to the commander
      * once the user has requested them - when he sends the command
@@ -91,14 +91,14 @@ class Commander
      * @param onCommand  - function pointer void function(char*)
      * @param label      - string label to be displayed when scan command sent
      */
-    void add(char id , CommandCallback onCommand, char* label = nullptr);
+    void add(char id , CommandCallback onCommand, const char* label = nullptr);
 
     // printing variables
     VerboseMode verbose = VerboseMode::user_friendly; //!< flag signaling that the commands should output user understanable text
     uint8_t decimal_places = 3; //!< number of decimal places to be used when displaying numbers
 
     // monitoring functions
-    Stream* com_port = nullptr; //!< Serial terminal variable if provided
+    //Stream* com_port = nullptr; //!< Serial terminal variable if provided
     char eol = '\n'; //!< end of line sentinel character
     bool echo = false; //!< echo last typed character (for command line feedback)
 
@@ -262,7 +262,7 @@ class Commander
      *  - Function handling the case for strings defined by F macro
      *  @param message - message to be printed
      */
-    void printVerbose(const __FlashStringHelper *message);
+    //void printVerbose(const __FlashStringHelper *message);
     /**
      *  print the numbers to the serial with desired decimal point number
      *  @param message - number to be printed
@@ -272,24 +272,24 @@ class Commander
     void print(const float number);
     void print(const int number);
     void print(const char* message);
-    void print(const __FlashStringHelper *message);
+    //void print(const __FlashStringHelper *message);
     void print(const char message);
     void println(const float number);
     void println(const int number);
     void println(const char* message);
-    void println(const __FlashStringHelper *message);
+    //void println(const __FlashStringHelper *message);
     void println(const char message);
 
     void printMachineReadable(const float number);
     void printMachineReadable(const int number);
     void printMachineReadable(const char* message);
-    void printMachineReadable(const __FlashStringHelper *message);
+    //void printMachineReadable(const __FlashStringHelper *message);
     void printMachineReadable(const char message);
 
     void printlnMachineReadable(const float number);
     void printlnMachineReadable(const int number);
     void printlnMachineReadable(const char* message);
-    void printlnMachineReadable(const __FlashStringHelper *message);
+    //void printlnMachineReadable(const __FlashStringHelper *message);
     void printlnMachineReadable(const char message);
 
 

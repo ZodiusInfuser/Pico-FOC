@@ -21,8 +21,8 @@ StepperDriver4PWM::StepperDriver4PWM(int ph1A,int ph1B,int ph2A,int ph2B,int en1
 // enable motor driver
 void  StepperDriver4PWM::enable(){
     // enable_pin the driver - if enable_pin pin available
-    if ( _isset(enable_pin1) ) digitalWrite(enable_pin1, HIGH);
-    if ( _isset(enable_pin2) ) digitalWrite(enable_pin2, HIGH);
+    if ( _isset(enable_pin1) ) gpio_put(enable_pin1, HIGH);
+    if ( _isset(enable_pin2) ) gpio_put(enable_pin2, HIGH);
     // set zero to PWM
     setPwm(0,0);
 }
@@ -33,8 +33,8 @@ void StepperDriver4PWM::disable()
   // set zero to PWM
   setPwm(0, 0);
   // disable the driver - if enable_pin pin available
-  if ( _isset(enable_pin1) ) digitalWrite(enable_pin1, LOW);
-  if ( _isset(enable_pin2) ) digitalWrite(enable_pin2, LOW);
+  if ( _isset(enable_pin1) ) gpio_put(enable_pin1, LOW);
+  if ( _isset(enable_pin2) ) gpio_put(enable_pin2, LOW);
 
 }
 
