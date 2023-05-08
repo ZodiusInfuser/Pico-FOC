@@ -28,7 +28,7 @@ __attribute__((weak))  float _readADCVoltageLowSide(const int pin_a, const void*
 }
 
 // Configure low side for generic mcu
-// cannot do much but 
+// cannot do much but
 __attribute__((weak))  void* _configureADCLowSide(const void* driver_params, const int pin_a,const int pin_b,const int pin_c){
   return _configureADCInline(driver_params, pin_a, pin_b, pin_c);
 }
@@ -36,6 +36,6 @@ __attribute__((weak))  void* _configureADCLowSide(const void* driver_params, con
 // sync driver and the adc
 __attribute__((weak)) void _driverSyncLowSide(void* driver_params, void* cs_params){
   _UNUSED(driver_params);
-  _UNUSED(cs_params); 
+  _UNUSED(cs_params);
 }
 __attribute__((weak)) void _startADC3PinConversionLowSide(){ }

@@ -25,7 +25,7 @@ class MagneticSensorSPI: public Sensor{
  public:
     /**
      *  MagneticSensorSPI class constructor
-     * @param cs  SPI chip select pin 
+     * @param cs  SPI chip select pin
      * @param bit_resolution   sensor resolution bit number
      * @param angle_register  (optional) angle read register - default 0x3FFF
      */
@@ -46,10 +46,10 @@ class MagneticSensorSPI: public Sensor{
 
     // returns the spi mode (phase/polarity of read/writes) i.e one of SPI_MODE0 | SPI_MODE1 | SPI_MODE2 | SPI_MODE3
     int spi_mode;
-    
+
     /* returns the speed of the SPI clock signal */
     long clock_speed;
-    
+
 
   private:
     float cpr; //!< Maximum range of the magnetic sensor
@@ -59,7 +59,7 @@ class MagneticSensorSPI: public Sensor{
 	  SPISettings settings; //!< SPI settings variable
     // spi functions
     /** Stop SPI communication */
-    void close(); 
+    void close();
     /** Read one SPI register value */
     int16_t read(int16_t angle_register);
     /** Calculate parity value  */
@@ -70,7 +70,7 @@ class MagneticSensorSPI: public Sensor{
      * it uses angle_register variable
      */
     int get_raw_count();
-    
+
     int bit_resolution; //!< the number of bites of angle data
     int command_parity_bit; //!< the bit where parity flag is stored in command
     int command_rw_bit; //!< the bit where read/write flag is stored in command

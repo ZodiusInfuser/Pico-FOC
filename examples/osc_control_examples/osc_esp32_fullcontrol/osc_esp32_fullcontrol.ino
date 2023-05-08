@@ -139,7 +139,7 @@ void setup() {
 	motor1.PID_velocity.I = 20;
 	motor1.PID_velocity.D = 0.001f;
 	motor1.PID_velocity.output_ramp = 1000;
-	motor1.LPF_velocity.Tf = 0.01f;
+	motor1.LPF_velocity.tf = 0.01f;
 	motor1.voltage_limit = POWER_SUPPLY;
 	motor1.P_angle.P = 20;
 	motor1.init();
@@ -156,7 +156,7 @@ void setup() {
 	motor2.PID_velocity.I = 20;
 	motor2.PID_velocity.D = 0.001f;
 	motor2.PID_velocity.output_ramp = 1000;
-	motor2.LPF_velocity.Tf = 0.01f;
+	motor2.LPF_velocity.tf = 0.01f;
 	motor2.voltage_limit = POWER_SUPPLY;
 	motor2.P_angle.P = 20;
 	motor2.init();
@@ -215,8 +215,8 @@ void motorCmd(OSCMessage &msg, int offset, BLDCMotor& motor, float* set_point, S
 		sendMessage(prefix+"/R", motor.PID_velocity.output_ramp);
 	}
 	else if (msg.fullMatch("/F", offset)) {
-		motor.LPF_velocity.Tf = getNumber(msg,0);
-		sendMessage(prefix+"/F", motor.LPF_velocity.Tf);
+		motor.LPF_velocity.tf = getNumber(msg,0);
+		sendMessage(prefix+"/F", motor.LPF_velocity.tf);
 	}
 	else if (msg.fullMatch("/K", offset)) {
 		motor.P_angle.P = getNumber(msg,0);
@@ -286,7 +286,7 @@ void sendMotorParams(BLDCMotor& motor, String& prefix) {
 	bundleOUT.add((prefix+"/I").c_str()).add(motor.PID_velocity.I);
 	bundleOUT.add((prefix+"/D").c_str()).add(motor.PID_velocity.D);
 	bundleOUT.add((prefix+"/R").c_str()).add(motor.PID_velocity.output_ramp);
-	bundleOUT.add((prefix+"/F").c_str()).add(motor.LPF_velocity.Tf);
+	bundleOUT.add((prefix+"/F").c_str()).add(motor.LPF_velocity.tf);
 	bundleOUT.add((prefix+"/K").c_str()).add(motor.P_angle.P);
 	bundleOUT.add((prefix+"/N").c_str()).add(motor.velocity_limit);
 	bundleOUT.add((prefix+"/L").c_str()).add(motor.voltage_limit);

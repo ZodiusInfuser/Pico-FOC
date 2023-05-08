@@ -60,15 +60,15 @@ void setup() {
   motor.PID_current_q.I= 300;
   motor.PID_current_d.P= 5;
   motor.PID_current_d.I = 300;
-  motor.LPF_current_q.Tf = 0.01f;
-  motor.LPF_current_d.Tf = 0.01f;
+  motor.LPF_current_q.tf = 0.01f;
+  motor.LPF_current_d.tf = 0.01f;
   // foc currnet control parameters (stm/esp/due/teensy)
   // motor.PID_current_q.P = 5;
   // motor.PID_current_q.I= 1000;
   // motor.PID_current_d.P= 5;
   // motor.PID_current_d.I = 1000;
-  // motor.LPF_current_q.Tf = 0.002f; // 1ms default
-  // motor.LPF_current_d.Tf = 0.002f; // 1ms default
+  // motor.LPF_current_q.tf = 0.002f; // 1ms default
+  // motor.LPF_current_d.tf = 0.002f; // 1ms default
 
   // use monitoring with serial
   Serial.begin(115200);

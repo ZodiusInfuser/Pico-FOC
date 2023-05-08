@@ -69,7 +69,7 @@ void setup() {
   motor.voltage_limit = 12;
 
   // velocity low pass filtering time constant
-  motor.LPF_velocity.Tf = 0.01f;
+  motor.LPF_velocity.tf = 0.01f;
 
   // angle loop controller
   motor.P_angle.P = 20;

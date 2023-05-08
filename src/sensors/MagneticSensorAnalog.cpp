@@ -23,7 +23,7 @@ MagneticSensorAnalog::MagneticSensorAnalog(uint8_t _pin_analog, int _min_raw_cou
 
 
 void MagneticSensorAnalog::init(){
-	raw_count = get_raw_count();
+  raw_count = get_raw_count();
 
   this->Sensor::init(); // call base class init
 }
@@ -32,11 +32,11 @@ void MagneticSensorAnalog::init(){
 //  angle is in radians [rad]
 float MagneticSensorAnalog::get_sensor_angle(){
   // raw data from the sensor
-  raw_count = get_raw_count();   
+  raw_count = get_raw_count();
   return ( (float) (raw_count) / (float)cpr) * _2PI;
 }
 
 // function reading the raw counter of the magnetic sensor
 int MagneticSensorAnalog::get_raw_count(){
-	return analogRead(pin_analog);
+  return analogRead(pin_analog);
 }

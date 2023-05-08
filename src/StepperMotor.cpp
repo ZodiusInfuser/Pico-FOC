@@ -94,7 +94,7 @@ void StepperMotor::enable()
 // FOC initialization function
 int  StepperMotor::init_foc( float zero_electric_offset, Direction _sensor_direction ) {
   int exit_flag = 1;
-  
+
   motor_status = FOCMotorStatus::motor_calibrating;
 
   // align motor if necessary
@@ -177,7 +177,7 @@ int StepperMotor::align_sensor() {
     float moved =  fabs(mid_angle - end_angle);
     if( fabs(moved*pole_pairs - _2PI) > 0.5f ) { // 0.5f is arbitrary number it can be lower or higher!
       SIMPLEFOC_DEBUG("MOT: PP check: fail - estimated pp: ", _2PI/moved);
-    } else 
+    } else
       SIMPLEFOC_DEBUG("MOT: PP check: OK!");
 
   }else SIMPLEFOC_DEBUG("MOT: Skip dir calib.");
@@ -238,7 +238,7 @@ int StepperMotor::absolute_zero_search() {
 // Iterative function looping FOC algorithm, setting Uq on the Motor
 // The faster it can be run the better
 void StepperMotor::loop_foc() {
-  
+
   // update sensor - do this even in open-loop mode, as user may be switching between modes and we could lose track
   //                 of full rotations otherwise.
   if (sensor) sensor->update();
@@ -252,7 +252,7 @@ void StepperMotor::loop_foc() {
   if(!enabled) return;
 
   // Needs the update() to be called first
-  // This function will not have numerical issues because it uses Sensor::get_mechanical_angle() 
+  // This function will not have numerical issues because it uses Sensor::get_mechanical_angle()
   // which is in range 0-2PI
   electrical_angle = electrical_angle();
 
@@ -277,9 +277,9 @@ void StepperMotor::move(float new_target) {
   //                        For this reason it is NOT precise when the angles become large.
   //                        Additionally, the way LPF works on angle is a precision issue, and the angle-LPF is a problem
   //                        when switching to a 2-component representation.
-  if( controller!=MotionControlType::angle_openloop && controller!=MotionControlType::velocity_openloop ) 
+  if( controller!=MotionControlType::angle_openloop && controller!=MotionControlType::velocity_openloop )
     shaft_angle = shaft_angle(); // read value even if motor is disabled to keep the monitoring updated but not in openloop mode
-  // get angular velocity 
+  // get angular velocity
   shaft_velocity = shaft_velocity(); // read value even if motor is disabled to keep the monitoring updated
 
   // if disabled do nothing
@@ -335,13 +335,13 @@ void StepperMotor::move(float new_target) {
       // velocity control in open loop
       shaft_velocity_sp = target;
       voltage.q = velocity_openloop(shaft_velocity_sp); // returns the voltage that is set to the motor
-      voltage.d = 0; // TODO d-component lag-compensation 
+      voltage.d = 0; // TODO d-component lag-compensation
       break;
     case MotionControlType::angle_openloop:
       // angle control in open loop
       shaft_angle_sp = target;
       voltage.q = angle_openloop(shaft_angle_sp); // returns the voltage that is set to the motor
-      voltage.d = 0; // TODO d-component lag-compensation 
+      voltage.d = 0; // TODO d-component lag-compensation
       break;
   }
 }
@@ -391,7 +391,7 @@ float StepperMotor::velocity_openloop(float target_velocity){
   float Uq = voltage_limit;
   if(_isset(phase_resistance)){
     Uq = _constrain(current_limit*phase_resistance + fabs(voltage_bemf),-voltage_limit, voltage_limit);
-    // recalculate the current  
+    // recalculate the current
     current.q = (Uq - fabs(voltage_bemf))/phase_resistance;
   }
 
@@ -429,7 +429,7 @@ float StepperMotor::angle_openloop(float target_angle){
   float Uq = voltage_limit;
   if(_isset(phase_resistance)){
     Uq = _constrain(current_limit*phase_resistance + fabs(voltage_bemf),-voltage_limit, voltage_limit);
-    // recalculate the current  
+    // recalculate the current
     current.q = (Uq - fabs(voltage_bemf))/phase_resistance;
   }
   // set the maximal allowed voltage (voltage_limit) with the necessary angle

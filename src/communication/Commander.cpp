@@ -488,8 +488,8 @@ void Commander::lpf(LowPassFilter* lpf, char* user_cmd){
   switch (cmd){
     case SCMD_LPF_TF:      // Tf value change
       print_verbose("Tf: \n");
-      if(!GET) lpf->Tf = value;
-      println(lpf->Tf);
+      if(!GET) lpf->tf = value;
+      println(lpf->tf);
       break;
     default:
       print_error();
@@ -538,14 +538,14 @@ void Commander::target(FOCMotor* motor,  char* user_cmd, char* separator){
       pos= atof(strtok (user_cmd, separator));
       motor->target = pos;
 
-      // allow for setting only the target position without chaning the velocity/torque limits 
+      // allow for setting only the target position without chaning the velocity/torque limits
       next_value = strtok (NULL, separator);
       if( next_value ){
         vel = atof(next_value);
         motor->velocity_limit = vel;
         motor->P_angle.limit = vel;
-  
-        // allow for setting only the target position and velocity limit without the torque limit 
+
+        // allow for setting only the target position and velocity limit without the torque limit
         next_value = strtok (NULL, separator);
         if( next_value ){
           torque= atof(next_value);
@@ -572,9 +572,9 @@ void Commander::target(FOCMotor* motor,  char* user_cmd, char* separator){
     case MotionControlType::angle_openloop: // setting angle target + torque, velocity limit
       // set the target
       pos= atof(strtok (user_cmd, separator));
-      motor->target = pos; 
-      
-      // allow for setting only the target position without chaning the velocity/torque limits 
+      motor->target = pos;
+
+      // allow for setting only the target position without chaning the velocity/torque limits
       next_value = strtok (NULL, separator);
       if( next_value ){
         vel = atof(next_value);

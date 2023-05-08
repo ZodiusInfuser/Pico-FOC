@@ -30,7 +30,7 @@ LowsideCurrentSense::LowsideCurrentSense(float _mVpA, int _pinA, int _pinB, int 
     gain_a = volts_to_amps_ratio;
     gain_b = volts_to_amps_ratio;
     gain_c = volts_to_amps_ratio;
-}   
+}
 
 
 // Lowside sensor init function
@@ -38,18 +38,18 @@ int LowsideCurrentSense::init(){
     // configure ADC variables
     params = _configureADCLowSide(driver->params,pin_a,pin_b,pin_c);
     // if init failed return fail
-    if (params == SIMPLEFOC_CURRENT_SENSE_INIT_FAILED) return 0; 
+    if (params == SIMPLEFOC_CURRENT_SENSE_INIT_FAILED) return 0;
     // sync the driver
     _driverSyncLowSide(driver->params, params);
     // calibrate zero offsets
-    calibrateOffsets();
+    calibrate_offsets();
     // set the initialized flag
     initialized = (params!=SIMPLEFOC_CURRENT_SENSE_INIT_FAILED);
     // return success
     return 1;
 }
 // Function finding zero offsets of the ADC
-void LowsideCurrentSense::calibrateOffsets(){    
+void LowsideCurrentSense::calibrate_offsets(){
     const int calibration_rounds = 2000;
 
     // find adc offset = zero current voltage
@@ -89,7 +89,7 @@ PhaseCurrent_s LowsideCurrentSense::get_phase_currents(){
 // 3 - success but gains inverted
 // 4 - success but pins reconfigured and gains inverted
 int LowsideCurrentSense::driver_align(float voltage){
-    
+
     int exit_flag = 1;
     if(skip_align) return exit_flag;
 
@@ -183,7 +183,7 @@ int LowsideCurrentSense::driver_align(float voltage){
         }else{
             // error in current sense - phase either not measured or bad connection
             return 0;
-        }   
+        }
     }
 
     // if phase C measured
@@ -230,7 +230,7 @@ int LowsideCurrentSense::driver_align(float voltage){
         }else{
             // error in current sense - phase either not measured or bad connection
             return 0;
-        }   
+        }
     }
 
     if(gain_a < 0 || gain_b < 0 || gain_c < 0) exit_flag +=2;

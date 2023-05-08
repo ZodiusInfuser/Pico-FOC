@@ -145,7 +145,7 @@ int32_t HallSensor::get_full_rotations() {
 
 
 
-// HallSensor initialisation of the hardware pins 
+// HallSensor initialisation of the hardware pins
 // and calculation variables
 void HallSensor::init(){
   // initialise the electrical rotations to 0

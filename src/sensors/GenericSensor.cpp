@@ -7,7 +7,7 @@
 */
 
 GenericSensor::GenericSensor(float (*readCallback)(), void (*initCallback)()){
-  // if function provided add it to the 
+  // if function provided add it to the
   if(readCallback != nullptr) this->readCallback = readCallback;
   if(initCallback != nullptr) this->initCallback = initCallback;
 }
@@ -19,7 +19,7 @@ void GenericSensor::init(){
 }
 
 /*
-	Shaft angle calculation
+  Shaft angle calculation
 */
 float GenericSensor::get_sensor_angle(){
   return this->readCallback();

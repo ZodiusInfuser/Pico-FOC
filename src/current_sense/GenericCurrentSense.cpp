@@ -2,7 +2,7 @@
 
 // GenericCurrentSense constructor
 GenericCurrentSense::GenericCurrentSense(PhaseCurrent_s (*readCallback)(), void (*initCallback)()){
-  // if function provided add it to the 
+  // if function provided add it to the
   if(readCallback != nullptr) this->readCallback = readCallback;
   if(initCallback != nullptr) this->initCallback = initCallback;
 }
@@ -12,14 +12,14 @@ int GenericCurrentSense::init(){
     // configure ADC variables
     if(initCallback != nullptr) initCallback();
     // calibrate zero offsets
-    calibrateOffsets();
+    calibrate_offsets();
     // set the initialized flag
     initialized = (params!=SIMPLEFOC_CURRENT_SENSE_INIT_FAILED);
     // return success
     return 1;
 }
 // Function finding zero offsets of the ADC
-void GenericCurrentSense::calibrateOffsets(){
+void GenericCurrentSense::calibrate_offsets(){
     const int calibration_rounds = 1000;
 
     // find adc offset = zero current voltage

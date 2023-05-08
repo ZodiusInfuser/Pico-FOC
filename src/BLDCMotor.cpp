@@ -13,7 +13,7 @@ int trap_120_map[6][3] = {
     {-1,_HIGH_IMPEDANCE,1},
     {_HIGH_IMPEDANCE,-1,1},
     {1,-1,_HIGH_IMPEDANCE},
-    {1,_HIGH_IMPEDANCE,-1} 
+    {1,_HIGH_IMPEDANCE,-1}
 };
 
 // see https://www.youtube.com/watch?v=InzXA7mWBWE Slide 8
@@ -30,7 +30,7 @@ int trap_150_map[12][3] = {
     {1,-1,_HIGH_IMPEDANCE},
     {1,-1,-1},
     {1,_HIGH_IMPEDANCE,-1},
-    {1,1,-1} 
+    {1,1,-1}
 };
 
 // BLDCMotor( int pp , float R)
@@ -159,7 +159,7 @@ int  BLDCMotor::init_foc( float zero_electric_offset, Direction _sensor_directio
   // and checks the direction of measuremnt.
   sleep_ms(500);
   if(exit_flag){
-    if(current_sense){ 
+    if(current_sense){
       if (!current_sense->initialized) {
         motor_status = FOCMotorStatus::motor_calib_failed;
         SIMPLEFOC_DEBUG("MOT: Init FOC error, current sense not initialized");
@@ -253,7 +253,7 @@ int BLDCMotor::align_sensor() {
     // check pole pair number
     if( fabs(moved*pole_pairs - _2PI) > 0.5f ) { // 0.5f is arbitrary number it can be lower or higher!
       SIMPLEFOC_DEBUG("MOT: PP check: fail - estimated pp: ", _2PI/moved);
-    } else 
+    } else
       SIMPLEFOC_DEBUG("MOT: PP check: OK!");
 
   } else SIMPLEFOC_DEBUG("MOT: Skip dir calib.");
@@ -321,12 +321,12 @@ void BLDCMotor::loop_foc() {
 
   // if open-loop do nothing
   if( controller==MotionControlType::angle_openloop || controller==MotionControlType::velocity_openloop ) return;
-  
+
   // if disabled do nothing
   if(!enabled) return;
 
   // Needs the update() to be called first
-  // This function will not have numerical issues because it uses Sensor::get_mechanical_angle() 
+  // This function will not have numerical issues because it uses Sensor::get_mechanical_angle()
   // which is in range 0-2PI
   _electrical_angle = electrical_angle();
   switch (torque_controller) {
@@ -385,7 +385,7 @@ void BLDCMotor::move(float new_target) {
   //                        For this reason it is NOT precise when the angles become large.
   //                        Additionally, the way LPF works on angle is a precision issue, and the angle-LPF is a problem
   //                        when switching to a 2-component representation.
-  if( controller!=MotionControlType::angle_openloop && controller!=MotionControlType::velocity_openloop ) 
+  if( controller!=MotionControlType::angle_openloop && controller!=MotionControlType::velocity_openloop )
     _shaft_angle = shaft_angle(); // read value even if motor is disabled to keep the monitoring updated but not in openloop mode
   // get angular velocity  TODO the velocity reading probably also shouldn't happen in open loop modes?
   _shaft_velocity = shaft_velocity(); // read value even if motor is disabled to keep the monitoring updated
@@ -394,7 +394,7 @@ void BLDCMotor::move(float new_target) {
   if(!enabled) return;
   // set internal target variable
   if(_isset(new_target)) target = new_target;
-  
+
   // calculate the back-emf voltage if KV_rating available U_bemf = vel*(1/KV)
   if (_isset(KV_rating)) voltage_bemf = _shaft_velocity/KV_rating/_RPM_TO_RADS;
   // estimate the motor current if phase reistance available and current_sense not available
@@ -456,9 +456,9 @@ void BLDCMotor::move(float new_target) {
       voltage.d = 0;
       break;
     case MotionControlType::angle_openloop:
-      // angle control in open loop - 
+      // angle control in open loop -
       // TODO sensor precision: this calculation NOT numerically precise, and subject
-      //                        to the same problems in small set-point changes at high angles 
+      //                        to the same problems in small set-point changes at high angles
       //                        as the closed loop version.
       shaft_angle_sp = target;
       voltage.q = angle_openloop(shaft_angle_sp); // returns the voltage that is set to the motor
@@ -685,7 +685,7 @@ float BLDCMotor::velocity_openloop(float target_velocity){
   float Uq = voltage_limit;
   if(_isset(phase_resistance)){
     Uq = _constrain(current_limit*phase_resistance + fabs(voltage_bemf),-voltage_limit, voltage_limit);
-    // recalculate the current  
+    // recalculate the current
     current.q = (Uq - fabs(voltage_bemf))/phase_resistance;
   }
   // set the maximal allowed voltage (voltage_limit) with the necessary angle
@@ -725,7 +725,7 @@ float BLDCMotor::angle_openloop(float target_angle){
   float Uq = voltage_limit;
   if(_isset(phase_resistance)){
     Uq = _constrain(current_limit*phase_resistance + fabs(voltage_bemf),-voltage_limit, voltage_limit);
-    // recalculate the current  
+    // recalculate the current
     current.q = (Uq - fabs(voltage_bemf))/phase_resistance;
   }
   // set the maximal allowed voltage (voltage_limit) with the necessary angle

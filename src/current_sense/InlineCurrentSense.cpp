@@ -36,24 +36,24 @@ InlineCurrentSense::InlineCurrentSense(float _mVpA, int _pinA, int _pinB, int _p
 
 // Inline sensor init function
 int InlineCurrentSense::init(){
-    // if no linked driver its fine in this case 
+    // if no linked driver its fine in this case
     // at least for init()
     void* drv_params = driver ? driver->params : nullptr;
     // configure ADC variables
     params = _configureADCInline(drv_params,pin_a,pin_b,pin_c);
     // if init failed return fail
-    if (params == SIMPLEFOC_CURRENT_SENSE_INIT_FAILED) return 0; 
+    if (params == SIMPLEFOC_CURRENT_SENSE_INIT_FAILED) return 0;
     // calibrate zero offsets
-    calibrateOffsets();
+    calibrate_offsets();
     // set the initialized flag
     initialized = (params!=SIMPLEFOC_CURRENT_SENSE_INIT_FAILED);
     // return success
     return 1;
 }
 // Function finding zero offsets of the ADC
-void InlineCurrentSense::calibrateOffsets(){
+void InlineCurrentSense::calibrate_offsets(){
     const int calibration_rounds = 1000;
-    
+
     // find adc offset = zero current voltage
     offset_ia = 0;
     offset_ib = 0;
@@ -89,7 +89,7 @@ PhaseCurrent_s InlineCurrentSense::get_phase_currents(){
 // 3 - success but gains inverted
 // 4 - success but pins reconfigured and gains inverted
 int InlineCurrentSense::driver_align(float voltage){
-    
+
     int exit_flag = 1;
     if(skip_align) return exit_flag;
 
@@ -183,7 +183,7 @@ int InlineCurrentSense::driver_align(float voltage){
         }else{
             // error in current sense - phase either not measured or bad connection
             return 0;
-        }   
+        }
     }
 
     // if phase C measured
@@ -230,7 +230,7 @@ int InlineCurrentSense::driver_align(float voltage){
         }else{
             // error in current sense - phase either not measured or bad connection
             return 0;
-        }   
+        }
     }
 
     if(gain_a < 0 || gain_b < 0 || gain_c < 0) exit_flag +=2;

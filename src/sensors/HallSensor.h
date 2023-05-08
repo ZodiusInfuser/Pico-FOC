@@ -25,14 +25,14 @@ class HallSensor: public Sensor{
     /**
      *  function enabling hardware interrupts for the HallSensor channels with provided callback functions
      *  if callback is not provided then the interrupt is not enabled
-     * 
+     *
      * @param do_a pointer to the A channel interrupt handler function
      * @param do_b pointer to the B channel interrupt handler function
      * @param do_c pointer to the C channel interrupt handler function
-     * 
+     *
      */
     void enable_interrupts(void (*do_a)() = nullptr, void(*do_b)() = nullptr, void(*do_c)() = nullptr);
-    
+
     //  HallSensor interrupt callback functions
     /** A channel callback function */
     void handle_a();
@@ -40,8 +40,8 @@ class HallSensor: public Sensor{
     void handle_b();
     /** C channel callback function */
     void handle_c();
-    
-    
+
+
     // pins A and B
     int pin_a; //!< HallSensor hardware pin A
     int pin_b; //!< HallSensor hardware pin B
@@ -61,7 +61,7 @@ class HallSensor: public Sensor{
     double get_precise_angle() override;
     int32_t get_full_rotations() override;
 
-    // whether last step was CW (+1) or CCW (-1).  
+    // whether last step was CW (+1) or CCW (-1).
     Direction direction;
 
     void attach_sector_callback(void (*on_sector_change)(int a) = nullptr);
@@ -73,13 +73,13 @@ class HallSensor: public Sensor{
     // the number of electric rotations
     volatile long electric_rotations;
     // this is sometimes useful to identify interrupt issues (e.g. weak or no pullup resulting in 1000s of interrupts)
-    volatile long total_interrupts; 
+    volatile long total_interrupts;
 
     // variable used to filter outliers - rad/s
     float velocity_max = 1000.0f;
 
   private:
-    
+
     Direction decode_direction(int oldState, int newState);
     void update_state();
 
@@ -92,7 +92,7 @@ class HallSensor: public Sensor{
     void (*on_sector_change)(int sector) = nullptr;
 
     volatile long pulse_diff;
-    
+
 };
 
 

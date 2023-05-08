@@ -16,16 +16,16 @@ class MagneticSensorAnalog: public Sensor{
      * @param _pin_analog  the pin to read the PWM signal
      */
     MagneticSensorAnalog(uint8_t _pin_analog, int _min = 0, int _max = 0);
-    
+
 
     /** sensor initialise pins */
     void init();
 
     int pin_analog; //!< encoder hardware pin A
-    
+
     // Encoder configuration
     Pullup pullup;
-    
+
     // implementation of abstract functions of the Sensor class
     /** get current angle (rad) */
     float get_sensor_angle() override;

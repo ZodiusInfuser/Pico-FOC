@@ -8,7 +8,7 @@ void Sensor::update() {
     angle_prev_ts = time_us_64();
     float d_angle = val - angle_prev;
     // if overflow happened track it as full rotation
-    if(abs(d_angle) > (0.8f*_2PI) ) full_rotations += ( d_angle > 0 ) ? -1 : 1; 
+    if(abs(d_angle) > (0.8f*_2PI) ) full_rotations += ( d_angle > 0 ) ? -1 : 1;
     angle_prev = val;
 }
 

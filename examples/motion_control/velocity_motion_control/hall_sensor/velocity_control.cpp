@@ -82,7 +82,7 @@ void setup() {
   motor.PID_velocity.output_ramp = 1000;
 
   // velocity low pass filtering time constant
-  motor.LPF_velocity.Tf = 0.01f;
+  motor.LPF_velocity.tf = 0.01f;
 
   // use monitoring with serial
   Serial.begin(115200);

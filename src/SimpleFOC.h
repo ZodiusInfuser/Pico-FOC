@@ -18,26 +18,26 @@
  *     - Supports as many sensors , BLDC motors and driver boards as possible
  *     - Supports as many application requirements as possible
  *  - Plug & play: Arduino SimpleFOC shield
- * 
+ *
  * @section dependencies Supported Hardware
- *  - Motors 
+ *  - Motors
  *    - BLDC motors
  *    - Stepper motors
- * - Drivers 
+ * - Drivers
  *    - BLDC drivers
  *    - Gimbal drivers
  *    - Stepper drivers
- * - Position sensors 
+ * - Position sensors
  *    - Encoders
  *    - Magnetic sensors
  *    - Hall sensors
  *    - Open-loop control
- * - Microcontrollers 
+ * - Microcontrollers
  *    - Arduino
  *    - STM32
  *    - ESP32
  *    - Teensy
- * 
+ *
  * @section example_code Example code
  * @code
 #include <SimpleFOC.h>
@@ -53,14 +53,14 @@ void doA(){encoder.handle_a();}
 void doB(){encoder.handle_b();}
 
 
-void setup() {  
+void setup() {
   // initialize encoder hardware
   encoder.init();
   // hardware interrupt enable
   encoder.enable_interrupts(doA, doB);
   // link the motor to the sensor
   motor.link_sensor(&encoder);
-  
+
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   // initialise driver hardware
@@ -72,7 +72,7 @@ void setup() {
   motor.controller = MotionControlType::velocity;
   // initialize motor
   motor.init();
-  
+
   // align encoder and start FOC
   motor.init_foc();
 }
@@ -85,7 +85,7 @@ void loop() {
   // setting the target velocity or 2rad/s
   motor.move(2);
 }
- * @endcode 
+ * @endcode
  *
  * @section license License
  *

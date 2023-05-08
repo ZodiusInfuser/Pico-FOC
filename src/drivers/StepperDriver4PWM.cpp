@@ -55,7 +55,7 @@ int StepperDriver4PWM::init() {
   // Set the pwm frequency to the pins
   // hardware specific function - depending on driver and mcu
   params = _configure_4_pwm(pwm_frequency, pwm1A, pwm1B, pwm2A, pwm2B);
-  initialized = (params!=SIMPLEFOC_DRIVER_INIT_FAILED);  
+  initialized = (params!=SIMPLEFOC_DRIVER_INIT_FAILED);
   return params!=SIMPLEFOC_DRIVER_INIT_FAILED;
 }
 

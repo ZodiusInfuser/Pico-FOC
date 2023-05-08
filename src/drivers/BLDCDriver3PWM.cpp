@@ -67,8 +67,6 @@ int BLDCDriver3PWM::init() {
   return params!=SIMPLEFOC_DRIVER_INIT_FAILED;
 }
 
-
-
 // Set voltage to the pwm pin
 void BLDCDriver3PWM::set_phase_state(PhaseState sa, PhaseState sb, PhaseState sc) {
   // disable if needed

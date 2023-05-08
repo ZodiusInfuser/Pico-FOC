@@ -36,11 +36,11 @@ float _readADCVoltageInline(const int pin_a, const void* cs_params) {
 
 void* _configureADCInline(const void *driver_params, const int pin_a, const int pin_b, const int pin_c) {
     if( _isset(pin_a) )
-        engine.addPin(pin_a);
+        engine.add_pin(pin_a);
     if( _isset(pin_b) )
-        engine.addPin(pin_b);
+        engine.add_pin(pin_b);
     if( _isset(pin_c) )
-        engine.addPin(pin_c);
+        engine.add_pin(pin_c);
     engine.init(); // TODO this has to happen later if we want to support more than one motor...
     engine.start();
     return &engine;
@@ -48,13 +48,13 @@ void* _configureADCInline(const void *driver_params, const int pin_a, const int 
 
 
 // not supported at the moment
-// void* _configureADCLowSide(const void *driver_params, const int pin_a, const int pin_b, const int pin_c) {    
+// void* _configureADCLowSide(const void *driver_params, const int pin_a, const int pin_b, const int pin_c) {
 //     if( _isset(pin_a) )
-//         engine.addPin(pin_a);
+//         engine.add_pin(pin_a);
 //     if( _isset(pin_b) )
-//         engine.addPin(pin_b);
+//         engine.add_pin(pin_b);
 //     if( _isset(pin_c) )
-//         engine.addPin(pin_c);
+//         engine.add_pin(pin_c);
 //     engine.setPWMTrigger(((RP2040DriverParams*)driver_params)->slice[0]);
 //     engine.init();
 //     engine.start();
@@ -125,7 +125,7 @@ RP2040ADCEngine::RP2040ADCEngine() {
 
 
 
-void RP2040ADCEngine::addPin(int pin) {
+void RP2040ADCEngine::add_pin(int pin) {
     if (pin>=26 && pin<=29)
         channelsEnabled[pin-26] = true;
     else
@@ -144,7 +144,7 @@ void RP2040ADCEngine::addPin(int pin) {
 bool RP2040ADCEngine::init() {
     if (initialized)
         return true;
-    
+
     adc_init();
     int enableMask = 0x00;
     int channelCount = 0;
@@ -250,7 +250,7 @@ void RP2040ADCEngine::stop() {
 
 
 
-ADCResults RP2040ADCEngine::getLastResults() {
+ADCResults RP2040ADCEngine::get_last_results() {
     ADCResults r;
     r.value = lastResults.value;
     return r;

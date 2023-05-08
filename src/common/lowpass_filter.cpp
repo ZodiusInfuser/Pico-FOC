@@ -1,7 +1,7 @@
 #include "lowpass_filter.h"
 
 LowPassFilter::LowPassFilter(float time_constant)
-    : Tf(time_constant)
+    : tf(time_constant)
     , y_prev(0.0f)
 {
     timestamp_prev = time_us_64();
@@ -20,7 +20,7 @@ float LowPassFilter::operator() (float x)
         return x;
     }
 
-    float alpha = Tf/(Tf + dt);
+    float alpha = tf/(tf + dt);
     float y = alpha*y_prev + (1.0f - alpha)*x;
     y_prev = y;
     timestamp_prev = timestamp;

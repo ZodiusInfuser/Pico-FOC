@@ -16,9 +16,9 @@ class MagneticSensorPWM: public Sensor{
     */
     MagneticSensorPWM(uint8_t _pin_pwm,int _min = 0, int _max = 0);
     /** MagneticSensorPWM(uint8_t _pin_pwm, int freq_hz, int _total_pwm_clocks, int _min_pwm_clocks, int _max_pwm_clocks)
-     * 
+     *
      * Constructor that computes the min and max raw counts based on the PWM frequency and the number of PWM clocks in one period
-     * 
+     *
      * @param _pin_pwm  the pin that is reading the pwm from magnetic sensor
      * @param freq_hz  the frequency of the PWM signal, in Hz, e.g. 115, 230, 460 or 920 for the AS5600, depending on the PWM frequency setting
      * @param _total_pwm_clocks  the total number of PWM clocks in one period, e.g. 4351 for the AS5600
@@ -34,7 +34,7 @@ class MagneticSensorPWM: public Sensor{
 
     // get current angle (rad)
     float get_sensor_angle() override;
-  
+
     // pwm handler
     void handle_pwm();
     void enable_interrupt(void (*do_pwm)());
@@ -61,7 +61,7 @@ class MagneticSensorPWM: public Sensor{
     // time tracking variables
     unsigned long last_call_us;
     // unsigned long pulse_length_us;
-    
+
 
 };
 

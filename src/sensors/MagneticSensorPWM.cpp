@@ -23,9 +23,9 @@ MagneticSensorPWM::MagneticSensorPWM(uint8_t _pin_pwm, int _min_raw_count, int _
 
 
 /** MagneticSensorPWM(uint8_t _pin_pwm, int freq_hz, int _total_pwm_clocks, int _min_pwm_clocks, int _max_pwm_clocks)
- * 
+ *
  * Constructor that computes the min and max raw counts based on the PWM frequency and the number of PWM clocks in one period
- * 
+ *
  * @param _pin_pwm  the pin that is reading the pwm from magnetic sensor
  * @param freq_hz  the frequency of the PWM signal, in Hz, e.g. 115, 230, 460 or 920 for the AS5600, depending on the PWM frequency setting
  * @param _total_pwm_clocks  the total number of PWM clocks in one period, e.g. 4351 for the AS5600
@@ -56,7 +56,7 @@ void MagneticSensorPWM::init(){
     // initial hardware
     pinMode(pin_pwm, INPUT);
     raw_count = get_raw_count();
-    
+
     this->Sensor::init(); // call base class init
 }
 

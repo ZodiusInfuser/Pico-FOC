@@ -58,7 +58,7 @@ void setup() {
   motor.PID_velocity.output_ramp = 1000;
 
   // velocity low pass filtering time constant
-  motor.LPF_velocity.Tf = 0.01f;
+  motor.LPF_velocity.tf = 0.01f;
 
   // angle P controller
   motor.P_angle.P = 10;

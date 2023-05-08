@@ -64,15 +64,15 @@ MagneticSensorSPI::MagneticSensorSPI(MagneticSensorSPIConfig_s config, int cs){
 
 void MagneticSensorSPI::init(spi_inst_t* _spi){
   spi = _spi;
-	// 1MHz clock (AMS should be able to accept up to 10MHz)
-	settings = SPISettings(clock_speed, MSBFIRST, spi_mode);
-	//setup pins
-	pinMode(chip_select_pin, OUTPUT);
-	//SPI has an internal SPI-device counter, it is possible to call "begin()" from different devices
-	spi->begin();
-	// do any architectures need to set the clock divider for SPI? Why was this in the code?
+  // 1MHz clock (AMS should be able to accept up to 10MHz)
+  settings = SPISettings(clock_speed, MSBFIRST, spi_mode);
+  //setup pins
+  pinMode(chip_select_pin, OUTPUT);
+  //SPI has an internal SPI-device counter, it is possible to call "begin()" from different devices
+  spi->begin();
+  // do any architectures need to set the clock divider for SPI? Why was this in the code?
   //spi->setClockDivider(SPI_CLOCK_DIV8);
-	gpio_put(chip_select_pin, HIGH);
+  gpio_put(chip_select_pin, HIGH);
 
   this->Sensor::init(); // call base class init
 }
@@ -85,23 +85,23 @@ float MagneticSensorSPI::get_sensor_angle(){
 
 // function reading the raw counter of the magnetic sensor
 int MagneticSensorSPI::get_raw_count(){
-	return (int)MagneticSensorSPI::read(angle_register);
+  return (int)MagneticSensorSPI::read(angle_register);
 }
 
-// SPI functions 
+// SPI functions
 /**
  * Utility function used to calculate even parity of int16_t
  */
 uint8_t MagneticSensorSPI::spi_calc_even_parity(int16_t value){
-	uint8_t cnt = 0;
-	uint8_t i;
+  uint8_t cnt = 0;
+  uint8_t i;
 
-	for (i = 0; i < 16; i++)
-	{
-		if (value & 0x1) cnt++;
-		value >>= 1;
-	}
-	return cnt & 0x1;
+  for (i = 0; i < 16; i++)
+  {
+    if (value & 0x1) cnt++;
+    value >>= 1;
+  }
+  return cnt & 0x1;
 }
 
   /*
@@ -117,8 +117,8 @@ int16_t MagneticSensorSPI::read(int16_t angle_register){
     command = angle_register | (1 << command_rw_bit);
   }
   if (command_parity_bit > 0) {
-   	//Add a parity bit on the the MSB
-  	command |= ((int16_t)spi_calc_even_parity(command) << command_parity_bit);
+     //Add a parity bit on the the MSB
+    command |= ((int16_t)spi_calc_even_parity(command) << command_parity_bit);
   }
 
   //SPI - begin transaction
@@ -128,7 +128,7 @@ int16_t MagneticSensorSPI::read(int16_t angle_register){
   gpio_put(chip_select_pin, LOW);
   spi->transfer16(command);
   gpio_put(chip_select_pin,HIGH);
-  
+
   sleep_us(1); // delay 1us, the minimum time possible with sleep functions. 350ns is the required time for AMS sensors, 80ns for MA730, MA702
 
   //Now read the response
@@ -143,7 +143,7 @@ int16_t MagneticSensorSPI::read(int16_t angle_register){
 
   const static int16_t data_mask = 0xFFFF >> (16 - bit_resolution);
 
-	return register_value & data_mask;  // Return the data, stripping the non data (e.g parity) bits
+  return register_value & data_mask;  // Return the data, stripping the non data (e.g parity) bits
 }
 
 /**
@@ -151,7 +151,5 @@ int16_t MagneticSensorSPI::read(int16_t angle_register){
  * SPI has an internal SPI-device counter, for each init()-call the close() function must be called exactly 1 time
  */
 void MagneticSensorSPI::close(){
-	spi->end();
+  spi->end();
 }
-
-

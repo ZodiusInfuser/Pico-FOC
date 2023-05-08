@@ -64,7 +64,7 @@ void setup() {
   // velocity low pass filtering
   // default 5ms - try different values to see what is the best.
   // the lower the less filtered
-  motor.LPF_velocity.Tf = 0.01f;
+  motor.LPF_velocity.tf = 0.01f;
 
   // use monitoring with serial
   Serial.begin(115200);

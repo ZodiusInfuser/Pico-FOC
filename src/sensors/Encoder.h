@@ -30,14 +30,14 @@ class Encoder: public Sensor{
     /**
      *  function enabling hardware interrupts for the encoder channels with provided callback functions
      *  if callback is not provided then the interrupt is not enabled
-     * 
+     *
      * @param do_a pointer to the A channel interrupt handler function
      * @param do_b pointer to the B channel interrupt handler function
      * @param do_index pointer to the Index channel interrupt handler function
-     * 
+     *
      */
     void enable_interrupts(void (*do_a)() = nullptr, void(*do_b)() = nullptr, void(*do_index)() = nullptr);
-    
+
     //  Encoder interrupt callback functions
     /** A channel callback function */
     void handle_a();
@@ -45,8 +45,8 @@ class Encoder: public Sensor{
     void handle_b();
     /** Index channel callback function */
     void handle_index();
-    
-    
+
+
     // pins A and B
     int pin_a; //!< encoder hardware pin A
     int pin_b; //!< encoder hardware pin B
@@ -70,7 +70,7 @@ class Encoder: public Sensor{
 
     /**
      * returns 0 if it does need search for absolute zero
-     * 0 - encoder without index 
+     * 0 - encoder without index
      * 1 - ecoder with index
      */
     int needs_search() override;

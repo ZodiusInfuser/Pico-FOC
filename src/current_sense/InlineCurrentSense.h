@@ -9,27 +9,28 @@
 #include "hardware_api.h"
 
 
-class InlineCurrentSense: public CurrentSense{
+class InlineCurrentSense: public CurrentSense {
   public:
     /**
-      InlineCurrentSense class constructor
-      @param shunt_resistor shunt resistor value
-      @param gain current-sense op-amp gain
-      @param phA A phase adc pin
-      @param phB B phase adc pin
-      @param phC C phase adc pin (optional)
-    */
+     * InlineCurrentSense class constructor
+     * @param shunt_resistor shunt resistor value
+     * @param gain current-sense op-amp gain
+     * @param phA A phase adc pin
+     * @param phB B phase adc pin
+     * @param phC C phase adc pin (optional)
+     */
     InlineCurrentSense(float shunt_resistor, float gain, int pin_a, int pin_b, int pin_c = NOT_SET);
+
     /**
-      InlineCurrentSense class constructor
-      @param mVpA mV per Amp ratio
-      @param phA A phase adc pin
-      @param phB B phase adc pin
-      @param phC C phase adc pin (optional)
-    */
+     * InlineCurrentSense class constructor
+     * @param mVpA mV per Amp ratio
+     * @param phA A phase adc pin
+     * @param phB B phase adc pin
+     * @param phC C phase adc pin (optional)
+     */
     InlineCurrentSense(float mVpA, int pin_a, int pin_b, int pin_c = NOT_SET);
 
-    // CurrentSense interface implementing functions 
+    // CurrentSense interface implementing functions
     int init() override;
     PhaseCurrent_s get_phase_currents() override;
     int driver_align(float align_voltage) override;
@@ -49,24 +50,21 @@ class InlineCurrentSense: public CurrentSense{
     float offset_ia; //!< zero current A voltage value (center of the adc reading)
     float offset_ib; //!< zero current B voltage value (center of the adc reading)
     float offset_ic; //!< zero current C voltage value (center of the adc reading)
-    
+
   private:
-  
     // hardware variables
-  	int pin_a; //!< pin A analog pin for current measurement
-  	int pin_b; //!< pin B analog pin for current measurement
-  	int pin_c; //!< pin C analog pin for current measurement
+    int pin_a; //!< pin A analog pin for current measurement
+    int pin_b; //!< pin B analog pin for current measurement
+    int pin_c; //!< pin C analog pin for current measurement
 
     // gain variables
     float shunt_resistor; //!< Shunt resistor value
     float amp_gain; //!< amp gain value
     float volts_to_amps_ratio; //!< Volts to amps ratio
-    
+
     /**
-     *  Function finding zero offsets of the ADC
+     * Function finding zero offsets of the ADC
      */
-    void calibrateOffsets();
-
+    void calibrate_offsets();
 };
-
 #endif

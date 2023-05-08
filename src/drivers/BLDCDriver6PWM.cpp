@@ -19,29 +19,26 @@ BLDCDriver6PWM::BLDCDriver6PWM(int phA_h,int phA_l,int phB_h,int phB_l,int phC_h
 
   // dead zone initial - 2%
   dead_zone = 0.02f;
-
 }
 
 // enable motor driver
-void  BLDCDriver6PWM::enable(){
-    // enable_pin the driver - if enable_pin pin available
-    if ( _isset(enable_pin) ) gpio_put(enable_pin, enable_active_high);
-    // set phase state enabled
-    set_phase_state(PhaseState::PHASE_ON, PhaseState::PHASE_ON, PhaseState::PHASE_ON);
-    // set zero to PWM
-    set_pwm(0, 0, 0);
+void  BLDCDriver6PWM::enable() {
+  // enable_pin the driver - if enable_pin pin available
+  if ( _isset(enable_pin) ) gpio_put(enable_pin, enable_active_high);
+  // set phase state enabled
+  set_phase_state(PhaseState::PHASE_ON, PhaseState::PHASE_ON, PhaseState::PHASE_ON);
+  // set zero to PWM
+  set_pwm(0, 0, 0);
 }
 
 // disable motor driver
-void BLDCDriver6PWM::disable()
-{
+void BLDCDriver6PWM::disable() {
   // set phase state to disabled
   set_phase_state(PhaseState::PHASE_OFF, PhaseState::PHASE_OFF, PhaseState::PHASE_OFF);
   // set zero to PWM
   set_pwm(0, 0, 0);
   // disable the driver - if enable_pin pin available
   if ( _isset(enable_pin) ) gpio_put(enable_pin, !enable_active_high);
-
 }
 
 // init hardware pins

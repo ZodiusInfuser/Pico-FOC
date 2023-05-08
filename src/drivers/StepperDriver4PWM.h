@@ -7,48 +7,42 @@
 #include "hardware_api.h"
 
 /**
- 4 pwm stepper driver class
-*/
-class StepperDriver4PWM: public StepperDriver
-{
+ * 4 pwm stepper driver class
+ */
+class StepperDriver4PWM: public StepperDriver {
   public:
     /**
-      StepperMotor class constructor
-      @param ph1A 1A phase pwm pin
-      @param ph1B 1B phase pwm pin
-      @param ph2A 2A phase pwm pin
-      @param ph2B 2B phase pwm pin
-      @param en1 enable pin phase 1 (optional input)
-      @param en2 enable pin phase 2 (optional input)
-    */
+     * StepperMotor class constructor
+     * @param ph1A 1A phase pwm pin
+     * @param ph1B 1B phase pwm pin
+     * @param ph2A 2A phase pwm pin
+     * @param ph2B 2B phase pwm pin
+     * @param en1 enable pin phase 1 (optional input)
+     * @param en2 enable pin phase 2 (optional input)
+     */
     StepperDriver4PWM(int ph1A,int ph1B,int ph2A,int ph2B, int en1 = NOT_SET, int en2 = NOT_SET);
-    
-    /**  Motor hardware init function */
-  	int init() override;
+
+    /** Motor hardware init function */
+    int init() override;
     /** Motor disable function */
-  	void disable() override;
+    void disable() override;
     /** Motor enable function */
     void enable() override;
 
     // hardware variables
-  	int pwm1A; //!< phase 1A pwm pin number
-  	int pwm1B; //!< phase 1B pwm pin number
-  	int pwm2A; //!< phase 2A pwm pin number
+    int pwm1A; //!< phase 1A pwm pin number
+    int pwm1B; //!< phase 1B pwm pin number
+    int pwm2A; //!< phase 2A pwm pin number
     int pwm2B; //!< phase 2B pwm pin number
     int enable_pin1; //!< enable pin number phase 1
     int enable_pin2; //!< enable pin number phase 2
 
-    /** 
-     * Set phase voltages to the harware 
-     * 
-     * @param Ua phase A voltage
-     * @param Ub phase B voltage
+    /**
+     * Set phase voltages to the harware
+     *
+     * @param ua phase A voltage
+     * @param ub phase B voltage
     */
-    void set_pwm(float Ua, float Ub) override;
-
-  private:
-        
+    void set_pwm(float ua, float ub) override;
 };
-
-
 #endif

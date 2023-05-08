@@ -1,8 +1,8 @@
 #include "CurrentSense.h"
 
 
-// get current magnitude 
-//   - absolute  - if no electrical_angle provided 
+// get current magnitude
+//   - absolute  - if no electrical_angle provided
 //   - signed    - if angle provided
 float CurrentSense::get_dc_current(float motor_electrical_angle){
     // read current phase currents
@@ -14,17 +14,17 @@ float CurrentSense::get_dc_current(float motor_electrical_angle){
     float i_alpha, i_beta;
     if(!current.c){
         // if only two measured currents
-        i_alpha = current.a;  
+        i_alpha = current.a;
         i_beta = _1_SQRT3 * current.a + _2_SQRT3 * current.b;
     }if(!current.a){
         // if only two measured currents
         float a = -current.c - current.b;
-        i_alpha = a;  
+        i_alpha = a;
         i_beta = _1_SQRT3 * a + _2_SQRT3 * current.b;
     }if(!current.b){
         // if only two measured currents
         float b = -current.a - current.c;
-        i_alpha = current.a;  
+        i_alpha = current.a;
         i_beta = _1_SQRT3 * current.a + _2_SQRT3 * b;
     }else{
         // signal filtering using identity a + b + c = 0. Assumes measurement error is normally distributed.
@@ -37,16 +37,16 @@ float CurrentSense::get_dc_current(float motor_electrical_angle){
 
     // if motor angle provided function returns signed value of the current
     // determine the sign of the current
-    // sign(atan2(current.q, current.d)) is the same as c.q > 0 ? 1 : -1  
-    if(motor_electrical_angle) 
-        sign = (i_beta * _cos(motor_electrical_angle) - i_alpha*_sin(motor_electrical_angle)) > 0 ? 1 : -1;  
+    // sign(atan2(current.q, current.d)) is the same as c.q > 0 ? 1 : -1
+    if(motor_electrical_angle)
+        sign = (i_beta * _cos(motor_electrical_angle) - i_alpha*_sin(motor_electrical_angle)) > 0 ? 1 : -1;
     // return current magnitude
     return sign*_sqrt(i_alpha*i_alpha + i_beta*i_beta);
 }
 
 // function used with the foc algorihtm
 //   calculating DQ currents from phase currents
-//   - function calculating park and clarke transform of the phase currents 
+//   - function calculating park and clarke transform of the phase currents
 //   - using get_phase_currents internally
 DQCurrent_s CurrentSense::get_foc_currents(float angle_el){
     // read current phase currents
@@ -56,17 +56,17 @@ DQCurrent_s CurrentSense::get_foc_currents(float angle_el){
     float i_alpha, i_beta;
     if(!current.c){
         // if only two measured currents
-        i_alpha = current.a;  
+        i_alpha = current.a;
         i_beta = _1_SQRT3 * current.a + _2_SQRT3 * current.b;
     }if(!current.a){
         // if only two measured currents
         float a = -current.c - current.b;
-        i_alpha = a;  
+        i_alpha = a;
         i_beta = _1_SQRT3 * a + _2_SQRT3 * current.b;
     }if(!current.b){
         // if only two measured currents
         float b = -current.a - current.c;
-        i_alpha = current.a;  
+        i_alpha = current.a;
         i_beta = _1_SQRT3 * current.a + _2_SQRT3 * b;
     } else {
         // signal filtering using identity a + b + c = 0. Assumes measurement error is normally distributed.

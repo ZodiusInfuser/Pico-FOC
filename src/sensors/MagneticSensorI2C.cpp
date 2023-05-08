@@ -43,7 +43,7 @@ MagneticSensorI2C::MagneticSensorI2C(uint8_t _chip_address, int _bit_resolution,
 }
 
 MagneticSensorI2C::MagneticSensorI2C(MagneticSensorI2CConfig_s config){
-  chip_address = config.chip_address; 
+  chip_address = config.chip_address;
 
   // angle read register of the magnetic sensor
   angle_register_msb = config.angle_register;
@@ -71,7 +71,7 @@ void MagneticSensorI2C::init(TwoWire* _wire){
 //  Shaft angle calculation
 //  angle is in radians [rad]
 float MagneticSensorI2C::get_sensor_angle(){
-  // (number of full rotations)*2PI + current sensor angle 
+  // (number of full rotations)*2PI + current sensor angle
   return  ( get_raw_count() / (float)cpr) * _2PI ;
 }
 

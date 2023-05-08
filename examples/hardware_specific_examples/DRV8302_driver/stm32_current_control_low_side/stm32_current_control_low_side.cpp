@@ -94,21 +94,21 @@ void setup() {
   motor.PID_velocity.P = 0.2;
   motor.PID_velocity.I = 5.0;
   // Low pass filtering time constant 
-  motor.LPF_velocity.Tf = 0.02;
+  motor.LPF_velocity.tf = 0.02;
   // angle loop PID
   motor.P_angle.P = 20.0;
   // Low pass filtering time constant 
-  motor.LPF_angle.Tf = 0.0;
+  motor.LPF_angle.tf = 0.0;
   // current q loop PID 
   motor.PID_current_q.P = 3.0;
   motor.PID_current_q.I = 100.0;
   // Low pass filtering time constant 
-  motor.LPF_current_q.Tf = 0.02;
+  motor.LPF_current_q.tf = 0.02;
   // current d loop PID
   motor.PID_current_d.P = 3.0;
   motor.PID_current_d.I = 100.0;
   // Low pass filtering time constant 
-  motor.LPF_current_d.Tf = 0.02;
+  motor.LPF_current_d.tf = 0.02;
 
   // Limits 
   motor.velocity_limit = 100.0; // 100 rad/s velocity limit

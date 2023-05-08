@@ -4,14 +4,14 @@
 #include "pico/stdlib.h"
 
 // sign function
-#define _sign(a) ( ( (a) < 0 )  ?  -1   : ( (a) > 0 ) )
+#define _sign(a) (((a) < 0) ? -1 : ((a) > 0))
 #ifndef _round
-#define _round(x) ((x)>=0?(long)((x)+0.5f):(long)((x)-0.5f))
+#define _round(x) ((x) >= 0 ? (long)((x) + 0.5f) : (long)((x) - 0.5f))
 #endif
-#define _constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
+#define _constrain(amt, low, high) ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)))
 #define _sqrt(a) (_sqrt_approx(a))
-#define _isset(a) ( (a) != (NOT_SET) )
-#define _UNUSED(v) (void) (v)
+#define _isset(a) ((a) != (NOT_SET))
+#define _UNUSED(v) (void)(v)
 
 // utility defines
 #define _2_SQRT3 1.15470053838f
@@ -34,36 +34,36 @@
 #define _ACTIVE 1
 #define _NC (NOT_SET)
 
-#define MIN_ANGLE_DETECT_MOVEMENT (_2PI/101.0f)
+#define MIN_ANGLE_DETECT_MOVEMENT (_2PI / 101.0f)
 
 // dq current structure
-struct DQCurrent_s
-{
-    float d;
-    float q;
+struct DQCurrent_s {
+  float d;
+  float q;
 };
+
 // phase current structure
-struct PhaseCurrent_s
-{
-    float a;
-    float b;
-    float c;
+struct PhaseCurrent_s {
+  float a;
+  float b;
+  float c;
 };
+
 // dq voltage structs
-struct DQVoltage_s
-{
-    float d;
-    float q;
+struct DQVoltage_s {
+  float d;
+  float q;
 };
 
 
 /**
- *  Function approximating the sine calculation by using fixed size array
+ * Function approximating the sine calculation by using fixed size array
  * - execution time ~40us (Arduino UNO)
  *
  * @param a angle in between 0 and 2PI
  */
 float _sin(float a);
+
 /**
  * Function approximating cosine calculation by using fixed size array
  * - execution time ~50us (Arduino UNO)
@@ -78,7 +78,6 @@ float _cos(float a);
  */
 float _normalize_angle(float angle);
 
-
 /**
  * Electrical angle calculation
  *
@@ -89,7 +88,7 @@ float _calc_electrical_angle(float shaft_angle, int pole_pairs);
 
 /**
  * Function approximating square root function
- *  - using fast inverse square root
+ * - using fast inverse square root
  *
  * @param value - number
  */

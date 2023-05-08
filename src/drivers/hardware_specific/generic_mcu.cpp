@@ -6,7 +6,7 @@
 #endif
 
 void analogWrite(int pin, int value) {
-  
+
 }
 
 // function setting the high pwm frequency to the supplied pin
@@ -108,7 +108,7 @@ __attribute__((weak)) void _write_duty_cycle_3_pwm(float dc_a,  float dc_b, floa
 // - hardware speciffic
 __attribute__((weak)) void _write_duty_cycle_4_pwm(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, void* params){
   // transform duty cycle from [0,1] to [0,255]
-  
+
   analogWrite(((GenericDriverParams*)params)->pins[0], 255.0f*dc_1a);
   analogWrite(((GenericDriverParams*)params)->pins[1], 255.0f*dc_1b);
   analogWrite(((GenericDriverParams*)params)->pins[2], 255.0f*dc_2a);

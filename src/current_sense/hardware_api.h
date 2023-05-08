@@ -17,7 +17,7 @@ typedef struct GenericCurrentSenseParams {
 
 
 /**
- *  function reading an ADC value and returning the read voltage
+ * function reading an ADC value and returning the read voltage
  *
  * @param pin_a - the arduino pin to be read (it has to be ADC pin)
  * @param cs_params -current sense parameter structure - hardware specific
@@ -25,7 +25,7 @@ typedef struct GenericCurrentSenseParams {
 float _readADCVoltageInline(const int pin_a, const void* cs_params);
 
 /**
- *  function reading an ADC value and returning the read voltage
+ * function reading an ADC value and returning the read voltage
  *
  * @param driver_params - driver parameter structure - hardware specific
  * @param pin_a - adc pin A
@@ -35,7 +35,7 @@ float _readADCVoltageInline(const int pin_a, const void* cs_params);
 void* _configureADCInline(const void *driver_params, const int pin_a,const int pin_b,const int pin_c = NOT_SET);
 
 /**
- *  function reading an ADC value and returning the read voltage
+ * function reading an ADC value and returning the read voltage
  *
  * @param driver_params - driver parameter structure - hardware specific
  * @param pin_a - adc pin A
@@ -47,7 +47,7 @@ void* _configureADCLowSide(const void *driver_params, const int pin_a,const int 
 void _startADC3PinConversionLowSide();
 
 /**
- *  function reading an ADC value and returning the read voltage
+ * function reading an ADC value and returning the read voltage
  *
  * @param pin_a - the arduino pin to be read (it has to be ADC pin)
  * @param cs_params -current sense parameter structure - hardware specific
@@ -55,7 +55,7 @@ void _startADC3PinConversionLowSide();
 float _readADCVoltageLowSide(const int pin_a, const void* cs_params);
 
 /**
- *  function syncing the Driver with the ADC  for the LowSide Sensing
+ * function syncing the Driver with the ADC  for the LowSide Sensing
  * @param driver_params - driver parameter structure - hardware specific
  * @param cs_params - current sense parameter structure - hardware specific
  */

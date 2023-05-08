@@ -10,7 +10,7 @@ struct MagneticSensorI2CConfig_s  {
   int chip_address;
   int bit_resolution;
   int angle_register;
-  int data_start_bit; 
+  int data_start_bit;
 };
 // some predefined structures
 extern MagneticSensorI2CConfig_s AS5600_I2C,AS5048_I2C;
@@ -26,7 +26,7 @@ class MagneticSensorI2C: public Sensor{
     /**
      * MagneticSensorI2C class constructor
      * @param chip_address  I2C chip address
-     * @param bits number of bits of the sensor resolution 
+     * @param bits number of bits of the sensor resolution
      * @param angle_register_msb  angle read register msb
      * @param _bits_used_msb number of used bits in msb
      */
@@ -39,7 +39,7 @@ class MagneticSensorI2C: public Sensor{
     MagneticSensorI2C(MagneticSensorI2CConfig_s config);
 
     static MagneticSensorI2C AS5600();
-        
+
     /** sensor initialise pins */
     void init(i2c_inst_t* _i2c = i2c0);
 
@@ -55,7 +55,7 @@ class MagneticSensorI2C: public Sensor{
     uint16_t lsb_used; //!< Number of bits used in LSB register
     uint8_t lsb_mask;
     uint8_t msb_mask;
-    
+
     // I2C variables
     uint8_t angle_register_msb; //!< I2C angle register to read
     uint8_t chip_address; //!< I2C chip select pins
@@ -69,7 +69,7 @@ class MagneticSensorI2C: public Sensor{
      * it uses angle_register variable
      */
     int get_raw_count();
-    
+
     /* the two wire instance for this sensor */
     i2c_inst_t* i2c;
 

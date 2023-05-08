@@ -13,20 +13,19 @@
 /**
  * Step/Dir listenner class for easier interraction with this communication interface.
  */
-class StepDirListener
-{
+class StepDirListener {
   public:
-
     /**
      * Constructor for step/direction interface
-     *  @param step              - pin
-     *  @param direction         - pin
-     *  @param counter_to_value  - step counter to value
+     * @param step              - pin
+     * @param direction         - pin
+     * @param counter_to_value  - step counter to value
      */
     StepDirListener(int pinStep, int pinDir, float counter_to_value = 1);
+
     /**
      * Start listenning for step commands
-     * 
+     *
      * @param handleStep - on step received handler
      */
     void enable_interrupt(void (*handleStep)());
@@ -35,16 +34,19 @@ class StepDirListener
      * Initialise dir and step commands
      */
     void init();
+
     /**
      * step handler
      */
     void handle();
+
     /**
      * Get so far received valued
      */
     float get_value();
+
     /**
-     * Attach the value to be updated on each step receive 
+     * Attach the value to be updated on each step receive
      * - no need to call get_value function
      */
     void attach(float* variable);
@@ -56,10 +58,8 @@ class StepDirListener
     PinStatus polarity = RISING; //!< polarity of the step pin
 
   private:
-    float* attached_variable = nullptr; //!< pointer to the attached variable 
-    float counter_to_value; //!< step counter to value 
+    float* attached_variable = nullptr; //!< pointer to the attached variable
+    float counter_to_value; //!< step counter to value
     //bool step_active = 0; //!< current step pin status (HIGH/LOW) - debouncing variable
-
 };
-
 #endif

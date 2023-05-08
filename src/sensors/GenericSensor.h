@@ -14,7 +14,7 @@ class GenericSensor: public Sensor{
      * @param init_callback pointer to the function initialising the sensor
     */
     GenericSensor(float (*read_callback)() = nullptr, void (*init_callback)() = nullptr);
-  
+
     float (*read_callback)() = nullptr; //!< function pointer to sensor reading
     void (*init_callback)() = nullptr; //!< function pointer to sensor initialisation
 
