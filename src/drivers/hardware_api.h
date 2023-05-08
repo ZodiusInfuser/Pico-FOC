@@ -47,11 +47,11 @@ typedef struct GenericDriverParams {
  * - hardware specific
  * 
  * @param pwm_frequency - frequency in hertz - if applicable
- * @param pinA pinA pwm pin
+ * @param pin_a pin_a pwm pin
  * 
  * @return -1 if failed, or pointer to internal driver parameters struct if successful
  */
-void* _configure1PWM(long pwm_frequency, const int pinA);
+void* _configure_1_pwm(long pwm_frequency, const int pin_a);
 
 /** 
  * Configuring PWM frequency, resolution and alignment
@@ -59,12 +59,12 @@ void* _configure1PWM(long pwm_frequency, const int pinA);
  * - hardware specific
  * 
  * @param pwm_frequency - frequency in hertz - if applicable
- * @param pinA pinA bldc driver
- * @param pinB pinB bldc driver
+ * @param pin_a pin_a bldc driver
+ * @param pin_b pin_b bldc driver
  * 
  * @return -1 if failed, or pointer to internal driver parameters struct if successful
  */
-void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB);
+void* _configure_2_pwm(long pwm_frequency, const int pin_a, const int pin_b);
 
 /** 
  * Configuring PWM frequency, resolution and alignment
@@ -72,13 +72,13 @@ void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB);
  * - hardware specific
  * 
  * @param pwm_frequency - frequency in hertz - if applicable
- * @param pinA pinA bldc driver
- * @param pinB pinB bldc driver
- * @param pinC pinC bldc driver
+ * @param pin_a pin_a bldc driver
+ * @param pin_b pin_b bldc driver
+ * @param pin_c pin_c bldc driver
  * 
  * @return -1 if failed, or pointer to internal driver parameters struct if successful
  */
-void* _configure3PWM(long pwm_frequency, const int pinA, const int pinB, const int pinC);
+void* _configure_3_pwm(long pwm_frequency, const int pin_a, const int pin_b, const int pin_c);
 
 /** 
  * Configuring PWM frequency, resolution and alignment
@@ -93,7 +93,7 @@ void* _configure3PWM(long pwm_frequency, const int pinA, const int pinB, const i
  * 
  * @return -1 if failed, or pointer to internal driver parameters struct if successful
  */
-void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const int pin2A, const int pin2B);
+void* _configure_4_pwm(long pwm_frequency, const int pin1A, const int pin1B, const int pin2A, const int pin2B);
 
 /** 
  * Configuring PWM frequency, resolution and alignment
@@ -102,16 +102,16 @@ void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const
  * 
  * @param pwm_frequency - frequency in hertz - if applicable
  * @param dead_zone  duty cycle protection zone [0, 1] - both low and high side low - if applicable
- * @param pinA_h pinA high-side bldc driver 
- * @param pinA_l pinA low-side bldc driver 
- * @param pinB_h pinA high-side bldc driver 
- * @param pinB_l pinA low-side bldc driver 
- * @param pinC_h pinA high-side bldc driver 
- * @param pinC_l pinA low-side bldc driver 
+ * @param pinA_h pin_a high-side bldc driver 
+ * @param pinA_l pin_a low-side bldc driver 
+ * @param pinB_h pin_a high-side bldc driver 
+ * @param pinB_l pin_a low-side bldc driver 
+ * @param pinC_h pin_a high-side bldc driver 
+ * @param pinC_l pin_a low-side bldc driver 
  * 
  * @return -1 if failed, or pointer to internal driver parameters struct if successful
  */
-void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l);
+void* _configure_6_pwm(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l);
 
 /** 
  * Function setting the duty cycle to the pwm pin (ex. analogWrite())
@@ -122,7 +122,7 @@ void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, cons
  * @param dc_b  duty cycle phase B [0, 1]
  * @param params  the driver parameters
  */ 
-void _writeDutyCycle1PWM(float dc_a, void* params);
+void _write_duty_cycle_1_pwm(float dc_a, void* params);
 
 /** 
  * Function setting the duty cycle to the pwm pin (ex. analogWrite())
@@ -133,7 +133,7 @@ void _writeDutyCycle1PWM(float dc_a, void* params);
  * @param dc_b  duty cycle phase B [0, 1]
  * @param params  the driver parameters
  */ 
-void _writeDutyCycle2PWM(float dc_a,  float dc_b, void* params);
+void _write_duty_cycle_2_pwm(float dc_a,  float dc_b, void* params);
 
 /** 
  * Function setting the duty cycle to the pwm pin (ex. analogWrite())
@@ -145,7 +145,7 @@ void _writeDutyCycle2PWM(float dc_a,  float dc_b, void* params);
  * @param dc_c  duty cycle phase C [0, 1]
  * @param params  the driver parameters
  */ 
-void _writeDutyCycle3PWM(float dc_a,  float dc_b, float dc_c, void* params);
+void _write_duty_cycle_3_pwm(float dc_a,  float dc_b, float dc_c, void* params);
 
 /** 
  * Function setting the duty cycle to the pwm pin (ex. analogWrite())
@@ -158,7 +158,7 @@ void _writeDutyCycle3PWM(float dc_a,  float dc_b, float dc_c, void* params);
  * @param dc_2b  duty cycle phase 2B [0, 1]
  * @param params  the driver parameters
  */ 
-void _writeDutyCycle4PWM(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, void* params);
+void _write_duty_cycle_4_pwm(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, void* params);
 
 
 /** 
@@ -173,7 +173,7 @@ void _writeDutyCycle4PWM(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, vo
  * @param params  the driver parameters
  * 
  */ 
-void _writeDutyCycle6PWM(float dc_a,  float dc_b, float dc_c, PhaseState *phase_state, void* params);
+void _write_duty_cycle_6_pwm(float dc_a,  float dc_b, float dc_c, PhaseState *phase_state, void* params);
 
 
 #endif

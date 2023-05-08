@@ -79,12 +79,12 @@ void MagneticSensorSPI::init(spi_inst_t* _spi){
 
 //  Shaft angle calculation
 //  angle is in radians [rad]
-float MagneticSensorSPI::getSensorAngle(){
-  return (getRawCount() / (float)cpr) * _2PI;
+float MagneticSensorSPI::get_sensor_angle(){
+  return (get_raw_count() / (float)cpr) * _2PI;
 }
 
 // function reading the raw counter of the magnetic sensor
-int MagneticSensorSPI::getRawCount(){
+int MagneticSensorSPI::get_raw_count(){
 	return (int)MagneticSensorSPI::read(angle_register);
 }
 
@@ -92,7 +92,7 @@ int MagneticSensorSPI::getRawCount(){
 /**
  * Utility function used to calculate even parity of int16_t
  */
-uint8_t MagneticSensorSPI::spiCalcEvenParity(int16_t value){
+uint8_t MagneticSensorSPI::spi_calc_even_parity(int16_t value){
 	uint8_t cnt = 0;
 	uint8_t i;
 
@@ -118,7 +118,7 @@ int16_t MagneticSensorSPI::read(int16_t angle_register){
   }
   if (command_parity_bit > 0) {
    	//Add a parity bit on the the MSB
-  	command |= ((int16_t)spiCalcEvenParity(command) << command_parity_bit);
+  	command |= ((int16_t)spi_calc_even_parity(command) << command_parity_bit);
   }
 
   //SPI - begin transaction
@@ -129,11 +129,7 @@ int16_t MagneticSensorSPI::read(int16_t angle_register){
   spi->transfer16(command);
   gpio_put(chip_select_pin,HIGH);
   
-#if defined(ESP_H) && defined(ARDUINO_ARCH_ESP32) // if ESP32 board
-  delayMicroseconds(50); // why do we need to delay 50us on ESP32? In my experience no extra delays are needed, on any of the architectures I've tested...
-#else
-  delayMicroseconds(1); // delay 1us, the minimum time possible in plain arduino. 350ns is the required time for AMS sensors, 80ns for MA730, MA702
-#endif
+  sleep_us(1); // delay 1us, the minimum time possible with sleep functions. 350ns is the required time for AMS sensors, 80ns for MA730, MA702
 
   //Now read the response
   gpio_put(chip_select_pin, LOW);

@@ -21,13 +21,13 @@ HallSensor sensor = HallSensor(2, 3, 4, 11);
 
 // Interrupt routine intialisation
 // channel A and B callbacks
-void doA(){sensor.handleA();}
-void doB(){sensor.handleB();}
-void doC(){sensor.handleC();}
+void doA(){sensor.handle_a();}
+void doB(){sensor.handle_b();}
+void doC(){sensor.handle_c();}
 // If no available hadware interrupt pins use the software interrupt
-PciListenerImp listenA(sensor.pinA, doA);
-PciListenerImp listenB(sensor.pinB, doB);
-PciListenerImp listenC(sensor.pinC, doC);
+PciListenerImp listenA(sensor.pin_a, doA);
+PciListenerImp listenB(sensor.pin_b, doB);
+PciListenerImp listenC(sensor.pin_c, doC);
 
 void setup() {
   // monitoring port
@@ -50,10 +50,10 @@ void setup() {
 
 void loop() {
   // iterative function updating the sensor internal variables
-  // it is usually called in motor.loopFOC()
+  // it is usually called in motor.loop_foc()
   sensor.update();
   // display the angle and the angular velocity to the terminal
-  Serial.print(sensor.getAngle());
+  Serial.print(sensor.get_angle());
   Serial.print("\t");
-  Serial.println(sensor.getVelocity());
+  Serial.println(sensor.get_velocity());
 }

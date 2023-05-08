@@ -88,14 +88,14 @@ class FOCMotor
      * 
      * @param sensor Sensor class  wrapper for the FOC algorihtm to read the motor angle and velocity
      */
-    void linkSensor(Sensor* sensor);
+    void link_sensor(Sensor* sensor);
 
     /**
      * Function linking a motor and current sensing 
      * 
      * @param current_sense CurrentSense class wrapper for the FOC algorihtm to read the motor current measurements
      */
-    void linkCurrentSense(CurrentSense* current_sense);
+    void link_current_sense(CurrentSense* current_sense);
 
 
     /**
@@ -108,14 +108,14 @@ class FOCMotor
      * @param sensor_direction  sensor natural direction - default is CW
      *
      */  
-    virtual int initFOC( float zero_electric_offset = NOT_SET , Direction sensor_direction = Direction::CW)=0; 
+    virtual int init_foc( float zero_electric_offset = NOT_SET , Direction sensor_direction = Direction::CW)=0; 
     /**
      * Function running FOC algorithm in real-time
      * it calculates the gets motor angle and sets the appropriate voltages 
      * to the phase pwm signals
      * - the faster you can run it the better Arduino UNO ~1ms, Bluepill ~ 100us
      */ 
-    virtual void loopFOC()=0;
+    virtual void loop_foc()=0;
     /**
      * Function executing the control loops set by the controller parameter of the BLDCMotor.
      * 
@@ -134,29 +134,29 @@ class FOCMotor
     * @param Ud Current voltage in d axis to set to the motor
     * @param angle_el current electrical angle of the motor
     */
-    virtual void setPhaseVoltage(float Uq, float Ud, float angle_el)=0;
+    virtual void set_phase_voltage(float Uq, float Ud, float angle_el)=0;
     
     // State calculation methods 
     /** Shaft angle calculation in radians [rad] */
-    float shaftAngle();
+    float shaft_angle();
     /** 
      * Shaft angle calculation function in radian per second [rad/s]
      * It implements low pass filtering
      */
-    float shaftVelocity();
+    float shaft_velocity();
 
 
 
     /** 
      * Electrical angle calculation  
      */
-    float electricalAngle();
+    float electrical_angle();
 
     // state variables
     float target; //!< current target value - depends of the controller
-  	float shaft_angle;//!< current motor angle
-  	float electrical_angle;//!< current electrical angle
-  	float shaft_velocity;//!< current motor velocity 
+  	float _shaft_angle;//!< current motor angle
+  	float _electrical_angle;//!< current electrical angle
+  	float _shaft_velocity;//!< current motor velocity 
     float current_sp;//!< target current ( q current )
     float shaft_velocity_sp;//!< current target velocity
     float shaft_angle_sp;//!< current target angle

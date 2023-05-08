@@ -27,23 +27,23 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(9, 5, 6, 8);
 //  Encoder(int encA, int encB , int cpr, int index)
 Encoder encoder = Encoder(2, 3, 2048);
 // interrupt routine intialisation
-void doA(){encoder.handleA();}
-void doB(){encoder.handleB();}
+void doA(){encoder.handle_a();}
+void doB(){encoder.handle_b();}
 
 void setup() {
 
   // initialise encoder hardware
   encoder.init();
   // hardware interrupt enable
-  encoder.enableInterrupts(doA, doB);
+  encoder.enable_interrupts(doA, doB);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // power supply voltage
   // default 12V
   driver.voltage_power_supply = 12;
   driver.init();
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
 
   // initialize motor
@@ -65,7 +65,7 @@ void setup() {
   sleep_ms(1000);
   // read the encoder angle
   encoder.update(); 
-  float angle_begin = encoder.getAngle();
+  float angle_begin = encoder.get_angle();
   sleep_ms(50);
 
   // move the motor slowly to the electrical angle pp_search_angle
@@ -78,7 +78,7 @@ void setup() {
   sleep_ms(1000);
   // read the encoder value for 180
   encoder.update(); 
-  float angle_end = encoder.getAngle();
+  float angle_end = encoder.get_angle();
   sleep_ms(50);
   // turn off the motor
   motor.move(0);
@@ -117,7 +117,7 @@ void setup() {
   // set the pole pair number to the motor
   motor.pole_pairs = pp;
   //align encoder and start FOC
-  motor.initFOC();
+  motor.init_foc();
   sleep_ms(1000);
 
   printf("\n Motor ready.\n");
@@ -133,11 +133,11 @@ void loop() {
   // the faster you run this function the better
   // Arduino UNO loop  ~1kHz
   // Bluepill loop ~10kHz
-  motor.loopFOC();
+  motor.loop_foc();
 
   // Motion control function
   // velocity, position or voltage (defined in motor.controller)
-  // this function can be run at much lower frequency than loopFOC() function
+  // this function can be run at much lower frequency than loop_foc() function
   // You can also use motor.move() and set the motor.target in the code
   motor.move(target_voltage);
 

@@ -41,7 +41,7 @@ void GenericCurrentSense::calibrateOffsets(){
 }
 
 // read all three phase currents (if possible 2 or 3)
-PhaseCurrent_s GenericCurrentSense::getPhaseCurrents(){
+PhaseCurrent_s GenericCurrentSense::get_phase_currents(){
     PhaseCurrent_s current = readCallback();
     current.a = (current.a - offset_ia); // amps
     current.b = (current.b - offset_ib); // amps
@@ -57,24 +57,24 @@ PhaseCurrent_s GenericCurrentSense::getPhaseCurrents(){
 // 2 - success but pins reconfigured
 // 3 - success but gains inverted
 // 4 - success but pins reconfigured and gains inverted
-int GenericCurrentSense::driverAlign(float voltage){
+int GenericCurrentSense::driver_align(float voltage){
     _UNUSED(voltage) ; // remove unused parameter warning
     int exit_flag = 1;
     if(skip_align) return exit_flag;
 
     // // set phase A active and phases B and C down
-    // driver->setPwm(voltage, 0, 0);
+    // driver->set_pwm(voltage, 0, 0);
     // sleep_ms(200);
-    // PhaseCurrent_s c = getPhaseCurrents();
+    // PhaseCurrent_s c = get_phase_currents();
     // // read the current 100 times ( arbitrary number )
     // for (int i = 0; i < 100; i++) {
-    //     PhaseCurrent_s c1 = getPhaseCurrents();
+    //     PhaseCurrent_s c1 = get_phase_currents();
     //     c.a = c.a*0.6f + 0.4f*c1.a;
     //     c.b = c.b*0.6f + 0.4f*c1.b;
     //     c.c = c.c*0.6f + 0.4f*c1.c;
     //     sleep_ms(3);
     // }
-    // driver->setPwm(0, 0, 0);
+    // driver->set_pwm(0, 0, 0);
     // // align phase A
     // float ab_ratio = fabs(c.a / c.b);
     // float ac_ratio = c.c ? fabs(c.a / c.c) : 0;
@@ -82,16 +82,16 @@ int GenericCurrentSense::driverAlign(float voltage){
     //     gain_a *= _sign(c.a);
     // }else if( ab_ratio < 0.7f ){ // should be ~0.5
     //     // switch phase A and B
-    //     int tmp_pinA = pinA;
-    //     pinA = pinB;
-    //     pinB = tmp_pinA;
+    //     int tmp_pinA = pin_a;
+    //     pin_a = pin_b;
+    //     pin_b = tmp_pinA;
     //     gain_a *= _sign(c.b);
     //     exit_flag = 2; // signal that pins have been switched
-    // }else if(_isset(pinC) &&  ac_ratio < 0.7f ){ // should be ~0.5
+    // }else if(_isset(pin_c) &&  ac_ratio < 0.7f ){ // should be ~0.5
     //     // switch phase A and C
-    //     int tmp_pinA = pinA;
-    //     pinA = pinC;
-    //     pinC= tmp_pinA;
+    //     int tmp_pinA = pin_a;
+    //     pin_a = pin_c;
+    //     pin_c= tmp_pinA;
     //     gain_a *= _sign(c.c);
     //     exit_flag = 2;// signal that pins have been switched
     // }else{
@@ -100,34 +100,34 @@ int GenericCurrentSense::driverAlign(float voltage){
     // }
 
     // // set phase B active and phases A and C down
-    // driver->setPwm(0, voltage, 0);
+    // driver->set_pwm(0, voltage, 0);
     // sleep_ms(200);
-    // c = getPhaseCurrents();
+    // c = get_phase_currents();
     // // read the current 50 times
     // for (int i = 0; i < 100; i++) {
-    //     PhaseCurrent_s c1 = getPhaseCurrents();
+    //     PhaseCurrent_s c1 = get_phase_currents();
     //     c.a = c.a*0.6f + 0.4f*c1.a;
     //     c.b = c.b*0.6f + 0.4f*c1.b;
     //     c.c = c.c*0.6f + 0.4f*c1.c;
     //     sleep_ms(3);
     // }
-    // driver->setPwm(0, 0, 0);
+    // driver->set_pwm(0, 0, 0);
     // float ba_ratio = fabs(c.b/c.a);
     // float bc_ratio = c.c ? fabs(c.b / c.c) : 0;
     //  if( ba_ratio > 1.5f ){ // should be ~2
     //     gain_b *= _sign(c.b);
     // }else if( ba_ratio < 0.7f ){ // it should be ~0.5
     //     // switch phase A and B
-    //     int tmp_pinB = pinB;
-    //     pinB = pinA;
-    //     pinA = tmp_pinB;
+    //     int tmp_pinB = pin_b;
+    //     pin_b = pin_a;
+    //     pin_a = tmp_pinB;
     //     gain_b *= _sign(c.a);
     //     exit_flag = 2; // signal that pins have been switched
-    // }else if(_isset(pinC) && bc_ratio < 0.7f ){ // should be ~0.5
+    // }else if(_isset(pin_c) && bc_ratio < 0.7f ){ // should be ~0.5
     //     // switch phase A and C
-    //     int tmp_pinB = pinB;
-    //     pinB = pinC;
-    //     pinC = tmp_pinB;
+    //     int tmp_pinB = pin_b;
+    //     pin_b = pin_c;
+    //     pin_c = tmp_pinB;
     //     gain_b *= _sign(c.c);
     //     exit_flag = 2; // signal that pins have been switched
     // }else{
@@ -136,17 +136,17 @@ int GenericCurrentSense::driverAlign(float voltage){
     // }
 
     // // if phase C measured
-    // if(_isset(pinC)){
+    // if(_isset(pin_c)){
     //     // set phase B active and phases A and C down
-    //     driver->setPwm(0, 0, voltage);
+    //     driver->set_pwm(0, 0, voltage);
     //     sleep_ms(200);
-    //     c = getPhaseCurrents();
+    //     c = get_phase_currents();
     //     // read the adc voltage 500 times ( arbitrary number )
     //     for (int i = 0; i < 50; i++) {
-    //         PhaseCurrent_s c1 = getPhaseCurrents();
+    //         PhaseCurrent_s c1 = get_phase_currents();
     //         c.c = (c.c+c1.c)/50.0f;
     //     }
-    //     driver->setPwm(0, 0, 0);
+    //     driver->set_pwm(0, 0, 0);
     //     gain_c *= _sign(c.c);
     // }
 

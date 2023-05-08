@@ -36,14 +36,14 @@ void setup() {
   // initialise magnetic sensor hardware
   sensor.init();
   // link the motor to the sensor
-  motor.linkSensor(&sensor);
+  motor.link_sensor(&sensor);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   driver.init();
   // link driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // choose FOC modulation
   motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
@@ -75,7 +75,7 @@ void setup() {
   // initialise motor
   motor.init();
   // align encoder and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // set the inital target value
   motor.target = 2;
@@ -92,7 +92,7 @@ void setup() {
 
 void loop() {
   // iterative setting FOC phase voltage
-  motor.loopFOC();
+  motor.loop_foc();
 
   // iterative function setting the outter loop target
   // velocity, position or voltage

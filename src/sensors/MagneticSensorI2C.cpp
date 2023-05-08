@@ -70,15 +70,15 @@ void MagneticSensorI2C::init(TwoWire* _wire){
 
 //  Shaft angle calculation
 //  angle is in radians [rad]
-float MagneticSensorI2C::getSensorAngle(){
+float MagneticSensorI2C::get_sensor_angle(){
   // (number of full rotations)*2PI + current sensor angle 
-  return  ( getRawCount() / (float)cpr) * _2PI ;
+  return  ( get_raw_count() / (float)cpr) * _2PI ;
 }
 
 
 
 // function reading the raw counter of the magnetic sensor
-int MagneticSensorI2C::getRawCount(){
+int MagneticSensorI2C::get_raw_count(){
 	return (int)MagneticSensorI2C::read(angle_register_msb);
 }
 
@@ -90,8 +90,8 @@ int MagneticSensorI2C::getRawCount(){
 */
 int MagneticSensorI2C::read(uint8_t angle_reg_msb) {
   // read the angle register first MSB then LSB
-	uint8_t readArray[2];
-	uint16_t readValue = 0;
+	uint8_t read_array[2];
+	uint16_t read_value = 0;
   // notify the device that is aboout to be read
 	wire->beginTransmission(chip_address);
 	wire->write(angle_reg_msb);
@@ -100,16 +100,16 @@ int MagneticSensorI2C::read(uint8_t angle_reg_msb) {
   // read the data msb and lsb
 	wire->requestFrom(chip_address, (uint8_t)2);
 	for (uint8_t i=0; i < 2; i++) {
-		readArray[i] = wire->read();
+		read_array[i] = wire->read();
 	}
 
   // depending on the sensor architecture there are different combinations of
   // LSB and MSB register used bits
   // AS5600 uses 0..7 LSB and 8..11 MSB
   // AS5048 uses 0..5 LSB and 6..13 MSB
-  readValue = ( readArray[1] &  lsb_mask );
-	readValue += ( ( readArray[0] & msb_mask ) << lsb_used );
-	return readValue;
+  read_value = ( read_array[1] &  lsb_mask );
+	read_value += ( ( read_array[0] & msb_mask ) << lsb_used );
+	return read_value;
 }
 
 /*
@@ -119,7 +119,7 @@ int MagneticSensorI2C::read(uint8_t angle_reg_msb) {
 * Takes the sda_pin and scl_pin
 * Returns 0 for OK, 1 for other master and 2 for unfixable sda locked LOW
 */
-int MagneticSensorI2C::checkBus(uint8_t sda_pin, uint8_t scl_pin) {
+int MagneticSensorI2C::check_bus(uint8_t sda_pin, uint8_t scl_pin) {
 
   pinMode(scl_pin, INPUT_PULLUP);
   pinMode(sda_pin, INPUT_PULLUP);

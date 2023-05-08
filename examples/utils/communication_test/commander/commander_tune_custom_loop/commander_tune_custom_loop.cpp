@@ -10,8 +10,8 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(5, 10, 6, 8);
 // encoder instance
 Encoder encoder = Encoder(2, 3, 500);
 // channel A and B callbacks
-void doA() { encoder.handleA(); }
-void doB() { encoder.handleB(); }
+void doA() { encoder.handle_a(); }
+void doB() { encoder.handle_b(); }
 
 // target voltage to be set to the motor
 float target_velocity = 0;
@@ -31,15 +31,15 @@ void setup() {
 
   // initialize encoder sensor hardware
   encoder.init();
-  encoder.enableInterrupts(doA, doB);
+  encoder.enable_interrupts(doA, doB);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // driver config
   // power supply voltage [V]
   driver.init();
   // link driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // set motion control loop to be used ( doing nothing )
   motor.torque_controller = TorqueControlType::voltage;
@@ -51,7 +51,7 @@ void setup() {
   // initialize motor
   motor.init();
   // align sensor and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // subscribe the new commands
   command.add('C', doController, "tune velocity pid");
@@ -67,7 +67,7 @@ void setup() {
 
 void loop() {
   // looping foc
-  motor.loopFOC();
+  motor.loop_foc();
 
   // calculate voltage
   float target_voltage = PIDv(target_velocity - LPFv(motor.shaft_velocity));

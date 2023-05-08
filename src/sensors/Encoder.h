@@ -18,12 +18,12 @@ class Encoder: public Sensor{
  public:
     /**
     Encoder class constructor
-    @param encA  encoder B pin
-    @param encB  encoder B pin
+    @param enc_a  encoder B pin
+    @param enc_b  encoder B pin
     @param ppr  impulses per rotation  (cpr=ppr*4)
     @param index index pin number (optional input)
     */
-    Encoder(int encA, int encB , float ppr, int index = 0);
+    Encoder(int enc_a, int enc_b , float ppr, int index = 0);
 
     /** encoder initialise pins */
     void init() override;
@@ -31,25 +31,25 @@ class Encoder: public Sensor{
      *  function enabling hardware interrupts for the encoder channels with provided callback functions
      *  if callback is not provided then the interrupt is not enabled
      * 
-     * @param doA pointer to the A channel interrupt handler function
-     * @param doB pointer to the B channel interrupt handler function
-     * @param doIndex pointer to the Index channel interrupt handler function
+     * @param do_a pointer to the A channel interrupt handler function
+     * @param do_b pointer to the B channel interrupt handler function
+     * @param do_index pointer to the Index channel interrupt handler function
      * 
      */
-    void enableInterrupts(void (*doA)() = nullptr, void(*doB)() = nullptr, void(*doIndex)() = nullptr);
+    void enable_interrupts(void (*do_a)() = nullptr, void(*do_b)() = nullptr, void(*do_index)() = nullptr);
     
     //  Encoder interrupt callback functions
     /** A channel callback function */
-    void handleA();
+    void handle_a();
     /** B channel callback function */
-    void handleB();
+    void handle_b();
     /** Index channel callback function */
-    void handleIndex();
+    void handle_index();
     
     
     // pins A and B
-    int pinA; //!< encoder hardware pin A
-    int pinB; //!< encoder hardware pin B
+    int pin_a; //!< encoder hardware pin A
+    int pin_b; //!< encoder hardware pin B
     int index_pin; //!< index pin
 
     // Encoder configuration
@@ -59,13 +59,13 @@ class Encoder: public Sensor{
 
     // Abstract functions of the Sensor class implementation
     /** get current angle (rad) */
-    float getSensorAngle() override;
-    float getMechanicalAngle() override;
+    float get_sensor_angle() override;
+    float get_mechanical_angle() override;
     /**  get current angular velocity (rad/s) */
-    float getVelocity() override;
-    float getAngle() override;
-    double getPreciseAngle() override;
-    int32_t getFullRotations() override;
+    float get_velocity() override;
+    float get_angle() override;
+    double get_precise_angle() override;
+    int32_t get_full_rotations() override;
     virtual void update() override;
 
     /**
@@ -73,10 +73,10 @@ class Encoder: public Sensor{
      * 0 - encoder without index 
      * 1 - ecoder with index
      */
-    int needsSearch() override;
+    int needs_search() override;
 
   private:
-    int hasIndex(); //!< function returning 1 if encoder has index pin and 0 if not.
+    int has_index(); //!< function returning 1 if encoder has index pin and 0 if not.
 
     volatile long pulse_counter;//!< current pulse counter
     volatile long pulse_timestamp;//!< last impulse timestamp in us

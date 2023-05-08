@@ -6,9 +6,9 @@
 //  - phB   - B phase adc pin
 //  - phC   - C phase adc pin (optional)
 LowsideCurrentSense::LowsideCurrentSense(float _shunt_resistor, float _gain, int _pinA, int _pinB, int _pinC){
-    pinA = _pinA;
-    pinB = _pinB;
-    pinC = _pinC;
+    pin_a = _pinA;
+    pin_b = _pinB;
+    pin_c = _pinC;
 
     shunt_resistor = _shunt_resistor;
     amp_gain  = _gain;
@@ -21,9 +21,9 @@ LowsideCurrentSense::LowsideCurrentSense(float _shunt_resistor, float _gain, int
 
 
 LowsideCurrentSense::LowsideCurrentSense(float _mVpA, int _pinA, int _pinB, int _pinC){
-    pinA = _pinA;
-    pinB = _pinB;
-    pinC = _pinC;
+    pin_a = _pinA;
+    pin_b = _pinB;
+    pin_c = _pinC;
 
     volts_to_amps_ratio = 1000.0f / _mVpA; // mV to amps
     // gains for each phase
@@ -36,7 +36,7 @@ LowsideCurrentSense::LowsideCurrentSense(float _mVpA, int _pinA, int _pinB, int 
 // Lowside sensor init function
 int LowsideCurrentSense::init(){
     // configure ADC variables
-    params = _configureADCLowSide(driver->params,pinA,pinB,pinC);
+    params = _configureADCLowSide(driver->params,pin_a,pin_b,pin_c);
     // if init failed return fail
     if (params == SIMPLEFOC_CURRENT_SENSE_INIT_FAILED) return 0; 
     // sync the driver
@@ -59,24 +59,24 @@ void LowsideCurrentSense::calibrateOffsets(){
     // read the adc voltage 1000 times ( arbitrary number )
     for (int i = 0; i < calibration_rounds; i++) {
         _startADC3PinConversionLowSide();
-        if(_isset(pinA)) offset_ia += (_readADCVoltageLowSide(pinA, params));
-        if(_isset(pinB)) offset_ib += (_readADCVoltageLowSide(pinB, params));
-        if(_isset(pinC)) offset_ic += (_readADCVoltageLowSide(pinC, params));
+        if(_isset(pin_a)) offset_ia += (_readADCVoltageLowSide(pin_a, params));
+        if(_isset(pin_b)) offset_ib += (_readADCVoltageLowSide(pin_b, params));
+        if(_isset(pin_c)) offset_ic += (_readADCVoltageLowSide(pin_c, params));
         sleep_ms(1);
     }
     // calculate the mean offsets
-    if(_isset(pinA)) offset_ia = offset_ia / calibration_rounds;
-    if(_isset(pinB)) offset_ib = offset_ib / calibration_rounds;
-    if(_isset(pinC)) offset_ic = offset_ic / calibration_rounds;
+    if(_isset(pin_a)) offset_ia = offset_ia / calibration_rounds;
+    if(_isset(pin_b)) offset_ib = offset_ib / calibration_rounds;
+    if(_isset(pin_c)) offset_ic = offset_ic / calibration_rounds;
 }
 
 // read all three phase currents (if possible 2 or 3)
-PhaseCurrent_s LowsideCurrentSense::getPhaseCurrents(){
+PhaseCurrent_s LowsideCurrentSense::get_phase_currents(){
     PhaseCurrent_s current;
     _startADC3PinConversionLowSide();
-    current.a = (!_isset(pinA)) ? 0 : (_readADCVoltageLowSide(pinA, params) - offset_ia)*gain_a;// amps
-    current.b = (!_isset(pinB)) ? 0 : (_readADCVoltageLowSide(pinB, params) - offset_ib)*gain_b;// amps
-    current.c = (!_isset(pinC)) ? 0 : (_readADCVoltageLowSide(pinC, params) - offset_ic)*gain_c; // amps
+    current.a = (!_isset(pin_a)) ? 0 : (_readADCVoltageLowSide(pin_a, params) - offset_ia)*gain_a;// amps
+    current.b = (!_isset(pin_b)) ? 0 : (_readADCVoltageLowSide(pin_b, params) - offset_ib)*gain_b;// amps
+    current.c = (!_isset(pin_c)) ? 0 : (_readADCVoltageLowSide(pin_c, params) - offset_ic)*gain_c; // amps
     return current;
 }
 
@@ -88,47 +88,47 @@ PhaseCurrent_s LowsideCurrentSense::getPhaseCurrents(){
 // 2 - success but pins reconfigured
 // 3 - success but gains inverted
 // 4 - success but pins reconfigured and gains inverted
-int LowsideCurrentSense::driverAlign(float voltage){
+int LowsideCurrentSense::driver_align(float voltage){
     
     int exit_flag = 1;
     if(skip_align) return exit_flag;
 
-    if(_isset(pinA)){
+    if(_isset(pin_a)){
         // set phase A active and phases B and C down
-        driver->setPwm(voltage, 0, 0);
+        driver->set_pwm(voltage, 0, 0);
         sleep_ms(2000);
-        PhaseCurrent_s c = getPhaseCurrents();
+        PhaseCurrent_s c = get_phase_currents();
         // read the current 100 times ( arbitrary number )
         for (int i = 0; i < 100; i++) {
-            PhaseCurrent_s c1 = getPhaseCurrents();
+            PhaseCurrent_s c1 = get_phase_currents();
             c.a = c.a*0.6f + 0.4f*c1.a;
             c.b = c.b*0.6f + 0.4f*c1.b;
             c.c = c.c*0.6f + 0.4f*c1.c;
             sleep_ms(3);
         }
-        driver->setPwm(0, 0, 0);
+        driver->set_pwm(0, 0, 0);
         // align phase A
         float ab_ratio = c.b ? fabs(c.a / c.b) : 0;
         float ac_ratio = c.c ? fabs(c.a / c.c) : 0;
-        if(_isset(pinB) && ab_ratio > 1.5f ){ // should be ~2
+        if(_isset(pin_b) && ab_ratio > 1.5f ){ // should be ~2
             gain_a *= _sign(c.a);
-        }else if(_isset(pinC) && ac_ratio > 1.5f ){ // should be ~2
+        }else if(_isset(pin_c) && ac_ratio > 1.5f ){ // should be ~2
             gain_a *= _sign(c.a);
-        }else if(_isset(pinB) && ab_ratio < 0.7f ){ // should be ~0.5
+        }else if(_isset(pin_b) && ab_ratio < 0.7f ){ // should be ~0.5
             // switch phase A and B
-            int tmp_pinA = pinA;
-            pinA = pinB;
-            pinB = tmp_pinA;
+            int tmp_pinA = pin_a;
+            pin_a = pin_b;
+            pin_b = tmp_pinA;
             float tmp_offsetA = offset_ia;
             offset_ia = offset_ib;
             offset_ib = tmp_offsetA;
             gain_a *= _sign(c.b);
             exit_flag = 2; // signal that pins have been switched
-        }else if(_isset(pinC) &&  ac_ratio < 0.7f ){ // should be ~0.5
+        }else if(_isset(pin_c) &&  ac_ratio < 0.7f ){ // should be ~0.5
             // switch phase A and C
-            int tmp_pinA = pinA;
-            pinA = pinC;
-            pinC= tmp_pinA;
+            int tmp_pinA = pin_a;
+            pin_a = pin_c;
+            pin_c= tmp_pinA;
             float tmp_offsetA = offset_ia;
             offset_ia = offset_ic;
             offset_ic = tmp_offsetA;
@@ -140,41 +140,41 @@ int LowsideCurrentSense::driverAlign(float voltage){
         }
     }
 
-    if(_isset(pinB)){
+    if(_isset(pin_b)){
         // set phase B active and phases A and C down
-        driver->setPwm(0, voltage, 0);
+        driver->set_pwm(0, voltage, 0);
         sleep_ms(200);
-        PhaseCurrent_s c = getPhaseCurrents();
+        PhaseCurrent_s c = get_phase_currents();
         // read the current 50 times
         for (int i = 0; i < 100; i++) {
-            PhaseCurrent_s c1 = getPhaseCurrents();
+            PhaseCurrent_s c1 = get_phase_currents();
             c.a = c.a*0.6 + 0.4f*c1.a;
             c.b = c.b*0.6 + 0.4f*c1.b;
             c.c = c.c*0.6 + 0.4f*c1.c;
             sleep_ms(3);
         }
-        driver->setPwm(0, 0, 0);
+        driver->set_pwm(0, 0, 0);
         float ba_ratio = c.a ? fabs(c.b / c.a) : 0;
         float bc_ratio = c.c ? fabs(c.b / c.c) : 0;
-        if(_isset(pinA) && ba_ratio > 1.5f ){ // should be ~2
+        if(_isset(pin_a) && ba_ratio > 1.5f ){ // should be ~2
             gain_b *= _sign(c.b);
-        }else if(_isset(pinC) && bc_ratio > 1.5f ){ // should be ~2
+        }else if(_isset(pin_c) && bc_ratio > 1.5f ){ // should be ~2
             gain_b *= _sign(c.b);
-        }else if(_isset(pinA) && ba_ratio < 0.7f ){ // it should be ~0.5
+        }else if(_isset(pin_a) && ba_ratio < 0.7f ){ // it should be ~0.5
             // switch phase A and B
-            int tmp_pinB = pinB;
-            pinB = pinA;
-            pinA = tmp_pinB;
+            int tmp_pinB = pin_b;
+            pin_b = pin_a;
+            pin_a = tmp_pinB;
             float tmp_offsetB = offset_ib;
             offset_ib = offset_ia;
             offset_ia = tmp_offsetB;
             gain_b *= _sign(c.a);
             exit_flag = 2; // signal that pins have been switched
-        }else if(_isset(pinC) && bc_ratio < 0.7f ){ // should be ~0.5
+        }else if(_isset(pin_c) && bc_ratio < 0.7f ){ // should be ~0.5
             // switch phase A and C
-            int tmp_pinB = pinB;
-            pinB = pinC;
-            pinC = tmp_pinB;
+            int tmp_pinB = pin_b;
+            pin_b = pin_c;
+            pin_c = tmp_pinB;
             float tmp_offsetB = offset_ib;
             offset_ib = offset_ic;
             offset_ic = tmp_offsetB;
@@ -187,41 +187,41 @@ int LowsideCurrentSense::driverAlign(float voltage){
     }
 
     // if phase C measured
-    if(_isset(pinC)){
+    if(_isset(pin_c)){
         // set phase C active and phases A and B down
-        driver->setPwm(0, 0, voltage);
+        driver->set_pwm(0, 0, voltage);
         sleep_ms(200);
-        PhaseCurrent_s c = getPhaseCurrents();
+        PhaseCurrent_s c = get_phase_currents();
         // read the adc voltage 500 times ( arbitrary number )
         for (int i = 0; i < 100; i++) {
-            PhaseCurrent_s c1 = getPhaseCurrents();
+            PhaseCurrent_s c1 = get_phase_currents();
             c.a = c.a*0.6 + 0.4f*c1.a;
             c.b = c.b*0.6 + 0.4f*c1.b;
             c.c = c.c*0.6 + 0.4f*c1.c;
             sleep_ms(3);
         }
-        driver->setPwm(0, 0, 0);
+        driver->set_pwm(0, 0, 0);
         float ca_ratio = c.a ? fabs(c.c / c.a) : 0;
         float cb_ratio = c.b ? fabs(c.c / c.b) : 0;
-        if(_isset(pinA) && ca_ratio > 1.5f ){ // should be ~2
+        if(_isset(pin_a) && ca_ratio > 1.5f ){ // should be ~2
             gain_c *= _sign(c.c);
-        }else if(_isset(pinB) && cb_ratio > 1.5f ){ // should be ~2
+        }else if(_isset(pin_b) && cb_ratio > 1.5f ){ // should be ~2
             gain_c *= _sign(c.c);
-        }else if(_isset(pinA) && ca_ratio < 0.7f ){ // it should be ~0.5
+        }else if(_isset(pin_a) && ca_ratio < 0.7f ){ // it should be ~0.5
             // switch phase A and C
-            int tmp_pinC = pinC;
-            pinC = pinA;
-            pinA = tmp_pinC;
+            int tmp_pinC = pin_c;
+            pin_c = pin_a;
+            pin_a = tmp_pinC;
             float tmp_offsetC = offset_ic;
             offset_ic = offset_ia;
             offset_ia = tmp_offsetC;
             gain_c *= _sign(c.a);
             exit_flag = 2; // signal that pins have been switched
-        }else if(_isset(pinB) && cb_ratio < 0.7f ){ // should be ~0.5
+        }else if(_isset(pin_b) && cb_ratio < 0.7f ){ // should be ~0.5
             // switch phase B and C
-            int tmp_pinC = pinC;
-            pinC = pinB;
-            pinB = tmp_pinC;
+            int tmp_pinC = pin_c;
+            pin_c = pin_b;
+            pin_b = tmp_pinC;
             float tmp_offsetC = offset_ic;
             offset_ic = offset_ib;
             offset_ib = tmp_offsetC;

@@ -15,9 +15,9 @@ HallSensor sensor = HallSensor(2, 3, 4, 14);
 
 // Interrupt routine intialisation
 // channel A and B callbacks
-void doA(){sensor.handleA();}
-void doB(){sensor.handleB();}
-void doC(){sensor.handleC();}
+void doA(){sensor.handle_a();}
+void doB(){sensor.handle_b();}
+void doC(){sensor.handle_c();}
 
 
 void setup() {
@@ -30,7 +30,7 @@ void setup() {
   // initialise encoder hardware
   sensor.init();
   // hardware interrupt enable
-  sensor.enableInterrupts(doA, doB, doC);
+  sensor.enable_interrupts(doA, doB, doC);
 
   printf("Sensor ready");
   sleep_ms(1000);
@@ -38,11 +38,11 @@ void setup() {
 
 void loop() {
   // iterative function updating the sensor internal variables
-  // it is usually called in motor.loopFOC()
+  // it is usually called in motor.loop_foc()
   sensor.update();
   // display the angle and the angular velocity to the terminal
-  Serial.print(sensor.getAngle());
+  Serial.print(sensor.get_angle());
   Serial.print("\t");
-  Serial.println(sensor.getVelocity());
+  Serial.println(sensor.get_velocity());
   delay(100);
 }

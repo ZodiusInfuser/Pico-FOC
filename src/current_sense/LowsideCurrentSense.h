@@ -20,7 +20,7 @@ class LowsideCurrentSense: public CurrentSense{
       @param phB B phase adc pin
       @param phC C phase adc pin (optional)
     */
-    LowsideCurrentSense(float shunt_resistor, float gain, int pinA, int pinB, int pinC = _NC);
+    LowsideCurrentSense(float shunt_resistor, float gain, int pin_a, int pin_b, int pin_c = _NC);
     /**
       LowsideCurrentSense class constructor
       @param mVpA mV per Amp ratio
@@ -28,12 +28,12 @@ class LowsideCurrentSense: public CurrentSense{
       @param phB B phase adc pin
       @param phC C phase adc pin (optional)
     */
-    LowsideCurrentSense(float mVpA, int pinA, int pinB, int pinC = _NC);
+    LowsideCurrentSense(float mVpA, int pin_a, int pin_b, int pin_c = _NC);
 
     // CurrentSense interface implementing functions
     int init() override;
-    PhaseCurrent_s getPhaseCurrents() override;
-    int driverAlign(float align_voltage) override;
+    PhaseCurrent_s get_phase_currents() override;
+    int driver_align(float align_voltage) override;
 
     // ADC measuremnet gain for each phase
     // support for different gains for different phases of more commonly - inverted phase currents
@@ -53,9 +53,9 @@ class LowsideCurrentSense: public CurrentSense{
   private:
 
     // hardware variables
-  	int pinA; //!< pin A analog pin for current measurement
-  	int pinB; //!< pin B analog pin for current measurement
-  	int pinC; //!< pin C analog pin for current measurement
+  	int pin_a; //!< pin A analog pin for current measurement
+  	int pin_b; //!< pin B analog pin for current measurement
+  	int pin_c; //!< pin C analog pin for current measurement
 
     // gain variables
     float shunt_resistor; //!< Shunt resistor value

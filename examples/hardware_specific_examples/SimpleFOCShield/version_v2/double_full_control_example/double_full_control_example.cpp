@@ -12,14 +12,14 @@ BLDCDriver3PWM driver2  = BLDCDriver3PWM(3, 9, 11, 7);
 // encoder instance
 Encoder encoder1 = Encoder(12, 2, 500);
 // channel A and B callbacks
-void doA1(){encoder1.handleA();}
-void doB1(){encoder1.handleB();}
+void doA1(){encoder1.handle_a();}
+void doB1(){encoder1.handle_b();}
 
 // encoder instance
 Encoder encoder2 = Encoder(A5, A4, 500);
 // channel A and B callbacks
-void doA2(){encoder2.handleA();}
-void doB2(){encoder2.handleB();}
+void doA2(){encoder2.handle_a();}
+void doB2(){encoder2.handle_b();}
 
 
 // inline current sensor instance
@@ -41,13 +41,13 @@ void setup() {
 
   // initialize encoder sensor hardware
   encoder1.init();
-  encoder1.enableInterrupts(doA1, doB1);
+  encoder1.enable_interrupts(doA1, doB1);
   // initialize encoder sensor hardware
   encoder2.init();
-  encoder2.enableInterrupts(doA2, doB2);
+  encoder2.enable_interrupts(doA2, doB2);
   // link the motor to the sensor
-  motor1.linkSensor(&encoder1);
-  motor2.linkSensor(&encoder2);
+  motor1.link_sensor(&encoder1);
+  motor2.link_sensor(&encoder2);
 
 
   // driver config
@@ -55,17 +55,17 @@ void setup() {
   driver1.voltage_power_supply = 12;
   driver1.init();
   // link driver
-  motor1.linkDriver(&driver1);
+  motor1.link_driver(&driver1);
   // link current sense and the driver
-  current_sense1.linkDriver(&driver1);
+  current_sense1.link_driver(&driver1);
   
   // power supply voltage [V]
   driver2.voltage_power_supply = 12;
   driver2.init();
   // link driver
-  motor2.linkDriver(&driver2);
+  motor2.link_driver(&driver2);
   // link current sense and the driver
-  current_sense2.linkDriver(&driver2);
+  current_sense2.link_driver(&driver2);
 
   // set control loop type to be used
   motor1.controller = MotionControlType::torque;
@@ -98,20 +98,20 @@ void setup() {
 
   // current sense init and linking
   current_sense1.init();
-  motor1.linkCurrentSense(&current_sense1);
+  motor1.link_current_sense(&current_sense1);
   // current sense init and linking
   current_sense2.init();
-  motor2.linkCurrentSense(&current_sense2);
+  motor2.link_current_sense(&current_sense2);
 
   // initialise motor
   motor1.init();
   // align encoder and start FOC
-  motor1.initFOC();
+  motor1.init_foc();
 
   // initialise motor
   motor2.init();
   // align encoder and start FOC
-  motor2.initFOC();
+  motor2.init_foc();
 
   // set the inital target value
   motor1.target = 2;
@@ -132,8 +132,8 @@ void setup() {
 
 void loop() {
   // iterative setting FOC phase voltage
-  motor1.loopFOC();
-  motor2.loopFOC();
+  motor1.loop_foc();
+  motor2.loop_foc();
 
   // iterative function setting the outter loop target
   motor1.move();

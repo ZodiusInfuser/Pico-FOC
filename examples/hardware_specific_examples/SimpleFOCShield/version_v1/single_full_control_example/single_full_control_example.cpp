@@ -8,8 +8,8 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(9, 5, 6, 8);
 // encoder instance
 Encoder encoder = Encoder(2, 3, 500);
 // channel A and B callbacks
-void doA(){encoder.handleA();}
-void doB(){encoder.handleB();}
+void doA(){encoder.handle_a();}
+void doB(){encoder.handle_b();}
 
 // commander communication instance
 Commander command = Commander(Serial);
@@ -19,16 +19,16 @@ void setup() {
 
   // initialize encoder sensor hardware
   encoder.init();
-  encoder.enableInterrupts(doA, doB);
+  encoder.enable_interrupts(doA, doB);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   driver.init();
   // link driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // set control loop type to be used
   motor.controller = MotionControlType::torque;
@@ -59,7 +59,7 @@ void setup() {
   // initialise motor
   motor.init();
   // align encoder and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // set the inital target value
   motor.target = 2;
@@ -76,7 +76,7 @@ void setup() {
 
 void loop() {
   // iterative setting FOC phase voltage
-  motor.loopFOC();
+  motor.loop_foc();
 
   // iterative function setting the outter loop target
   motor.move();

@@ -12,13 +12,13 @@ class HallSensor: public Sensor{
  public:
     /**
     HallSensor class constructor
-    @param encA  HallSensor A pin
-    @param encB  HallSensor B pin
-    @param encC  HallSensor C pin
+    @param enc_a  HallSensor A pin
+    @param enc_b  HallSensor B pin
+    @param enc_c  HallSensor C pin
     @param pp  pole pairs  (e.g hoverboard motor has 15pp and small gimbals often have 7pp)
     @param index index pin number (optional input)
     */
-    HallSensor(int encA, int encB, int encC, int pp);
+    HallSensor(int enc_a, int enc_b, int enc_c, int pp);
 
     /** HallSensor initialise pins */
     void init();
@@ -26,26 +26,26 @@ class HallSensor: public Sensor{
      *  function enabling hardware interrupts for the HallSensor channels with provided callback functions
      *  if callback is not provided then the interrupt is not enabled
      * 
-     * @param doA pointer to the A channel interrupt handler function
-     * @param doB pointer to the B channel interrupt handler function
-     * @param doIndex pointer to the Index channel interrupt handler function
+     * @param do_a pointer to the A channel interrupt handler function
+     * @param do_b pointer to the B channel interrupt handler function
+     * @param do_c pointer to the C channel interrupt handler function
      * 
      */
-    void enableInterrupts(void (*doA)() = nullptr, void(*doB)() = nullptr, void(*doC)() = nullptr);
+    void enable_interrupts(void (*do_a)() = nullptr, void(*do_b)() = nullptr, void(*do_c)() = nullptr);
     
     //  HallSensor interrupt callback functions
     /** A channel callback function */
-    void handleA();
+    void handle_a();
     /** B channel callback function */
-    void handleB();
+    void handle_b();
     /** C channel callback function */
-    void handleC();
+    void handle_c();
     
     
     // pins A and B
-    int pinA; //!< HallSensor hardware pin A
-    int pinB; //!< HallSensor hardware pin B
-    int pinC; //!< HallSensor hardware pin C
+    int pin_a; //!< HallSensor hardware pin A
+    int pin_b; //!< HallSensor hardware pin B
+    int pin_c; //!< HallSensor hardware pin C
 
     // HallSensor configuration
     Pullup pullup; //!< Configuration parameter internal or external pullups
@@ -53,18 +53,18 @@ class HallSensor: public Sensor{
 
     // Abstract functions of the Sensor class implementation
     /** get current angle (rad) */
-    float getSensorAngle() override;
-    float getMechanicalAngle() override;
-    float getAngle() override;
+    float get_sensor_angle() override;
+    float get_mechanical_angle() override;
+    float get_angle() override;
     /**  get current angular velocity (rad/s) */
-    float getVelocity() override;
-    double getPreciseAngle() override;
-    int32_t getFullRotations() override;
+    float get_velocity() override;
+    double get_precise_angle() override;
+    int32_t get_full_rotations() override;
 
     // whether last step was CW (+1) or CCW (-1).  
     Direction direction;
 
-    void attachSectorCallback(void (*onSectorChange)(int a) = nullptr);
+    void attach_sector_callback(void (*on_sector_change)(int a) = nullptr);
 
     // the current 3bit state of the hall sensors
     volatile int8_t hall_state;
@@ -80,8 +80,8 @@ class HallSensor: public Sensor{
 
   private:
     
-    Direction decodeDirection(int oldState, int newState);
-    void updateState();
+    Direction decode_direction(int oldState, int newState);
+    void update_state();
 
     volatile unsigned long pulse_timestamp;//!< last impulse timestamp in us
     volatile int A_active; //!< current active states of A channel
@@ -89,7 +89,7 @@ class HallSensor: public Sensor{
     volatile int C_active; //!< current active states of C channel
 
     // function pointer for on sector change call back
-    void (*onSectorChange)(int sector) = nullptr;
+    void (*on_sector_change)(int sector) = nullptr;
 
     volatile long pulse_diff;
     

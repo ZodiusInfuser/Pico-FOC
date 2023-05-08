@@ -25,14 +25,14 @@ void  BLDCDriver3PWM::enable(){
     if ( _isset(enableB_pin) ) gpio_put(enableB_pin, enable_active_high);
     if ( _isset(enableC_pin) ) gpio_put(enableC_pin, enable_active_high);
     // set zero to PWM
-    setPwm(0,0,0);
+    set_pwm(0,0,0);
 }
 
 // disable motor driver
 void BLDCDriver3PWM::disable()
 {
   // set zero to PWM
-  setPwm(0, 0, 0);
+  set_pwm(0, 0, 0);
   // disable the driver - if enable_pin pin available
   if ( _isset(enableA_pin) ) gpio_put(enableA_pin, !enable_active_high);
   if ( _isset(enableB_pin) ) gpio_put(enableB_pin, !enable_active_high);
@@ -62,7 +62,7 @@ int BLDCDriver3PWM::init() {
 
   // Set the pwm frequency to the pins
   // hardware specific function - depending on driver and mcu
-  params = _configure3PWM(pwm_frequency, pwmA, pwmB, pwmC);
+  params = _configure_3_pwm(pwm_frequency, pwmA, pwmB, pwmC);
   initialized = (params!=SIMPLEFOC_DRIVER_INIT_FAILED);
   return params!=SIMPLEFOC_DRIVER_INIT_FAILED;
 }
@@ -70,7 +70,7 @@ int BLDCDriver3PWM::init() {
 
 
 // Set voltage to the pwm pin
-void BLDCDriver3PWM::setPhaseState(PhaseState sa, PhaseState sb, PhaseState sc) {
+void BLDCDriver3PWM::set_phase_state(PhaseState sa, PhaseState sb, PhaseState sc) {
   // disable if needed
   if( _isset(enableA_pin) &&  _isset(enableB_pin)  && _isset(enableC_pin) ){
     gpio_put(enableA_pin, sa == PhaseState::PHASE_ON ? enable_active_high:!enable_active_high);
@@ -80,7 +80,7 @@ void BLDCDriver3PWM::setPhaseState(PhaseState sa, PhaseState sb, PhaseState sc) 
 }
 
 // Set voltage to the pwm pin
-void BLDCDriver3PWM::setPwm(float Ua, float Ub, float Uc) {
+void BLDCDriver3PWM::set_pwm(float Ua, float Ub, float Uc) {
 
   // limit the voltage in driver
   Ua = _constrain(Ua, 0.0f, voltage_limit);
@@ -94,5 +94,5 @@ void BLDCDriver3PWM::setPwm(float Ua, float Ub, float Uc) {
 
   // hardware specific writing
   // hardware specific function - depending on driver and mcu
-  _writeDutyCycle3PWM(dc_a, dc_b, dc_c, params);
+  _write_duty_cycle_3_pwm(dc_a, dc_b, dc_c, params);
 }

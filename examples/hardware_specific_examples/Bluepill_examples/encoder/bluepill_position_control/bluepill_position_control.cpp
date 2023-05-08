@@ -19,9 +19,9 @@ Encoder encoder = Encoder(PA8, PA9, 8192, PA10);
 
 // Interrupt routine intialisation
 // channel A and B callbacks
-void doA(){encoder.handleA();}
-void doB(){encoder.handleB();}
-void doI(){encoder.handleIndex();}
+void doA(){encoder.handle_a();}
+void doB(){encoder.handle_b();}
+void doI(){encoder.handle_index();}
 
 
 // angle set point variable
@@ -35,16 +35,16 @@ void setup() {
 
   // initialize encoder sensor hardware
   encoder.init();
-  encoder.enableInterrupts(doA, doB, doI);
+  encoder.enable_interrupts(doA, doB, doI);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   driver.init();
   // link the motor and the driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // aligning voltage [V]
   motor.voltage_sensor_align = 3;
@@ -83,7 +83,7 @@ void setup() {
   // initialize motor
   motor.init();
   // align encoder and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // add target command T
   command.add('T', doTarget, "target angle");
@@ -98,11 +98,11 @@ void loop() {
   // the faster you run this function the better
   // Arduino UNO loop  ~1kHz
   // Bluepill loop ~10kHz
-  motor.loopFOC();
+  motor.loop_foc();
 
   // Motion control function
   // velocity, position or voltage (defined in motor.controller)
-  // this function can be run at much lower frequency than loopFOC() function
+  // this function can be run at much lower frequency than loop_foc() function
   // You can also use motor.move() and set the motor.target in the code
   motor.move(target_angle);
 

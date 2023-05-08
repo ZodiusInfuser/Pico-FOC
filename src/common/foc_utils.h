@@ -9,7 +9,7 @@
 #define _round(x) ((x)>=0?(long)((x)+0.5f):(long)((x)-0.5f))
 #endif
 #define _constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
-#define _sqrt(a) (_sqrtApprox(a))
+#define _sqrt(a) (_sqrt_approx(a))
 #define _isset(a) ( (a) != (NOT_SET) )
 #define _UNUSED(v) (void) (v)
 
@@ -76,7 +76,7 @@ float _cos(float a);
  * normalizing radian angle to [0,2PI]
  * @param angle - angle to be normalized
  */
-float _normalizeAngle(float angle);
+float _normalize_angle(float angle);
 
 
 /**
@@ -85,7 +85,7 @@ float _normalizeAngle(float angle);
  * @param shaft_angle - shaft angle of the motor
  * @param pole_pairs - number of pole pairs
  */
-float _electricalAngle(float shaft_angle, int pole_pairs);
+float _calc_electrical_angle(float shaft_angle, int pole_pairs);
 
 /**
  * Function approximating square root function
@@ -93,6 +93,6 @@ float _electricalAngle(float shaft_angle, int pole_pairs);
  *
  * @param value - number
  */
-float _sqrtApprox(float value);
+float _sqrt_approx(float value);
 
 #endif

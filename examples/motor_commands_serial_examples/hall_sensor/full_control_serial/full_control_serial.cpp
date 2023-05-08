@@ -27,11 +27,11 @@ HallSensor sensor = HallSensor(2, 3, 4, 11);
 
 // Interrupt routine intialisation
 // channel A, B and C callbacks
-void doA(){sensor.handleA();}
-void doB(){sensor.handleB();}
-void doC(){sensor.handleC();}
+void doA(){sensor.handle_a();}
+void doB(){sensor.handle_b();}
+void doC(){sensor.handle_c();}
 // If no available hadware interrupt pins use the software interrupt
-PciListenerImp listenC(sensor.pinC, doC);
+PciListenerImp listenC(sensor.pin_c, doC);
 
 
 // commander interface
@@ -43,18 +43,18 @@ void setup() {
 
   // initialize encoder sensor hardware
   sensor.init();
-  sensor.enableInterrupts(doA, doB); //, doC);
+  sensor.enable_interrupts(doA, doB); //, doC);
   // software interrupts
   PciManager.registerListener(&listenC);
   // link the motor to the sensor
-  motor.linkSensor(&sensor);
+  motor.link_sensor(&sensor);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   driver.init();
   // link driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
 
   // choose FOC modulation
@@ -85,7 +85,7 @@ void setup() {
   // initialise motor
   motor.init();
   // align encoder and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // set the inital target value
   motor.target = 2;
@@ -102,7 +102,7 @@ void setup() {
 
 void loop() {
   // iterative setting FOC phase voltage
-  motor.loopFOC();
+  motor.loop_foc();
 
   // iterative function setting the outter loop target
   // velocity, position or voltage

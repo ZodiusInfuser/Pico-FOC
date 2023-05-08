@@ -3,7 +3,7 @@
  * 
  * These values can further be used to avoid motor and sensor alignment procedure. 
  * 
- * motor.initFOC(zero_offset, sensor_direction);
+ * motor.init_foc(zero_offset, sensor_direction);
  * 
  * This will only work for abosolute value sensors - magnetic sensors. 
  * Bypassing the alignment procedure is not possible for the encoders and for the current implementation of the Hall sensors. 
@@ -31,12 +31,12 @@ void setup() {
   // power supply voltage
   driver.voltage_power_supply = 12;
   driver.init();
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // initialise magnetic sensor hardware
   sensor.init();
   // link the motor to the sensor
-  motor.linkSensor(&sensor);
+  motor.link_sensor(&sensor);
 
   // aligning voltage 
   motor.voltage_sensor_align = 7;
@@ -47,7 +47,7 @@ void setup() {
   // initialize motor
   motor.init();
   // align sensor and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   
   Serial.begin(115200);
@@ -56,7 +56,7 @@ void setup() {
   printf("Sensor natural direction is: ");
   Serial.println(motor.sensor_direction == 1 ? "Direction::CW" : "Direction::CCW");
 
-  printf("To use these values provide them to the: motor.initFOC(offset, direction)");
+  printf("To use these values provide them to the: motor.init_foc(offset, direction)");
   sleep_ms(1000);
   printf("If motor is not moving the alignment procedure was not successfull!!");
 }
@@ -65,7 +65,7 @@ void setup() {
 void loop() {
     
   // main FOC algorithm function
-  motor.loopFOC();
+  motor.loop_foc();
 
   // Motion control function
   motor.move(2);

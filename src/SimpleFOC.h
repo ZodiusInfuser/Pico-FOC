@@ -49,24 +49,24 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(9, 10, 11, 8);
 //  Encoder(pin_A, pin_B, CPR)
 Encoder encoder = Encoder(2, 3, 2048);
 // channel A and B callbacks
-void doA(){encoder.handleA();}
-void doB(){encoder.handleB();}
+void doA(){encoder.handle_a();}
+void doB(){encoder.handle_b();}
 
 
 void setup() {  
   // initialize encoder hardware
   encoder.init();
   // hardware interrupt enable
-  encoder.enableInterrupts(doA, doB);
+  encoder.enable_interrupts(doA, doB);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
   
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   // initialise driver hardware
   driver.init();
   // link driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // set control loop type to be used
   motor.controller = MotionControlType::velocity;
@@ -74,12 +74,12 @@ void setup() {
   motor.init();
   
   // align encoder and start FOC
-  motor.initFOC();
+  motor.init_foc();
 }
 
 void loop() {
   // FOC algorithm function
-  motor.loopFOC();
+  motor.loop_foc();
 
   // velocity control loop function
   // setting the target velocity or 2rad/s

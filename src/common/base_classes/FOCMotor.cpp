@@ -46,34 +46,34 @@ FOCMotor::FOCMotor()
 /**
 	Sensor linking method
 */
-void FOCMotor::linkSensor(Sensor* _sensor) {
+void FOCMotor::link_sensor(Sensor* _sensor) {
   sensor = _sensor;
 }
 
 /**
 	CurrentSense linking method
 */
-void FOCMotor::linkCurrentSense(CurrentSense* _current_sense) {
+void FOCMotor::link_current_sense(CurrentSense* _current_sense) {
   current_sense = _current_sense;
 }
 
 // shaft angle calculation
-float FOCMotor::shaftAngle() {
+float FOCMotor::shaft_angle() {
   // if no sensor linked return previous value ( for open loop )
-  if(!sensor) return shaft_angle;
-  return sensor_direction*LPF_angle(sensor->getAngle()) - sensor_offset;
+  if(!sensor) return _shaft_angle;
+  return sensor_direction*LPF_angle(sensor->get_angle()) - sensor_offset;
 }
 // shaft velocity calculation
-float FOCMotor::shaftVelocity() {
+float FOCMotor::shaft_velocity() {
   // if no sensor linked return previous value ( for open loop )
-  if(!sensor) return shaft_velocity;
-  return sensor_direction*LPF_velocity(sensor->getVelocity());
+  if(!sensor) return _shaft_velocity;
+  return sensor_direction*LPF_velocity(sensor->get_velocity());
 }
 
-float FOCMotor::electricalAngle(){
+float FOCMotor::electrical_angle(){
   // if no sensor linked return previous value ( for open loop )
-  if(!sensor) return electrical_angle;
-  return  _normalizeAngle( (float)(sensor_direction * pole_pairs) * sensor->getMechanicalAngle()  - zero_electric_angle );
+  if(!sensor) return _electrical_angle;
+  return  _normalize_angle( (float)(sensor_direction * pole_pairs) * sensor->get_mechanical_angle()  - zero_electric_angle );
 }
 
 /**
@@ -117,7 +117,7 @@ void FOCMotor::monitor() {
   if(monitor_variables & _MON_CURR_Q || monitor_variables & _MON_CURR_D) {
     DQCurrent_s c = current;
     if( current_sense && torque_controller != TorqueControlType::foc_current ){
-      c = current_sense->getFOCCurrents(electrical_angle);
+      c = current_sense->get_foc_currents(electrical_angle);
       c.q = LPF_current_q(c.q);
       c.d = LPF_current_d(c.d);
     }

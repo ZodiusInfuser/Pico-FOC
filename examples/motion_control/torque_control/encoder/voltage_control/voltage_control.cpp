@@ -22,8 +22,8 @@ Encoder encoder = Encoder(2, 3, 8192);
 
 // Interrupt routine intialisation
 // channel A and B callbacks
-void doA(){encoder.handleA();}
-void doB(){encoder.handleB();}
+void doA(){encoder.handle_a();}
+void doB(){encoder.handle_b();}
 
 // voltage set point variable
 float target_voltage = 2;
@@ -35,16 +35,16 @@ void setup() {
   
   // initialize encoder sensor hardware
   encoder.init();
-  encoder.enableInterrupts(doA, doB); 
+  encoder.enable_interrupts(doA, doB); 
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   driver.init();
   // link driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
 
   // aligning voltage
@@ -63,7 +63,7 @@ void setup() {
   // initialize motor
   motor.init();
   // align sensor and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // add target command T
   command.add('T', doTarget, "target voltage");
@@ -79,11 +79,11 @@ void loop() {
   // the faster you run this function the better
   // Arduino UNO loop  ~1kHz
   // Bluepill loop ~10kHz 
-  motor.loopFOC();
+  motor.loop_foc();
 
   // Motion control function
   // velocity, position or voltage (defined in motor.controller)
-  // this function can be run at much lower frequency than loopFOC() function
+  // this function can be run at much lower frequency than loop_foc() function
   // You can also use motor.move() and set the motor.target in the code
   motor.move(target_voltage);
 

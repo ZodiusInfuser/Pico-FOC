@@ -18,8 +18,8 @@ class GenericCurrentSense: public CurrentSense{
 
     // CurrentSense interface implementing functions 
     int init() override;
-    PhaseCurrent_s getPhaseCurrents() override;
-    int driverAlign(float align_voltage) override;
+    PhaseCurrent_s get_phase_currents() override;
+    int driver_align(float align_voltage) override;
 
 
     PhaseCurrent_s (*readCallback)() = nullptr; //!< function pointer to sensor reading

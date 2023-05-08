@@ -12,7 +12,7 @@ void StepDirListener::init(){
     count = 0;
 }
 
-void StepDirListener::enableInterrupt(void (*doA)()){
+void StepDirListener::enable_interrupt(void (*doA)()){
     attachInterrupt(digitalPinToInterrupt(pin_step), doA, polarity);
 }
 
@@ -32,9 +32,9 @@ void StepDirListener::handle(){
    //}
    //step_active = step;
    // if attached variable update it
-   if(attached_variable) *attached_variable = getValue();
+   if(attached_variable) *attached_variable = get_value();
 }
 // calculate the position from counter
-float StepDirListener::getValue(){
+float StepDirListener::get_value(){
     return (float) count * counter_to_value;
 }

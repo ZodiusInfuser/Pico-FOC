@@ -29,7 +29,7 @@ void setup() {
   // enable software interrupts
   PciManager.registerListener(&listenStep);
   // attach the variable to be updated on each step (optional)
-  // the same can be done asynchronously by caling step_dir.getValue();
+  // the same can be done asynchronously by caling step_dir.get_value();
   step_dir.attach(&received_angle);
 
   printf("Step/Dir listenning.\n");
@@ -39,6 +39,6 @@ void setup() {
 void loop() {
     Serial.print(received_angle);
     Serial.print("\t");
-    Serial.println(step_dir.getValue());
+    Serial.println(step_dir.get_value());
     sleep_ms(500);
 }

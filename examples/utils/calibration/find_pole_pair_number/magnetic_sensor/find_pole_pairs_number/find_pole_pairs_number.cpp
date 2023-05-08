@@ -36,13 +36,13 @@ void setup() {
   // initialise magnetic sensor hardware
   sensor.init();
   // link the motor to the sensor
-  motor.linkSensor(&sensor);
+  motor.link_sensor(&sensor);
 
   // power supply voltage
   // default 12V
   driver.voltage_power_supply = 12;
   driver.init();
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // initialize motor hardware
   motor.init();
@@ -64,7 +64,7 @@ void setup() {
   sleep_ms(1000);
   // read the sensor angle
   sensor.update();
-  float angle_begin = sensor.getAngle();
+  float angle_begin = sensor.get_angle();
   sleep_ms(50);
 
   // move the motor slowly to the electrical angle pp_search_angle
@@ -78,7 +78,7 @@ void setup() {
   sleep_ms(1000);
   // read the sensor value for 180
   sensor.update(); 
-  float angle_end = sensor.getAngle();
+  float angle_end = sensor.get_angle();
   sleep_ms(50);
   // turn off the motor
   motor.move(0);
@@ -117,7 +117,7 @@ void setup() {
   // set the pole pair number to the motor
   motor.pole_pairs = pp;
   //align sensor and start FOC
-  motor.initFOC();
+  motor.init_foc();
   sleep_ms(1000);
 
   printf("\n Motor ready.\n");
@@ -133,11 +133,11 @@ void loop() {
   // the faster you run this function the better
   // Arduino UNO loop  ~1kHz
   // Bluepill loop ~10kHz
-  motor.loopFOC();
+  motor.loop_foc();
 
   // Motion control function
   // velocity, position or voltage (defined in motor.controller)
-  // this function can be run at much lower frequency than loopFOC() function
+  // this function can be run at much lower frequency than loop_foc() function
   // You can also use motor.move() and set the motor.target in the code
   motor.move(target_voltage);
 

@@ -27,7 +27,7 @@ void setup() {
   driver.voltage_limit = 6;
   driver.init();
   // link the motor and the driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // limiting motor movements
   // limit the voltage to be set to the motor

@@ -25,15 +25,15 @@ void setup() {
 
 void loop() {
   // iterative function updating the sensor internal variables
-  // it is usually called in motor.loopFOC()
+  // it is usually called in motor.loop_foc()
   // this function reads the sensor hardware and 
-  // has to be called before getAngle nad getVelocity
+  // has to be called before get_angle nad get_velocity
   sensor0.update();
   sensor1.update();
   
   sleep_ms(200);
-  Serial.print(sensor0.getAngle()); 
+  Serial.print(sensor0.get_angle()); 
   Serial.print(" - "); 
-  Serial.print(sensor1.getAngle());
+  Serial.print(sensor1.get_angle());
   Serial.println();
 }

@@ -13,9 +13,9 @@ void analogWrite(int pin, int value) {
 // - Stepper motor - 1PWM setting
 // - hardware speciffic
 // in generic case dont do anything
-__attribute__((weak)) void* _configure1PWM(long pwm_frequency, const int pinA) {
+__attribute__((weak)) void* _configure_1_pwm(long pwm_frequency, const int pin_a) {
   GenericDriverParams* params = new GenericDriverParams {
-    .pins = { pinA },
+    .pins = { pin_a },
     .pwm_frequency = pwm_frequency
   };
   return params;
@@ -25,9 +25,9 @@ __attribute__((weak)) void* _configure1PWM(long pwm_frequency, const int pinA) {
 // - Stepper motor - 2PWM setting
 // - hardware speciffic
 // in generic case dont do anything
-__attribute__((weak)) void* _configure2PWM(long pwm_frequency,const int pinA, const int pinB) {
+__attribute__((weak)) void* _configure_2_pwm(long pwm_frequency,const int pin_a, const int pin_b) {
   GenericDriverParams* params = new GenericDriverParams {
-    .pins = { pinA, pinB },
+    .pins = { pin_a, pin_b },
     .pwm_frequency = pwm_frequency
   };
   return params;
@@ -37,9 +37,9 @@ __attribute__((weak)) void* _configure2PWM(long pwm_frequency,const int pinA, co
 // - BLDC motor - 3PWM setting
 // - hardware speciffic
 // in generic case dont do anything
-__attribute__((weak)) void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const int pinC) {
+__attribute__((weak)) void* _configure_3_pwm(long pwm_frequency,const int pin_a, const int pin_b, const int pin_c) {
   GenericDriverParams* params = new GenericDriverParams {
-    .pins = { pinA, pinB, pinC },
+    .pins = { pin_a, pin_b, pin_c },
     .pwm_frequency = pwm_frequency
   };
   return params;
@@ -50,7 +50,7 @@ __attribute__((weak)) void* _configure3PWM(long pwm_frequency,const int pinA, co
 // - Stepper motor - 4PWM setting
 // - hardware speciffic
 // in generic case dont do anything
-__attribute__((weak)) void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const int pin2A, const int pin2B) {
+__attribute__((weak)) void* _configure_4_pwm(long pwm_frequency, const int pin1A, const int pin1B, const int pin2A, const int pin2B) {
   GenericDriverParams* params = new GenericDriverParams {
     .pins = { pin1A, pin1B, pin2A, pin2B },
     .pwm_frequency = pwm_frequency
@@ -61,7 +61,7 @@ __attribute__((weak)) void* _configure4PWM(long pwm_frequency, const int pin1A, 
 // Configuring PWM frequency, resolution and alignment
 // - BLDC driver - 6PWM setting
 // - hardware specific
-__attribute__((weak)) void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l){
+__attribute__((weak)) void* _configure_6_pwm(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l){
   _UNUSED(pwm_frequency);
   _UNUSED(dead_zone);
   _UNUSED(pinA_h);
@@ -78,7 +78,7 @@ __attribute__((weak)) void* _configure6PWM(long pwm_frequency, float dead_zone, 
 // function setting the pwm duty cycle to the hardware
 // - Stepper motor - 1PWM setting
 // - hardware speciffic
-__attribute__((weak)) void _writeDutyCycle1PWM(float dc_a, void* params){
+__attribute__((weak)) void _write_duty_cycle_1_pwm(float dc_a, void* params){
   // transform duty cycle from [0,1] to [0,255]
   analogWrite(((GenericDriverParams*)params)->pins[0], 255.0f*dc_a);
 }
@@ -87,7 +87,7 @@ __attribute__((weak)) void _writeDutyCycle1PWM(float dc_a, void* params){
 // function setting the pwm duty cycle to the hardware
 // - Stepper motor - 2PWM setting
 // - hardware speciffic
-__attribute__((weak)) void _writeDutyCycle2PWM(float dc_a,  float dc_b, void* params){
+__attribute__((weak)) void _write_duty_cycle_2_pwm(float dc_a,  float dc_b, void* params){
   // transform duty cycle from [0,1] to [0,255]
   analogWrite(((GenericDriverParams*)params)->pins[0], 255.0f*dc_a);
   analogWrite(((GenericDriverParams*)params)->pins[1], 255.0f*dc_b);
@@ -96,7 +96,7 @@ __attribute__((weak)) void _writeDutyCycle2PWM(float dc_a,  float dc_b, void* pa
 // function setting the pwm duty cycle to the hardware
 // - BLDC motor - 3PWM setting
 // - hardware speciffic
-__attribute__((weak)) void _writeDutyCycle3PWM(float dc_a,  float dc_b, float dc_c, void* params){
+__attribute__((weak)) void _write_duty_cycle_3_pwm(float dc_a,  float dc_b, float dc_c, void* params){
   // transform duty cycle from [0,1] to [0,255]
   analogWrite(((GenericDriverParams*)params)->pins[0], 255.0f*dc_a);
   analogWrite(((GenericDriverParams*)params)->pins[1], 255.0f*dc_b);
@@ -106,7 +106,7 @@ __attribute__((weak)) void _writeDutyCycle3PWM(float dc_a,  float dc_b, float dc
 // function setting the pwm duty cycle to the hardware
 // - Stepper motor - 4PWM setting
 // - hardware speciffic
-__attribute__((weak)) void _writeDutyCycle4PWM(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, void* params){
+__attribute__((weak)) void _write_duty_cycle_4_pwm(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, void* params){
   // transform duty cycle from [0,1] to [0,255]
   
   analogWrite(((GenericDriverParams*)params)->pins[0], 255.0f*dc_1a);
@@ -119,7 +119,7 @@ __attribute__((weak)) void _writeDutyCycle4PWM(float dc_1a,  float dc_1b, float 
 // Function setting the duty cycle to the pwm pin (ex. analogWrite())
 // - BLDC driver - 6PWM setting
 // - hardware specific
-__attribute__((weak)) void _writeDutyCycle6PWM(float dc_a,  float dc_b, float dc_c, PhaseState *phase_state, void* params){
+__attribute__((weak)) void _write_duty_cycle_6_pwm(float dc_a,  float dc_b, float dc_c, PhaseState *phase_state, void* params){
   _UNUSED(dc_a);
   _UNUSED(dc_b);
   _UNUSED(dc_c);

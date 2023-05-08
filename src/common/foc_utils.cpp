@@ -45,20 +45,20 @@ float _cos(float a){
 
 
 // normalizing radian angle to [0,2PI]
-float _normalizeAngle(float angle){
+float _normalize_angle(float angle){
   float a = fmod(angle, _2PI);
   return a >= 0 ? a : (a + _2PI);
 }
 
 // Electrical angle calculation
-float _electricalAngle(float shaft_angle, int pole_pairs) {
+float _calc_electrical_angle(float shaft_angle, int pole_pairs) {
   return (shaft_angle * pole_pairs);
 }
 
 // square root approximation function using
 // https://reprap.org/forum/read.php?147,219210
 // https://en.wikipedia.org/wiki/Fast_inverse_square_root
-float _sqrtApprox(float number) {//low in fat
+float _sqrt_approx(float number) {//low in fat
   long i;
   float y;
   // float x;

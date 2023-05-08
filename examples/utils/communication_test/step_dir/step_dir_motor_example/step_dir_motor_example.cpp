@@ -15,8 +15,8 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(10, 5, 6, 8);
 // encoder instance
 Encoder encoder = Encoder(2, 3, 500);
 // channel A and B callbacks
-void doA() { encoder.handleA(); }
-void doB() { encoder.handleB(); }
+void doA() { encoder.handle_a(); }
+void doB() { encoder.handle_b(); }
 
 // StepDirListener( step_pin, dir_pin, counter_to_value)
 StepDirListener step_dir = StepDirListener(A4, A5, 2.0f*_PI/200.0);
@@ -26,16 +26,16 @@ void setup() {
 
   // initialize encoder sensor hardware
   encoder.init();
-  encoder.enableInterrupts(doA, doB);
+  encoder.enable_interrupts(doA, doB);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   driver.init();
   // link the motor and the driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // aligning voltage [V]
   motor.voltage_sensor_align = 3;
@@ -73,14 +73,14 @@ void setup() {
   // initialize motor
   motor.init();
   // align encoder and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // init step and dir pins
   step_dir.init();
   // enable interrupts
-  step_dir.enableInterrupt(onStep);
+  step_dir.enable_interrupt(onStep);
   // attach the variable to be updated on each step (optional)
-  // the same can be done asynchronously by caling motor.move(step_dir.getValue());
+  // the same can be done asynchronously by caling motor.move(step_dir.get_value());
   step_dir.attach(&motor.target);
 
   printf("Motor ready.\n");
@@ -91,7 +91,7 @@ void setup() {
 void loop() {
 
   // main FOC algorithm function
-  motor.loopFOC();
+  motor.loop_foc();
 
   // Motion control function
   motor.move();

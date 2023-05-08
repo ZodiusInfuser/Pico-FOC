@@ -8,8 +8,8 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(6, 10, 5, 8);
 // encoder instance
 Encoder encoder = Encoder(2, 3, 500);
 // channel A and B callbacks
-void doA(){encoder.handleA();}
-void doB(){encoder.handleB();}
+void doA(){encoder.handle_a();}
+void doB(){encoder.handle_b();}
 
 // inline current sensor instance
 // ACS712-05B has the resolution of 0.185mV per Amp
@@ -24,18 +24,18 @@ void setup() {
 
   // initialize encoder sensor hardware
   encoder.init();
-  encoder.enableInterrupts(doA, doB);
+  encoder.enable_interrupts(doA, doB);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   driver.init();
   // link driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
   // link current sense and the driver
-  current_sense.linkDriver(&driver);
+  current_sense.link_driver(&driver);
 
   // set control loop type to be used
   motor.controller = MotionControlType::torque;
@@ -65,12 +65,12 @@ void setup() {
 
   // current sense init and linking
   current_sense.init();
-  motor.linkCurrentSense(&current_sense);
+  motor.link_current_sense(&current_sense);
 
   // initialise motor
   motor.init();
   // align encoder and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // set the inital target value
   motor.target = 2;
@@ -88,7 +88,7 @@ void setup() {
 
 void loop() {
   // iterative setting FOC phase voltage
-  motor.loopFOC();
+  motor.loop_foc();
 
   // iterative function setting the outter loop target
   motor.move();

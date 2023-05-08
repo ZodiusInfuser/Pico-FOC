@@ -13,7 +13,7 @@
  * > Since Arduino UNO doesn't have enough interrupt pins we have to use software interrupt library PciManager.
  *
  * > If running this code with Nucleo or Bluepill or any other board which has more than 2 interrupt pins
- * > you can supply doC directly to the sensor.enableInterrupts(doA,doB,doC) and avoid using PciManger
+ * > you can supply doC directly to the sensor.enable_interrupts(doA,doB,doC) and avoid using PciManger
  *
  */
 #include <SimpleFOC.h>
@@ -33,11 +33,11 @@ HallSensor sensor = HallSensor(2, 3, 4, 11);
 
 // Interrupt routine intialisation
 // channel A and B callbacks
-void doA(){sensor.handleA();}
-void doB(){sensor.handleB();}
-void doC(){sensor.handleC();}
+void doA(){sensor.handle_a();}
+void doB(){sensor.handle_b();}
+void doC(){sensor.handle_c();}
 // If no available hadware interrupt pins use the software interrupt
-PciListenerImp listenerIndex(sensor.pinC, doC);
+PciListenerImp listenerIndex(sensor.pin_c, doC);
 
 // velocity set point variable
 float target_velocity = 0;
@@ -49,18 +49,18 @@ void setup() {
 
   // initialize sensor sensor hardware
   sensor.init();
-  sensor.enableInterrupts(doA, doB); //, doC);
+  sensor.enable_interrupts(doA, doB); //, doC);
   // software interrupts
   PciManager.registerListener(&listenerIndex);
   // link the motor to the sensor
-  motor.linkSensor(&sensor);
+  motor.link_sensor(&sensor);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   driver.init();
   // link the motor and the driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // aligning voltage [V]
   motor.voltage_sensor_align = 3;
@@ -92,7 +92,7 @@ void setup() {
   // initialize motor
   motor.init();
   // align sensor and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // add target command T
   command.add('T', doTarget, "target voltage");
@@ -108,11 +108,11 @@ void loop() {
   // the faster you run this function the better
   // Arduino UNO loop  ~1kHz
   // Bluepill loop ~10kHz
-  motor.loopFOC();
+  motor.loop_foc();
 
   // Motion control function
   // velocity, position or voltage (defined in motor.controller)
-  // this function can be run at much lower frequency than loopFOC() function
+  // this function can be run at much lower frequency than loop_foc() function
   // You can also use motor.move() and set the motor.target in the code
   motor.move(target_velocity);
 

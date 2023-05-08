@@ -13,22 +13,22 @@ class MagneticSensorAnalog: public Sensor{
  public:
     /**
      * MagneticSensorAnalog class constructor
-     * @param _pinAnalog  the pin to read the PWM signal
+     * @param _pin_analog  the pin to read the PWM signal
      */
-    MagneticSensorAnalog(uint8_t _pinAnalog, int _min = 0, int _max = 0);
+    MagneticSensorAnalog(uint8_t _pin_analog, int _min = 0, int _max = 0);
     
 
     /** sensor initialise pins */
     void init();
 
-    int pinAnalog; //!< encoder hardware pin A
+    int pin_analog; //!< encoder hardware pin A
     
     // Encoder configuration
     Pullup pullup;
     
     // implementation of abstract functions of the Sensor class
     /** get current angle (rad) */
-    float getSensorAngle() override;
+    float get_sensor_angle() override;
     /** raw count (typically in range of 0-1023), useful for debugging resolution issues */
     int raw_count;
 
@@ -42,7 +42,7 @@ class MagneticSensorAnalog: public Sensor{
      * Function getting current angle register value
      * it uses angle_register variable
      */
-    int getRawCount();
+    int get_raw_count();
 
 };
 

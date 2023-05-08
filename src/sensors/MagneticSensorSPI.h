@@ -42,7 +42,7 @@ class MagneticSensorSPI: public Sensor{
 
     // implementation of abstract functions of the Sensor class
     /** get current angle (rad) */
-    float getSensorAngle() override;
+    float get_sensor_angle() override;
 
     // returns the spi mode (phase/polarity of read/writes) i.e one of SPI_MODE0 | SPI_MODE1 | SPI_MODE2 | SPI_MODE3
     int spi_mode;
@@ -63,13 +63,13 @@ class MagneticSensorSPI: public Sensor{
     /** Read one SPI register value */
     int16_t read(int16_t angle_register);
     /** Calculate parity value  */
-    uint8_t spiCalcEvenParity(int16_t value);
+    uint8_t spi_calc_even_parity(int16_t value);
 
     /**
      * Function getting current angle register value
      * it uses angle_register variable
      */
-    int getRawCount();
+    int get_raw_count();
     
     int bit_resolution; //!< the number of bites of angle data
     int command_parity_bit; //!< the bit where parity flag is stored in command

@@ -8,8 +8,8 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(9, 5, 6, 8, 4, 7);
 // encoder instance
 Encoder encoder = Encoder(10, 11, 500);
 // channel A and B callbacks
-void doA(){encoder.handleA();}
-void doB(){encoder.handleB();}
+void doA(){encoder.handle_a();}
+void doB(){encoder.handle_b();}
 
 // inline current sensor instance
 InlineCurrentSense current_sense = InlineCurrentSense(0.001f, 50.0f, A0, A1);
@@ -23,18 +23,18 @@ void setup() {
 
   // initialize encoder sensor hardware
   encoder.init();
-  encoder.enableInterrupts(doA, doB);
+  encoder.enable_interrupts(doA, doB);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 20;
   driver.init();
   // link driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
   // link current sense and the driver
-  current_sense.linkDriver(&driver);
+  current_sense.link_driver(&driver);
 
   motor.voltage_sensor_align = 1;
   // set control loop type to be used
@@ -66,12 +66,12 @@ void setup() {
 
   // current sense init and linking
   current_sense.init();
-  motor.linkCurrentSense(&current_sense);
+  motor.link_current_sense(&current_sense);
 
   // initialise motor
   motor.init();
   // align encoder and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // set the inital target value
   motor.target = 0;
@@ -89,7 +89,7 @@ void setup() {
 
 void loop() {
   // iterative setting FOC phase voltage
-  motor.loopFOC();
+  motor.loop_foc();
 
   // iterative function setting the outter loop target
   motor.move();

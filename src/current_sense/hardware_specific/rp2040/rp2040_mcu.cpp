@@ -19,14 +19,14 @@ alignas(32) const uint32_t trigger_value = ADC_CS_START_ONCE_BITS; // start once
 
 /* Hardware API implementation */
 
-float _readADCVoltageInline(const int pinA, const void* cs_params) {
+float _readADCVoltageInline(const int pin_a, const void* cs_params) {
     // not super-happy with this. Here we have to return 1 phase current at a time, when actually we want to
     // return readings from the same ADC conversion run. The ADC on RP2040 is anyway in round robin mode :-(
     // like this we either have to block interrupts, or of course have the chance of reading across
     // new ADC conversions, which probably won't improve the accuracy.
 
-    if (pinA>=26 && pinA<=29 && engine.channelsEnabled[pinA-26]) {
-        return engine.lastResults.raw[pinA-26]*engine.adc_conv;
+    if (pin_a>=26 && pin_a<=29 && engine.channelsEnabled[pin_a-26]) {
+        return engine.lastResults.raw[pin_a-26]*engine.adc_conv;
     }
 
     // otherwise return NaN
@@ -34,13 +34,13 @@ float _readADCVoltageInline(const int pinA, const void* cs_params) {
 };
 
 
-void* _configureADCInline(const void *driver_params, const int pinA, const int pinB, const int pinC) {
-    if( _isset(pinA) )
-        engine.addPin(pinA);
-    if( _isset(pinB) )
-        engine.addPin(pinB);
-    if( _isset(pinC) )
-        engine.addPin(pinC);
+void* _configureADCInline(const void *driver_params, const int pin_a, const int pin_b, const int pin_c) {
+    if( _isset(pin_a) )
+        engine.addPin(pin_a);
+    if( _isset(pin_b) )
+        engine.addPin(pin_b);
+    if( _isset(pin_c) )
+        engine.addPin(pin_c);
     engine.init(); // TODO this has to happen later if we want to support more than one motor...
     engine.start();
     return &engine;
@@ -48,13 +48,13 @@ void* _configureADCInline(const void *driver_params, const int pinA, const int p
 
 
 // not supported at the moment
-// void* _configureADCLowSide(const void *driver_params, const int pinA, const int pinB, const int pinC) {    
-//     if( _isset(pinA) )
-//         engine.addPin(pinA);
-//     if( _isset(pinB) )
-//         engine.addPin(pinB);
-//     if( _isset(pinC) )
-//         engine.addPin(pinC);
+// void* _configureADCLowSide(const void *driver_params, const int pin_a, const int pin_b, const int pin_c) {    
+//     if( _isset(pin_a) )
+//         engine.addPin(pin_a);
+//     if( _isset(pin_b) )
+//         engine.addPin(pin_b);
+//     if( _isset(pin_c) )
+//         engine.addPin(pin_c);
 //     engine.setPWMTrigger(((RP2040DriverParams*)driver_params)->slice[0]);
 //     engine.init();
 //     engine.start();
@@ -67,14 +67,14 @@ void* _configureADCInline(const void *driver_params, const int pinA, const int p
 // };
 
 
-// float _readADCVoltageLowSide(const int pinA, const void* cs_params) {
+// float _readADCVoltageLowSide(const int pin_a, const void* cs_params) {
 //     // not super-happy with this. Here we have to return 1 phase current at a time, when actually we want to
 //     // return readings from the same ADC conversion run. The ADC on RP2040 is anyway in round robin mode :-(
 //     // like this we have block interrupts 3x instead of just once, and of course have the chance of reading across
 //     // new ADC conversions, which probably won't improve the accuracy.
 
-//     if (pinA>=26 && pinA<=29 && engine.channelsEnabled[pinA-26]) {
-//         return engine.lastResults[pinA-26]*engine.adc_conv;
+//     if (pin_a>=26 && pin_a<=29 && engine.channelsEnabled[pin_a-26]) {
+//         return engine.lastResults[pin_a-26]*engine.adc_conv;
 //     }
 
 //     // otherwise return NaN

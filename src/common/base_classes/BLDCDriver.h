@@ -41,7 +41,7 @@ class BLDCDriver{
          * @param Ub - phase B voltage
          * @param Uc - phase C voltage
         */
-        virtual void setPwm(float Ua, float Ub, float Uc) = 0;
+        virtual void set_pwm(float Ua, float Ub, float Uc) = 0;
 
         /**
          * Set phase state, enable/disable
@@ -50,7 +50,7 @@ class BLDCDriver{
          * @param sb - phase B state : active / disabled ( high impedance )
          * @param sa - phase C state : active / disabled ( high impedance )
         */
-        virtual void setPhaseState(PhaseState sa, PhaseState sb, PhaseState sc) = 0;
+        virtual void set_phase_state(PhaseState sa, PhaseState sb, PhaseState sc) = 0;
 };
 
 #endif

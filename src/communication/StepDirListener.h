@@ -29,7 +29,7 @@ class StepDirListener
      * 
      * @param handleStep - on step received handler
      */
-    void enableInterrupt(void (*handleStep)());
+    void enable_interrupt(void (*handleStep)());
 
     /**
      * Initialise dir and step commands
@@ -42,10 +42,10 @@ class StepDirListener
     /**
      * Get so far received valued
      */
-    float getValue();
+    float get_value();
     /**
      * Attach the value to be updated on each step receive 
-     * - no need to call getValue function
+     * - no need to call get_value function
      */
     void attach(float* variable);
 

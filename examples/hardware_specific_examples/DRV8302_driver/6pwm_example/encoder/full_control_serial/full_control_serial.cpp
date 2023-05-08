@@ -36,8 +36,8 @@ Encoder encoder = Encoder(2, 3, 8192);
 
 // Interrupt routine intialisation
 // channel A and B callbacks
-void doA(){encoder.handleA();}
-void doB(){encoder.handleB();}
+void doA(){encoder.handle_a();}
+void doB(){encoder.handle_b();}
 
 
 // commander interface
@@ -48,9 +48,9 @@ void setup() {
 
   // initialize encoder sensor hardware
   encoder.init();
-  encoder.enableInterrupts(doA, doB);
+  encoder.enable_interrupts(doA, doB);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // DRV8302 specific code
   // M_OC  - enable overcurrent protection
@@ -69,7 +69,7 @@ void setup() {
   driver.voltage_power_supply = 12;
   driver.init();
   // link the motor and the driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // choose FOC modulation
   motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
@@ -100,7 +100,7 @@ void setup() {
   // initialise motor
   motor.init();
   // align encoder and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // set the inital target value
   motor.target = 2;
@@ -117,7 +117,7 @@ void setup() {
 
 void loop() {
   // iterative setting FOC phase voltage
-  motor.loopFOC();
+  motor.loop_foc();
 
   // iterative function setting the outter loop target
   // velocity, position or voltage

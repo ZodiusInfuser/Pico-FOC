@@ -129,10 +129,10 @@ void setup() {
     Wire.setClock(400000);
 
 	sensor1.init();
-	motor1.linkSensor(&sensor1);
+	motor1.link_sensor(&sensor1);
 	driver1.voltage_power_supply = POWER_SUPPLY;
 	driver1.init();
-	motor1.linkDriver(&driver1);
+	motor1.link_driver(&driver1);
 	motor1.foc_modulation = FOCModulationType::SpaceVectorPWM;
 	motor1.controller = MotionControlType::velocity;
 	motor1.PID_velocity.P = 0.2f;
@@ -143,13 +143,13 @@ void setup() {
 	motor1.voltage_limit = POWER_SUPPLY;
 	motor1.P_angle.P = 20;
 	motor1.init();
-	motor1.initFOC();
+	motor1.init_foc();
 
 	sensor2.init();
-	motor2.linkSensor(&sensor2);
+	motor2.link_sensor(&sensor2);
 	driver2.voltage_power_supply = POWER_SUPPLY;
 	driver2.init();
-	motor2.linkDriver(&driver2);
+	motor2.link_driver(&driver2);
 	motor2.foc_modulation = FOCModulationType::SpaceVectorPWM;
 	motor2.controller = MotionControlType::velocity;
 	motor2.PID_velocity.P = 0.2f;
@@ -160,7 +160,7 @@ void setup() {
 	motor2.voltage_limit = POWER_SUPPLY;
 	motor2.P_angle.P = 20;
 	motor2.init();
-	motor2.initFOC();
+	motor2.init_foc();
 
 	sendMotorParams(motor1, m1Prefix);
 	sendMotorParams(motor2, m2Prefix);
@@ -252,7 +252,7 @@ void motorCmd(OSCMessage &msg, int offset, BLDCMotor& motor, float* set_point, S
 	else if (msg.fullMatch("/reinit", offset)) {
 		motor.disable();
 		motor.init();
-		motor.initFOC();
+		motor.init_foc();
 	}
 
 }
@@ -309,9 +309,9 @@ int size;
 void loop() {
 
 	// FOC algorithm function
-	motor1.loopFOC();
+	motor1.loop_foc();
 	motor1.move(set_point1);
-	motor2.loopFOC();
+	motor2.loop_foc();
 	motor2.move(set_point2);
 
 

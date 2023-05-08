@@ -4,9 +4,9 @@
 // get current magnitude 
 //   - absolute  - if no electrical_angle provided 
 //   - signed    - if angle provided
-float CurrentSense::getDCCurrent(float motor_electrical_angle){
+float CurrentSense::get_dc_current(float motor_electrical_angle){
     // read current phase currents
-    PhaseCurrent_s current = getPhaseCurrents();
+    PhaseCurrent_s current = get_phase_currents();
     // currnet sign - if motor angle not provided the magnitude is always positive
     float sign = 1;
 
@@ -47,10 +47,10 @@ float CurrentSense::getDCCurrent(float motor_electrical_angle){
 // function used with the foc algorihtm
 //   calculating DQ currents from phase currents
 //   - function calculating park and clarke transform of the phase currents 
-//   - using getPhaseCurrents internally
-DQCurrent_s CurrentSense::getFOCCurrents(float angle_el){
+//   - using get_phase_currents internally
+DQCurrent_s CurrentSense::get_foc_currents(float angle_el){
     // read current phase currents
-    PhaseCurrent_s current = getPhaseCurrents();
+    PhaseCurrent_s current = get_phase_currents();
 
     // calculate clarke transform
     float i_alpha, i_beta;
@@ -89,6 +89,6 @@ DQCurrent_s CurrentSense::getFOCCurrents(float angle_el){
 /**
 	Driver linking to the current sense
 */
-void CurrentSense::linkDriver(BLDCDriver* _driver) {
+void CurrentSense::link_driver(BLDCDriver* _driver) {
   driver = _driver;
 }

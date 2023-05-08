@@ -256,13 +256,13 @@ class Commander
      *  print the string message only if verbose mode on
      *  @param message - message to be printed
      */
-    void printVerbose(const char* message);
+    void print_verbose(const char* message);
     /**
      *  Print the string message only if verbose mode on
      *  - Function handling the case for strings defined by F macro
      *  @param message - message to be printed
      */
-    //void printVerbose(const __FlashStringHelper *message);
+    //void print_verbose(const __FlashStringHelper *message);
     /**
      *  print the numbers to the serial with desired decimal point number
      *  @param message - number to be printed
@@ -280,21 +280,21 @@ class Commander
     //void println(const __FlashStringHelper *message);
     void println(const char message);
 
-    void printMachineReadable(const float number);
-    void printMachineReadable(const int number);
-    void printMachineReadable(const char* message);
-    //void printMachineReadable(const __FlashStringHelper *message);
-    void printMachineReadable(const char message);
+    void print_machine_readable(const float number);
+    void print_machine_readable(const int number);
+    void print_machine_readable(const char* message);
+    //void print_machine_readable(const __FlashStringHelper *message);
+    void print_machine_readable(const char message);
 
-    void printlnMachineReadable(const float number);
-    void printlnMachineReadable(const int number);
-    void printlnMachineReadable(const char* message);
-    //void printlnMachineReadable(const __FlashStringHelper *message);
-    void printlnMachineReadable(const char message);
+    void println_machine_readable(const float number);
+    void println_machine_readable(const int number);
+    void println_machine_readable(const char* message);
+    //void println_machine_readable(const __FlashStringHelper *message);
+    void println_machine_readable(const char message);
 
 
-    void printError();
-    bool isSentinel(char ch);
+    void print_error();
+    bool is_sentinel(char ch);
 };
 
 

@@ -37,5 +37,5 @@ void loop() {
   // phase A: 3V
   // phase B: 6V
   // phase C: 5V
-  driver.setPwm(3,6,5);
+  driver.set_pwm(3,6,5);
 }

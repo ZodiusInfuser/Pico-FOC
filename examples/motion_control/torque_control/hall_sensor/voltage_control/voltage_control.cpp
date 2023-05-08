@@ -22,9 +22,9 @@ HallSensor sensor = HallSensor(2, 3, 4, 11);
 
 // Interrupt routine intialisation
 // channel A and B callbacks
-void doA(){sensor.handleA();}
-void doB(){sensor.handleB();}
-void doC(){sensor.handleC();}
+void doA(){sensor.handle_a();}
+void doB(){sensor.handle_b();}
+void doC(){sensor.handle_c();}
 
 
 // voltage set point variable
@@ -37,16 +37,16 @@ void setup() {
   
   // initialize encoder sensor hardware
   sensor.init();
-  sensor.enableInterrupts(doA, doB, doC); 
+  sensor.enable_interrupts(doA, doB, doC); 
   // link the motor to the sensor
-  motor.linkSensor(&sensor);
+  motor.link_sensor(&sensor);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   driver.init();
   // link driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // aligning voltage
   motor.voltage_sensor_align = 3;
@@ -65,7 +65,7 @@ void setup() {
   // initialize motor
   motor.init();
   // align sensor and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // add target command T
   command.add('T', doTarget, "target voltage");
@@ -82,11 +82,11 @@ void loop() {
   // the faster you run this function the better
   // Arduino UNO loop  ~1kHz
   // Bluepill loop ~10kHz 
-  motor.loopFOC();
+  motor.loop_foc();
 
   // Motion control function
   // velocity, position or voltage (defined in motor.controller)
-  // this function can be run at much lower frequency than loopFOC() function
+  // this function can be run at much lower frequency than loop_foc() function
   // You can also use motor.move() and set the motor.target in the code
   motor.move(target_voltage);
 

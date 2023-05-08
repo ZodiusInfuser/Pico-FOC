@@ -6,12 +6,12 @@
   - hallA, hallB, hallC    - HallSensor A, B and C pins
   - pp           - pole pairs
 */
-HallSensor::HallSensor(int _hallA, int _hallB, int _hallC, int _pp){
+HallSensor::HallSensor(int _hall_a, int _hall_b, int _hall_c, int _pp){
 
   // hardware pins
-  pinA = _hallA;
-  pinB = _hallB;
-  pinC = _hallC;
+  pin_a = _hall_a;
+  pin_b = _hall_b;
+  pin_c = _hall_c;
 
   // hall has 6 segments per electrical revolution
   cpr = _pp * 6;
@@ -22,26 +22,26 @@ HallSensor::HallSensor(int _hallA, int _hallB, int _hallC, int _pp){
 
 //  HallSensor interrupt callback functions
 // A channel
-void HallSensor::handleA() {
-  A_active= digitalRead(pinA);
-  updateState();
+void HallSensor::handle_a() {
+  A_active= digitalRead(pin_a);
+  update_state();
 }
 // B channel
-void HallSensor::handleB() {
-  B_active = digitalRead(pinB);
-  updateState();
+void HallSensor::handle_b() {
+  B_active = digitalRead(pin_b);
+  update_state();
 }
 
 // C channel
-void HallSensor::handleC() {
-  C_active = digitalRead(pinC);
-  updateState();
+void HallSensor::handle_c() {
+  C_active = digitalRead(pin_c);
+  update_state();
 }
 
 /**
  * Updates the state and sector following an interrupt
  */
-void HallSensor::updateState() {
+void HallSensor::update_state() {
   long new_pulse_timestamp = time_us_64();
 
   int8_t new_hall_state = C_active + (B_active << 1) + (A_active << 2);
@@ -78,24 +78,24 @@ void HallSensor::updateState() {
   pulse_timestamp = new_pulse_timestamp;
   total_interrupts++;
   old_direction = direction;
-  if (onSectorChange != nullptr) onSectorChange(electric_sector);
+  if (on_sector_change != nullptr) on_sector_change(electric_sector);
 }
 
 /**
  * Optionally set a function callback to be fired when sector changes
- * void onSectorChange(int sector) {
+ * void on_sector_change(int sector) {
  *  ... // for debug or call driver directly?
  * }
- * sensor.attachSectorCallback(onSectorChange);
+ * sensor.attach_sector_callback(on_sector_change);
  */
-void HallSensor::attachSectorCallback(void (*_onSectorChange)(int sector)) {
-  onSectorChange = _onSectorChange;
+void HallSensor::attach_sector_callback(void (*_on_sector_change)(int sector)) {
+  on_sector_change = _on_sector_change;
 }
 
 
 
-float HallSensor::getSensorAngle() {
-  return getAngle();
+float HallSensor::get_sensor_angle() {
+  return get_angle();
 }
 
 
@@ -104,7 +104,7 @@ float HallSensor::getSensorAngle() {
 	Shaft angle calculation
   TODO: numerical precision issue here if the electrical rotation overflows the angle will be lost
 */
-float HallSensor::getMechanicalAngle() {
+float HallSensor::get_mechanical_angle() {
   return ((float)((electric_rotations * 6 + electric_sector) % cpr) / (float)cpr) * _2PI ;
 }
 
@@ -112,7 +112,7 @@ float HallSensor::getMechanicalAngle() {
   Shaft velocity calculation
   function using mixed time and frequency measurement technique
 */
-float HallSensor::getVelocity(){
+float HallSensor::get_velocity(){
   long last_pulse_diff = pulse_diff;
   if (last_pulse_diff == 0 || ((long)(time_us_64() - pulse_timestamp) > last_pulse_diff) ) { // last velocity isn't accurate if too old
     return 0;
@@ -127,17 +127,17 @@ float HallSensor::getVelocity(){
 
 
 
-float HallSensor::getAngle() {
+float HallSensor::get_angle() {
   return ((float)(electric_rotations * 6 + electric_sector) / (float)cpr) * _2PI ;
 }
 
 
-double HallSensor::getPreciseAngle() {
+double HallSensor::get_precise_angle() {
   return ((double)(electric_rotations * 6 + electric_sector) / (double)cpr) * (double)_2PI ;
 }
 
 
-int32_t HallSensor::getFullRotations() {
+int32_t HallSensor::get_full_rotations() {
   return (int32_t)((electric_rotations * 6 + electric_sector) / cpr);
 }
 
@@ -153,20 +153,20 @@ void HallSensor::init(){
 
   // HallSensor - check if pullup needed for your HallSensor
   if(pullup == Pullup::USE_INTERN){
-    pinMode(pinA, INPUT_PULLUP);
-    pinMode(pinB, INPUT_PULLUP);
-    pinMode(pinC, INPUT_PULLUP);
+    pinMode(pin_a, INPUT_PULLUP);
+    pinMode(pin_b, INPUT_PULLUP);
+    pinMode(pin_c, INPUT_PULLUP);
   }else{
-    pinMode(pinA, INPUT);
-    pinMode(pinB, INPUT);
-    pinMode(pinC, INPUT);
+    pinMode(pin_a, INPUT);
+    pinMode(pin_b, INPUT);
+    pinMode(pin_c, INPUT);
   }
 
     // init hall_state
-  A_active= digitalRead(pinA);
-  B_active = digitalRead(pinB);
-  C_active = digitalRead(pinC);
-  updateState();
+  A_active= digitalRead(pin_a);
+  B_active = digitalRead(pin_b);
+  C_active = digitalRead(pin_c);
+  update_state();
 
   pulse_timestamp = time_us_64();
 
@@ -175,11 +175,11 @@ void HallSensor::init(){
 
 // function enabling hardware interrupts for the callback provided
 // if callback is not provided then the interrupt is not enabled
-void HallSensor::enableInterrupts(void (*doA)(), void(*doB)(), void(*doC)()){
+void HallSensor::enable_interrupts(void (*doA)(), void(*doB)(), void(*doC)()){
   // attach interrupt if functions provided
 
   // A, B and C callback
-  if(doA != nullptr) attachInterrupt(digitalPinToInterrupt(pinA), doA, CHANGE);
-  if(doB != nullptr) attachInterrupt(digitalPinToInterrupt(pinB), doB, CHANGE);
-  if(doC != nullptr) attachInterrupt(digitalPinToInterrupt(pinC), doC, CHANGE);
+  if(doA != nullptr) attachInterrupt(digitalPinToInterrupt(pin_a), doA, CHANGE);
+  if(doB != nullptr) attachInterrupt(digitalPinToInterrupt(pin_b), doB, CHANGE);
+  if(doC != nullptr) attachInterrupt(digitalPinToInterrupt(pin_c), doC, CHANGE);
 }

@@ -13,13 +13,13 @@
  * > Since Arduino UNO doesn't have enough interrupt pins we have to use software interrupt library PciManager.
  *
  * > If running this code with Nucleo or Bluepill or any other board which has more than 2 interrupt pins
- * > you can supply doIndex directly to the encoder.enableInterrupts(doA,doB,doIndex) and avoid using PciManger
+ * > you can supply doIndex directly to the encoder.enable_interrupts(doA,doB,doIndex) and avoid using PciManger
  *
  * > If you don't want to use index pin initialize the encoder class without index pin number:
  * > For example:
  * > - Encoder encoder = Encoder(2, 3, 8192);
  * > and initialize interrupts like this:
- * > - encoder.enableInterrupts(doA,doB)
+ * > - encoder.enable_interrupts(doA,doB)
  *
  * Check the docs.simplefoc.com for more info about the possible encoder configuration.
  *
@@ -41,9 +41,9 @@ Encoder encoder = Encoder(2, 3, 8192, A0);
 
 // Interrupt routine intialisation
 // channel A and B callbacks
-void doA(){encoder.handleA();}
-void doB(){encoder.handleB();}
-void doIndex(){encoder.handleIndex();}
+void doA(){encoder.handle_a();}
+void doB(){encoder.handle_b();}
+void doIndex(){encoder.handle_index();}
 // If no available hadware interrupt pins use the software interrupt
 PciListenerImp listenerIndex(encoder.index_pin, doIndex);
 
@@ -59,18 +59,18 @@ void setup() {
 
   // initialize encoder sensor hardware
   encoder.init();
-  encoder.enableInterrupts(doA, doB);
+  encoder.enable_interrupts(doA, doB);
   // software interrupts
   PciManager.registerListener(&listenerIndex);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   driver.init();
   // link the motor and the driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // aligning voltage [V]
   motor.voltage_sensor_align = 3;
@@ -104,7 +104,7 @@ void setup() {
   // initialize motor
   motor.init();
   // align sensor and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // add target command T
   command.add('T', doTarget, "target velocity");
@@ -120,11 +120,11 @@ void loop() {
   // the faster you run this function the better
   // Arduino UNO loop  ~1kHz
   // Bluepill loop ~10kHz
-  motor.loopFOC();
+  motor.loop_foc();
 
   // Motion control function
   // velocity, position or voltage (defined in motor.controller)
-  // this function can be run at much lower frequency than loopFOC() function
+  // this function can be run at much lower frequency than loop_foc() function
   // You can also use motor.move() and set the motor.target in the code
   motor.move(target_velocity);
 

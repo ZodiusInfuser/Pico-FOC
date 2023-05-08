@@ -70,39 +70,39 @@ void syncSlices() {
 
 
 
-void* _configure1PWM(long pwm_frequency, const int pinA) {
+void* _configure_1_pwm(long pwm_frequency, const int pin_a) {
 	RP2040DriverParams* params = new RP2040DriverParams();
 	if( !pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY;
 	else pwm_frequency = _constrain(pwm_frequency, _PWM_FREQUENCY_MIN, _PWM_FREQUENCY_MAX);
 	params->pwm_frequency = pwm_frequency;
-	setupPWM(pinA, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 0);
+	setupPWM(pin_a, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 0);
 	syncSlices();
 	return params;
 }
 
 
 
-void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB) {
+void* _configure_2_pwm(long pwm_frequency, const int pin_a, const int pin_b) {
 	RP2040DriverParams* params = new RP2040DriverParams();
 	if( !pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY;
 	else pwm_frequency = _constrain(pwm_frequency, _PWM_FREQUENCY_MIN, _PWM_FREQUENCY_MAX);
 	params->pwm_frequency = pwm_frequency;
-	setupPWM(pinA, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 0);
-	setupPWM(pinB, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 1);
+	setupPWM(pin_a, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 0);
+	setupPWM(pin_b, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 1);
 	syncSlices();
 	return params;
 }
 
 
 
-void* _configure3PWM(long pwm_frequency, const int pinA, const int pinB, const int pinC) {
+void* _configure_3_pwm(long pwm_frequency, const int pin_a, const int pin_b, const int pin_c) {
 	RP2040DriverParams* params = new RP2040DriverParams();
 	if( !pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY;
 	else pwm_frequency = _constrain(pwm_frequency, _PWM_FREQUENCY_MIN, _PWM_FREQUENCY_MAX);
 	params->pwm_frequency = pwm_frequency;
-	setupPWM(pinA, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 0);
-	setupPWM(pinB, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 1);
-	setupPWM(pinC, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 2);
+	setupPWM(pin_a, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 0);
+	setupPWM(pin_b, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 1);
+	setupPWM(pin_c, pwm_frequency, !SIMPLEFOC_PWM_ACTIVE_HIGH, params, 2);
 	syncSlices();
 	return params;
 }
@@ -110,7 +110,7 @@ void* _configure3PWM(long pwm_frequency, const int pinA, const int pinB, const i
 
 
 
-void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const int pin2A, const int pin2B) {
+void* _configure_4_pwm(long pwm_frequency, const int pin1A, const int pin1B, const int pin2A, const int pin2B) {
 	RP2040DriverParams* params = new RP2040DriverParams();
 	if( !pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY;
 	else pwm_frequency = _constrain(pwm_frequency, _PWM_FREQUENCY_MIN, _PWM_FREQUENCY_MAX);
@@ -124,7 +124,7 @@ void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const
 }
 
 
-void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l) {
+void* _configure_6_pwm(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l) {
 	// non-PIO solution...
 	RP2040DriverParams* params = new RP2040DriverParams();
 	if( !pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY;
@@ -152,21 +152,21 @@ void writeDutyCycle(float val, uint slice, uint chan) {
 
 
 
-void _writeDutyCycle1PWM(float dc_a, void* params) {
+void _write_duty_cycle_1_pwm(float dc_a, void* params) {
 	writeDutyCycle(dc_a, ((RP2040DriverParams*)params)->slice[0], ((RP2040DriverParams*)params)->chan[0]);
 }
 
 
 
 
-void _writeDutyCycle2PWM(float dc_a,  float dc_b, void* params) {
+void _write_duty_cycle_2_pwm(float dc_a,  float dc_b, void* params) {
 	writeDutyCycle(dc_a, ((RP2040DriverParams*)params)->slice[0], ((RP2040DriverParams*)params)->chan[0]);
 	writeDutyCycle(dc_b, ((RP2040DriverParams*)params)->slice[1], ((RP2040DriverParams*)params)->chan[1]);
 }
 
 
 
-void _writeDutyCycle3PWM(float dc_a,  float dc_b, float dc_c, void* params) {
+void _write_duty_cycle_3_pwm(float dc_a,  float dc_b, float dc_c, void* params) {
 	writeDutyCycle(dc_a, ((RP2040DriverParams*)params)->slice[0], ((RP2040DriverParams*)params)->chan[0]);
 	writeDutyCycle(dc_b, ((RP2040DriverParams*)params)->slice[1], ((RP2040DriverParams*)params)->chan[1]);
 	writeDutyCycle(dc_c, ((RP2040DriverParams*)params)->slice[2], ((RP2040DriverParams*)params)->chan[2]);
@@ -174,7 +174,7 @@ void _writeDutyCycle3PWM(float dc_a,  float dc_b, float dc_c, void* params) {
 
 
 
-void _writeDutyCycle4PWM(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, void* params) {
+void _write_duty_cycle_4_pwm(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, void* params) {
 	writeDutyCycle(dc_1a, ((RP2040DriverParams*)params)->slice[0], ((RP2040DriverParams*)params)->chan[0]);
 	writeDutyCycle(dc_1b, ((RP2040DriverParams*)params)->slice[1], ((RP2040DriverParams*)params)->chan[1]);
 	writeDutyCycle(dc_2a, ((RP2040DriverParams*)params)->slice[2], ((RP2040DriverParams*)params)->chan[2]);
@@ -187,7 +187,7 @@ inline float swDti(float val, float dt) {
 	return ret;
 }
 
-void _writeDutyCycle6PWM(float dc_a,  float dc_b, float dc_c, PhaseState *phase_state, void* params) {
+void _write_duty_cycle_6_pwm(float dc_a,  float dc_b, float dc_c, PhaseState *phase_state, void* params) {
 	if (phase_state[0]==PhaseState::PHASE_ON || phase_state[0]==PhaseState::PHASE_HI)
 		writeDutyCycle(dc_a, ((RP2040DriverParams*)params)->slice[0], ((RP2040DriverParams*)params)->chan[0]);
 	else

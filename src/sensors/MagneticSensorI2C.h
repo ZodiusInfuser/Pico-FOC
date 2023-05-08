@@ -45,10 +45,10 @@ class MagneticSensorI2C: public Sensor{
 
     // implementation of abstract functions of the Sensor class
     /** get current angle (rad) */
-    float getSensorAngle() override;
+    float get_sensor_angle() override;
 
     /** experimental function to check and fix SDA locked LOW issues */
-    int checkBus(uint8_t sda_pin , uint8_t scl_pin);
+    int check_bus(uint8_t sda_pin , uint8_t scl_pin);
 
   private:
     float cpr; //!< Maximum range of the magnetic sensor
@@ -68,7 +68,7 @@ class MagneticSensorI2C: public Sensor{
      * Function getting current angle register value
      * it uses angle_register variable
      */
-    int getRawCount();
+    int get_raw_count();
     
     /* the two wire instance for this sensor */
     i2c_inst_t* i2c;

@@ -13,8 +13,8 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(9, 5, 6, 8);
 // encoder instance
 Encoder encoder = Encoder(2, 3, 500);
 // channel A and B callbacks
-void doA(){encoder.handleA();}
-void doB(){encoder.handleB();}
+void doA(){encoder.handle_a();}
+void doB(){encoder.handle_b();}
 
 // current sensor
 InlineCurrentSense current_sense = InlineCurrentSense(0.01f, 50.0f, A0, A2);
@@ -29,23 +29,23 @@ void setup() {
 
   // initialize encoder sensor hardware
   encoder.init();
-  encoder.enableInterrupts(doA, doB);
+  encoder.enable_interrupts(doA, doB);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 12;
   driver.init();
   // link driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
   // link current sense and the driver
-  current_sense.linkDriver(&driver);
+  current_sense.link_driver(&driver);
 
   // current sense init hardware
   current_sense.init();
   // link the current sense to the motor
-  motor.linkCurrentSense(&current_sense);
+  motor.link_current_sense(&current_sense);
 
   // set torque mode:
   // TorqueControlType::dc_current
@@ -78,7 +78,7 @@ void setup() {
   // initialize motor
   motor.init();
   // align sensor and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // add target command T
   command.add('T', doTarget, "target current");
@@ -94,11 +94,11 @@ void loop() {
   // the faster you run this function the better
   // Arduino UNO loop  ~1kHz
   // Bluepill loop ~10kHz
-  motor.loopFOC();
+  motor.loop_foc();
 
   // Motion control function
   // velocity, position or torque (defined in motor.controller)
-  // this function can be run at much lower frequency than loopFOC() function
+  // this function can be run at much lower frequency than loop_foc() function
   // You can also use motor.move() and set the motor.target in the code
   motor.move(target_current);
 

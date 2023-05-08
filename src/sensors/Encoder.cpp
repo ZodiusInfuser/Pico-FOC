@@ -2,18 +2,18 @@
 
 
 /*
-  Encoder(int encA, int encB , int cpr, int index)
-  - encA, encB    - encoder A and B pins
+  Encoder(int enc_a, int enc_b , int cpr, int index)
+  - enc_a, enc_b    - encoder A and B pins
   - cpr           - counts per rotation number (cpm=ppm*4)
   - index pin     - (optional input)
 */
 
-Encoder::Encoder(int _encA, int _encB , float _ppr, int _index){
+Encoder::Encoder(int _enc_a, int _enc_b , float _ppr, int _index){
 
   // Encoder measurement structure init
   // hardware pins
-  pinA = _encA;
-  pinB = _encB;
+  pin_a = _enc_a;
+  pin_b = _enc_b;
   // counter setup
   pulse_counter = 0;
   pulse_timestamp = 0;
@@ -39,8 +39,8 @@ Encoder::Encoder(int _encA, int _encB , float _ppr, int _index){
 
 //  Encoder interrupt callback functions
 // A channel
-void Encoder::handleA() {
-  bool A = digitalRead(pinA);
+void Encoder::handle_a() {
+  bool A = digitalRead(pin_a);
   switch (quadrature){
     case Quadrature::ON:
       // CPR = 4xPPR
@@ -52,7 +52,7 @@ void Encoder::handleA() {
       break;
     case Quadrature::OFF:
       // CPR = PPR
-      if(A && !digitalRead(pinB)){
+      if(A && !digitalRead(pin_b)){
         pulse_counter++;
         pulse_timestamp = time_us_64();
       }
@@ -60,8 +60,8 @@ void Encoder::handleA() {
   }
 }
 // B channel
-void Encoder::handleB() {
-  bool B = digitalRead(pinB);
+void Encoder::handle_b() {
+  bool B = digitalRead(pin_b);
   switch (quadrature){
     case Quadrature::ON:
   //     // CPR = 4xPPR
@@ -73,7 +73,7 @@ void Encoder::handleB() {
       break;
     case Quadrature::OFF:
       // CPR = PPR
-      if(B && !digitalRead(pinA)){
+      if(B && !digitalRead(pin_a)){
         pulse_counter--;
         pulse_timestamp = time_us_64();
       }
@@ -82,8 +82,8 @@ void Encoder::handleB() {
 }
 
 // Index channel
-void Encoder::handleIndex() {
-  if(hasIndex()){
+void Encoder::handle_index() {
+  if(has_index()){
     bool I = digitalRead(index_pin);
     if(I && !I_active){
       index_found = true;
@@ -106,21 +106,21 @@ void Encoder::update() {
 /*
 	Shaft angle calculation
 */
-float Encoder::getSensorAngle(){
-  return getAngle();
+float Encoder::get_sensor_angle(){
+  return get_angle();
 }
 // TODO: numerical precision issue here if the pulse_counter overflows the angle will be lost
-float Encoder::getMechanicalAngle(){
+float Encoder::get_mechanical_angle(){
   return  _2PI * ((pulse_counter) % ((int)cpr)) / ((float)cpr);
 }
 
-float Encoder::getAngle(){
+float Encoder::get_angle(){
   return  _2PI * (pulse_counter) / ((float)cpr);
 }
-double Encoder::getPreciseAngle(){
+double Encoder::get_precise_angle(){
   return  _2PI * (pulse_counter) / ((double)cpr);
 }
-int32_t Encoder::getFullRotations(){
+int32_t Encoder::get_full_rotations(){
   return  pulse_counter / (int)cpr;
 }
 
@@ -130,7 +130,7 @@ int32_t Encoder::getFullRotations(){
   Shaft velocity calculation
   function using mixed time and frequency measurement technique
 */
-float Encoder::getVelocity(){
+float Encoder::get_velocity(){
   // timestamp
   long timestamp_us = time_us_64();
   // sampling time calculation
@@ -167,12 +167,12 @@ float Encoder::getVelocity(){
 
 // getter for index pin
 // return -1 if no index
-int Encoder::needsSearch(){
-  return hasIndex() && !index_found;
+int Encoder::needs_search(){
+  return has_index() && !index_found;
 }
 
 // private function used to determine if encoder has index
-int Encoder::hasIndex(){
+int Encoder::has_index(){
   return index_pin != 0;
 }
 
@@ -183,13 +183,13 @@ void Encoder::init(){
 
   // Encoder - check if pullup needed for your encoder
   if(pullup == Pullup::USE_INTERN){
-    pinMode(pinA, INPUT_PULLUP);
-    pinMode(pinB, INPUT_PULLUP);
-    if(hasIndex()) pinMode(index_pin,INPUT_PULLUP);
+    pinMode(pin_a, INPUT_PULLUP);
+    pinMode(pin_b, INPUT_PULLUP);
+    if(has_index()) pinMode(index_pin,INPUT_PULLUP);
   }else{
-    pinMode(pinA, INPUT);
-    pinMode(pinB, INPUT);
-    if(hasIndex()) pinMode(index_pin,INPUT);
+    pinMode(pin_a, INPUT);
+    pinMode(pin_b, INPUT);
+    if(has_index()) pinMode(index_pin,INPUT);
   }
 
   // counter setup
@@ -199,7 +199,7 @@ void Encoder::init(){
   prev_Th = 0;
   pulse_per_second = 0;
   prev_pulse_counter = 0;
-  prev_timestamp_us = time_us_64(64(64();
+  prev_timestamp_us = time_us_64();
 
   // initial cpr = PPR
   // change it if the mode is quadrature
@@ -210,21 +210,21 @@ void Encoder::init(){
 
 // function enabling hardware interrupts of the for the callback provided
 // if callback is not provided then the interrupt is not enabled
-void Encoder::enableInterrupts(void (*doA)(), void(*doB)(), void(*doIndex)()){
+void Encoder::enable_interrupts(void (*doA)(), void(*doB)(), void(*doIndex)()){
   // attach interrupt if functions provided
   switch(quadrature){
     case Quadrature::ON:
       // A callback and B callback
-      if(doA != nullptr) attachInterrupt(digitalPinToInterrupt(pinA), doA, CHANGE);
-      if(doB != nullptr) attachInterrupt(digitalPinToInterrupt(pinB), doB, CHANGE);
+      if(doA != nullptr) attachInterrupt(digitalPinToInterrupt(pin_a), doA, CHANGE);
+      if(doB != nullptr) attachInterrupt(digitalPinToInterrupt(pin_b), doB, CHANGE);
       break;
     case Quadrature::OFF:
       // A callback and B callback
-      if(doA != nullptr) attachInterrupt(digitalPinToInterrupt(pinA), doA, RISING);
-      if(doB != nullptr) attachInterrupt(digitalPinToInterrupt(pinB), doB, RISING);
+      if(doA != nullptr) attachInterrupt(digitalPinToInterrupt(pin_a), doA, RISING);
+      if(doB != nullptr) attachInterrupt(digitalPinToInterrupt(pin_b), doB, RISING);
       break;
   }
 
   // if index used initialize the index interrupt
-  if(hasIndex() && doIndex != nullptr) attachInterrupt(digitalPinToInterrupt(index_pin), doIndex, CHANGE);
+  if(has_index() && doIndex != nullptr) attachInterrupt(digitalPinToInterrupt(index_pin), doIndex, CHANGE);
 }

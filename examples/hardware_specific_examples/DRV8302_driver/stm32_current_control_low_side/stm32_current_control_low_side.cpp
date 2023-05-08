@@ -41,8 +41,8 @@ Encoder encoder = Encoder(PB14, PB15, 2048);
 
 // Interrupt routine intialisation
 // channel A and B callbacks
-void doA(){encoder.handleA();}
-void doB(){encoder.handleB();}
+void doA(){encoder.handle_a();}
+void doB(){encoder.handle_b();}
 
 
 // commander interface
@@ -53,9 +53,9 @@ void setup() {
 
   // initialize encoder sensor hardware
   encoder.init();
-  encoder.enableInterrupts(doA, doB);
+  encoder.enable_interrupts(doA, doB);
   // link the motor to the sensor
-  motor.linkSensor(&encoder);
+  motor.link_sensor(&encoder);
 
   // DRV8302 specific code
   // M_OC  - enable overcurrent protection
@@ -78,9 +78,9 @@ void setup() {
   driver.pwm_frequency = 15000; // suggested under 18khz
   driver.init();
   // link the motor and the driver
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
   // link current sense and the driver
-  cs.linkDriver(&driver);
+  cs.link_driver(&driver);
 
   // align voltage
   motor.voltage_sensor_align = 0.5;
@@ -132,10 +132,10 @@ void setup() {
   cs.gain_a *=-1;
   cs.gain_b *=-1;
   cs.gain_c *=-1;
-  motor.linkCurrentSense(&cs);
+  motor.link_current_sense(&cs);
   
   // align encoder and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // set the inital target value
   motor.target = 0;
@@ -154,7 +154,7 @@ void setup() {
 
 void loop() {
   // iterative setting FOC phase voltage
-  motor.loopFOC();
+  motor.loop_foc();
 
   // iterative function setting the outter loop target
   motor.move();

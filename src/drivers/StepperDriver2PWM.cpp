@@ -47,14 +47,14 @@ void  StepperDriver2PWM::enable(){
     if ( _isset(enable_pin1) ) gpio_put(enable_pin1, HIGH);
     if ( _isset(enable_pin2) ) gpio_put(enable_pin2, HIGH);
     // set zero to PWM
-    setPwm(0,0);
+    set_pwm(0,0);
 }
 
 // disable motor driver
 void StepperDriver2PWM::disable()
 {
   // set zero to PWM
-  setPwm(0, 0);
+  set_pwm(0, 0);
   // disable the driver - if enable_pin pin available
   if ( _isset(enable_pin1) ) gpio_put(enable_pin1, LOW);
   if ( _isset(enable_pin2) ) gpio_put(enable_pin2, LOW);
@@ -79,14 +79,14 @@ int StepperDriver2PWM::init() {
 
   // Set the pwm frequency to the pins
   // hardware specific function - depending on driver and mcu
-  params = _configure2PWM(pwm_frequency, pwm1, pwm2);
+  params = _configure_2_pwm(pwm_frequency, pwm1, pwm2);
   initialized = (params!=SIMPLEFOC_DRIVER_INIT_FAILED);
   return params!=SIMPLEFOC_DRIVER_INIT_FAILED;
 }
 
 
 // Set voltage to the pwm pin
-void StepperDriver2PWM::setPwm(float Ua, float Ub) {
+void StepperDriver2PWM::set_pwm(float Ua, float Ub) {
   float duty_cycle1(0.0f),duty_cycle2(0.0f);
   // limit the voltage in driver
   Ua = _constrain(Ua, -voltage_limit, voltage_limit);
@@ -103,5 +103,5 @@ void StepperDriver2PWM::setPwm(float Ua, float Ub) {
   if( _isset(dir2b) ) gpio_put(dir2b, Ub >= 0 ? HIGH : LOW );
 
   // write to hardware
-  _writeDutyCycle2PWM(duty_cycle1, duty_cycle2, params);
+  _write_duty_cycle_2_pwm(duty_cycle1, duty_cycle2, params);
 }

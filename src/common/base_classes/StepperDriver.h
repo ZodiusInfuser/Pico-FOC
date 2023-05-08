@@ -26,7 +26,7 @@ class StepperDriver{
          * @param Ua phase A voltage
          * @param Ub phase B voltage
         */
-        virtual void setPwm(float Ua, float Ub) = 0;
+        virtual void set_pwm(float Ua, float Ub) = 0;
 };
 
 #endif

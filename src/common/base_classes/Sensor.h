@@ -28,12 +28,12 @@ enum Pullup : uint8_t {
  * Encoders, Magnetic Encoders and Hall Sensor implementations. This base class extracts the
  * most basic common features so that a FOC driver can obtain the data it needs for operation.
  * 
- * To implement your own sensors, create a sub-class of this class, and implement the getSensorAngle()
- * method. getSensorAngle() returns a float value, in radians, representing the current shaft angle in the
+ * To implement your own sensors, create a sub-class of this class, and implement the get_sensor_angle()
+ * method. get_sensor_angle() returns a float value, in radians, representing the current shaft angle in the
  * range 0 to 2*PI (one full turn). 
  * 
  * To function correctly, the sensor class update() method has to be called sufficiently quickly. Normally,
- * the BLDCMotor's loopFOC() function calls it once per iteration, so you must ensure to call loopFOC() quickly
+ * the BLDCMotor's loop_foc() function calls it once per iteration, so you must ensure to call loop_foc() quickly
  * enough, both for correct motor and sensor operation.
  * 
  * The Sensor base class provides an implementation of getVelocity(), and takes care of counting full
@@ -48,7 +48,7 @@ class Sensor{
          * the hardware. Base implementation uses the values returned by update() so that 
          * the same values are returned until update() is called again.
          */
-        virtual float getMechanicalAngle();
+        virtual float get_mechanical_angle();
 
         /**
          * Get current position (in rad) including full rotations and shaft angle.
@@ -58,7 +58,7 @@ class Sensor{
          * because the limited precision of float can't capture the large angle of the full 
          * rotations and the small angle of the shaft angle at the same time.
          */
-        virtual float getAngle();
+        virtual float get_angle();
         
         /** 
          * On architectures supporting it, this will return a double precision position value,
@@ -66,7 +66,7 @@ class Sensor{
          * Base implementation uses the values returned by update() so that the same
          * values are returned until update() is called again.
          */
-        virtual double getPreciseAngle();
+        virtual double get_precise_angle();
 
         /** 
          * Get current angular velocity (rad/s)
@@ -74,19 +74,19 @@ class Sensor{
          * returned by update() so that it only makes sense to call this if update()
          * has been called in the meantime.
          */
-        virtual float getVelocity();
+        virtual float get_velocity();
 
         /**
          * Get the number of full rotations
          * Base implementation uses the values returned by update() so that the same
          * values are returned until update() is called again. 
          */
-        virtual int32_t getFullRotations();
+        virtual int32_t get_full_rotations();
 
         /**
          * Updates the sensor values by reading the hardware sensor.
          * Some implementations may work with interrupts, and not need this.
-         * The base implementation calls getSensorAngle(), and updates internal
+         * The base implementation calls get_sensor_angle(), and updates internal
          * fields for angle, timestamp and full rotations.
          * This method must be called frequently enough to guarantee that full
          * rotations are not "missed" due to infrequent polling.
@@ -100,12 +100,12 @@ class Sensor{
          * 0 - magnetic sensor (& encoder with index which is found)
          * 1 - ecoder with index (with index not found yet)
          */
-        virtual int needsSearch();
+        virtual int needs_search();
 
         /**
          * Minimum time between updates to velocity. If time elapsed is lower than this, the velocity is not updated.
          */
-        float min_elapsed_time = 0.000100; // default is 100 microseconds, or 10kHz
+        float min_elapsed_time = 0.000100f; // default is 100 microseconds, or 10kHz
 
     protected:
         /** 
@@ -116,10 +116,10 @@ class Sensor{
          * Calling this method directly does not update the base-class internal fields.
          * Use update() when calling from outside code.
          */
-        virtual float getSensorAngle()=0;
+        virtual float get_sensor_angle()=0;
         /**
          * Call Sensor::init() from your sensor subclass's init method if you want smoother startup
-         * The base class init() method calls getSensorAngle() several times to initialize the internal fields
+         * The base class init() method calls get_sensor_angle() several times to initialize the internal fields
          * to current values, ensuring there is no discontinuity ("jump from zero") during the first calls
          * to sensor.getAngle() and sensor.getVelocity()
          */
@@ -127,7 +127,7 @@ class Sensor{
 
         // velocity calculation variables
         float velocity=0.0f;
-        float angle_prev=0.0f; // result of last call to getSensorAngle(), used for full rotations and velocity
+        float angle_prev=0.0f; // result of last call to get_sensor_angle(), used for full rotations and velocity
         long angle_prev_ts=0; // timestamp of last call to getAngle, used for velocity
         float vel_angle_prev=0.0f; // angle at last call to getVelocity, used for velocity
         long vel_angle_prev_ts=0; // last velocity calculation timestamp

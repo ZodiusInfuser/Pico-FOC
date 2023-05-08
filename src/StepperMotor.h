@@ -33,7 +33,7 @@ class StepperMotor: public FOCMotor
      * 
      * @param driver StepperDriver class implementing all the hardware specific functions necessary PWM setting
      */
-    void linkDriver(StepperDriver* driver);
+    void link_driver(StepperDriver* driver);
 
     /** 
       * StepperDriver link:
@@ -58,14 +58,14 @@ class StepperMotor: public FOCMotor
      * @param sensor_direction  sensor natural direction - default is CW
      *
      */  
-    int initFOC( float zero_electric_offset = NOT_SET , Direction sensor_direction = Direction::CW) override;
+    int init_foc( float zero_electric_offset = NOT_SET , Direction sensor_direction = Direction::CW) override;
     /**
      * Function running FOC algorithm in real-time
      * it calculates the gets motor angle and sets the appropriate voltages 
      * to the phase pwm signals
      * - the faster you can run it the better Arduino UNO ~1ms, Bluepill ~ 100us
      */ 
-    void loopFOC() override;
+    void loop_foc() override;
     /**
      * Function executing the control loops set by the controller parameter of the StepperMotor.
      * 
@@ -86,14 +86,14 @@ class StepperMotor: public FOCMotor
     * @param Ud Current voltage in d axis to set to the motor
     * @param angle_el current electrical angle of the motor
     */
-    void setPhaseVoltage(float Uq, float Ud, float angle_el) override;
+    void set_phase_voltage(float Uq, float Ud, float angle_el) override;
 
   private:
   
     /** Sensor alignment to electrical 0 angle of the motor */
-    int alignSensor();
+    int align_sensor();
     /** Motor and sensor alignment to the sensors absolute 0 angle  */
-    int absoluteZeroSearch();
+    int absolute_zero_search();
         
     // Open loop motion control    
     /**
@@ -102,14 +102,14 @@ class StepperMotor: public FOCMotor
      * 
      * @param target_velocity - rad/s
      */
-    float velocityOpenloop(float target_velocity);
+    float velocity_openloop(float target_velocity);
     /**
      * Function (iterative) generating open loop movement towards the target angle
      * it uses voltage_limit and velocity_limit variables
      * 
      * @param target_angle - rad
      */
-    float angleOpenloop(float target_angle);
+    float angle_openloop(float target_angle);
     // open loop variables
     long open_loop_timestamp;
 };

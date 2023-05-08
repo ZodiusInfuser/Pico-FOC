@@ -21,6 +21,6 @@ void GenericSensor::init(){
 /*
 	Shaft angle calculation
 */
-float GenericSensor::getSensorAngle(){
+float GenericSensor::get_sensor_angle(){
   return this->readCallback();
 }

@@ -21,12 +21,12 @@ void setup() {
   // initialise magnetic sensor hardware
   sensor.init();
   // link the motor to the sensor
-  motor.linkSensor(&sensor);
+  motor.link_sensor(&sensor);
 
   // power supply voltage
   driver.voltage_power_supply = 12;
   driver.init();
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   // set motion control loop to be used
   motor.controller = MotionControlType::torque;
@@ -39,7 +39,7 @@ void setup() {
   // initialize motor
   motor.init();
   // align sensor and start FOC
-  motor.initFOC();
+  motor.init_foc();
 
   // add target command M
   command.add('M', doMotor, "my motor");
@@ -51,7 +51,7 @@ void setup() {
 
 void loop() {
   // main FOC algorithm function
-  motor.loopFOC();
+  motor.loop_foc();
 
   // Motion control function
   motor.move();

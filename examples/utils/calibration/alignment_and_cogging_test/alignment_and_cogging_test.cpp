@@ -22,7 +22,7 @@ void testAlignmentAndCogging(int direction) {
   sleep_ms(200);
 
   sensor.update();
-  float initialAngle = sensor.getAngle();
+  float initialAngle = sensor.get_angle();
 
   const int shaft_rotation = 720; // 720 deg test - useful to see repeating cog pattern
   int sample_count = int(shaft_rotation * motor.pole_pairs); // test every electrical degree
@@ -35,15 +35,15 @@ void testAlignmentAndCogging(int direction) {
 
   for (int i = 0; i < sample_count; i++) {
 
-    float shaftAngle = (float) direction * i * shaft_rotation / sample_count;
-    float electricAngle = (float) shaftAngle * motor.pole_pairs;
+    float shaft_angle = (float) direction * i * shaft_rotation / sample_count;
+    float electricAngle = (float) shaft_angle * motor.pole_pairs;
     // move and wait
-    motor.move(shaftAngle * PI / 180);
+    motor.move(shaft_angle * PI / 180);
     sleep_ms(5);
 
     // measure
     sensor.update();
-    float sensorAngle = (sensor.getAngle() - initialAngle) * 180 / PI;
+    float sensorAngle = (sensor.get_angle() - initialAngle) * 180 / PI;
     float sensorElectricAngle = sensorAngle * motor.pole_pairs;
     float electricAngleError = electricAngle - sensorElectricAngle;
 
@@ -86,7 +86,7 @@ void setup() {
   // driver config
   driver.voltage_power_supply = 12;
   driver.init();
-  motor.linkDriver(&driver);
+  motor.link_driver(&driver);
 
   motor.voltage_sensor_align = 3;
   motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
@@ -95,11 +95,11 @@ void setup() {
   motor.voltage_limit=motor.voltage_sensor_align;
 
   sensor.init();
-  motor.linkSensor(&sensor);
+  motor.link_sensor(&sensor);
 
   motor.useMonitoring(Serial);
   motor.init();
-  motor.initFOC();
+  motor.init_foc();
 
   testAlignmentAndCogging(1);
 
