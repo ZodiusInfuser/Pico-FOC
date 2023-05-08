@@ -41,7 +41,7 @@ void setup() {
     printf(" - Send ? to see the node list...\n");
     printf(" - Send L0 to turn the led off and L1 to turn it off\n");
     printf(" - Send A0-A4 to read the analog pins\n");
-    _delay(1000);
+    sleep_ms(1000);
 }
 
 
@@ -49,5 +49,5 @@ void loop() {
 
     // user communication
     command.run(); 
-    _delay(10);
+    sleep_ms(10);
 }

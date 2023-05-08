@@ -88,7 +88,7 @@ void setup() {
   // Run user commands to configure and the motor (find the full command list in docs.simplefoc.com)
   printf("Motor commands sketch | Initial motion control > torque/voltage : target 2V.\n");
 
-  _delay(1000);
+  sleep_ms(1000);
 }
 
 

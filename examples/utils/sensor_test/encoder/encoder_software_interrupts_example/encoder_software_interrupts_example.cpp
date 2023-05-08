@@ -42,7 +42,7 @@ void setup() {
   PciManager.registerListener(&listenerB);
 
   printf("Encoder ready");
-  _delay(1000);
+  sleep_ms(1000);
 }
 
 void loop() {

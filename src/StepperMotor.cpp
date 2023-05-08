@@ -56,11 +56,11 @@ void StepperMotor::init() {
   }
   P_angle.limit = velocity_limit;
 
-  _delay(500);
+  sleep_ms(500);
   // enable motor
   SIMPLEFOC_DEBUG("MOT: Enable driver.");
   enable();
-  _delay(500);
+  sleep_ms(500);
 
   motor_status = FOCMotorStatus::motor_uncalibrated;
 }
@@ -108,7 +108,7 @@ int  StepperMotor::initFOC( float zero_electric_offset, Direction _sensor_direct
 
   // sensor and motor alignment - can be skipped
   // by setting motor.sensor_direction and motor.zero_electric_angle
-  _delay(500);
+  sleep_ms(500);
   if(sensor){
     exit_flag *= alignSensor();
     // added the shaft_angle update
@@ -146,7 +146,7 @@ int StepperMotor::alignSensor() {
       float angle = _3PI_2 + _2PI * i / 500.0f;
       setPhaseVoltage(voltage_sensor_align, 0,  angle);
 	    sensor->update();
-      _delay(2);
+      sleep_ms(2);
     }
     // take and angle in the middle
     sensor->update();
@@ -156,12 +156,12 @@ int StepperMotor::alignSensor() {
       float angle = _3PI_2 + _2PI * i / 500.0f ;
       setPhaseVoltage(voltage_sensor_align, 0,  angle);
 	    sensor->update();
-      _delay(2);
+      sleep_ms(2);
     }
     sensor->update();
     float end_angle = sensor->getAngle();
     setPhaseVoltage(0, 0, 0);
-    _delay(200);
+    sleep_ms(200);
     // determine the direction the sensor moved
     if (mid_angle == end_angle) {
       SIMPLEFOC_DEBUG("MOT: Failed to notice movement");
@@ -187,19 +187,19 @@ int StepperMotor::alignSensor() {
     // align the electrical phases of the motor and sensor
     // set angle -90(270 = 3PI/2) degrees
     setPhaseVoltage(voltage_sensor_align, 0,  _3PI_2);
-    _delay(700);
+    sleep_ms(700);
     // read the sensor
     sensor->update();
     // get the current zero electric angle
     zero_electric_angle = 0;
     zero_electric_angle = electricalAngle();
-    _delay(20);
+    sleep_ms(20);
     if(monitor_port){
       SIMPLEFOC_DEBUG("MOT: Zero elec. angle: ", zero_electric_angle);
     }
     // stop everything
     setPhaseVoltage(0, 0, 0);
-    _delay(200);
+    sleep_ms(200);
   }else SIMPLEFOC_DEBUG("MOT: Skip offset calib.");
   return exit_flag;
 }
@@ -376,7 +376,7 @@ void StepperMotor::setPhaseVoltage(float Uq, float Ud, float angle_el) {
 // it uses voltage_limit variable
 float StepperMotor::velocityOpenloop(float target_velocity){
   // get current timestamp
-  unsigned long now_us = _micros();
+  unsigned long now_us = time_us_64();
   // calculate the sample time from last call
   float Ts = (now_us - open_loop_timestamp) * 1e-6f;
   // quick fix for strange cases (micros overflow + timestamp not defined)
@@ -409,7 +409,7 @@ float StepperMotor::velocityOpenloop(float target_velocity){
 // it uses voltage_limit and velocity_limit variables
 float StepperMotor::angleOpenloop(float target_angle){
   // get current timestamp
-  unsigned long now_us = _micros();
+  unsigned long now_us = time_us_64();
   // calculate the sample time from last call
   float Ts = (now_us - open_loop_timestamp) * 1e-6f;
   // quick fix for strange cases (micros overflow + timestamp not defined)

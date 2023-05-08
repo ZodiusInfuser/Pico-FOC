@@ -4,7 +4,6 @@
 #include "pico/stdlib.h"
 #include "../common/base_classes/Sensor.h"
 #include "../common/foc_utils.h"
-#include "../common/time_utils.h"
 
 /**
  * This sensor has been tested with AS5600 running in 'analog mode'.  This is where output pin of AS6000 is connected to an analog pin on your microcontroller.

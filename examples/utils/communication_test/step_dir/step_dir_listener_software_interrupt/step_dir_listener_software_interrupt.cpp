@@ -33,12 +33,12 @@ void setup() {
   step_dir.attach(&received_angle);
 
   printf("Step/Dir listenning.\n");
-  _delay(1000);
+  sleep_ms(1000);
 }
 
 void loop() {
     Serial.print(received_angle);
     Serial.print("\t");
     Serial.println(step_dir.getValue());
-    _delay(500);
+    sleep_ms(500);
 }

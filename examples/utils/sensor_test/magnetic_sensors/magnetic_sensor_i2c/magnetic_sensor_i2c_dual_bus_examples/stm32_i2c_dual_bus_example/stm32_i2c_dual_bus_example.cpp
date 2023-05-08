@@ -14,7 +14,7 @@ TwoWire Wire1(PB11, PB10);
 void setup() {
 
   Serial.begin(115200);
-  _delay(750);
+  sleep_ms(750);
 
   Wire.setClock(400000);
   Wire1.setClock(400000);
@@ -31,7 +31,7 @@ void loop() {
   sensor0.update();
   sensor1.update();
   
-  _delay(200);
+  sleep_ms(200);
   Serial.print(sensor0.getAngle()); 
   Serial.print(" - "); 
   Serial.print(sensor1.getAngle());

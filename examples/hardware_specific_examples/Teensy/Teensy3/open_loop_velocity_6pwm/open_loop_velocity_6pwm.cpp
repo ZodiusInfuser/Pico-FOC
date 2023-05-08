@@ -51,7 +51,7 @@ void setup() {
   Serial.begin(115200);
   printf("Motor ready!\n");
   printf("Set target velocity [rad/s]\n");
-  _delay(1000);
+  sleep_ms(1000);
 }
 
 void loop() {

@@ -57,7 +57,7 @@ void setup() {
   Serial.println(motor.sensor_direction == 1 ? "Direction::CW" : "Direction::CCW");
 
   printf("To use these values provide them to the: motor.initFOC(offset, direction)");
-  _delay(1000);
+  sleep_ms(1000);
   printf("If motor is not moving the alignment procedure was not successfull!!");
 }
 

@@ -25,7 +25,7 @@ void setup() {
   sensor.init(&SPI_2);
 
   printf("Sensor ready");
-  _delay(1000);
+  sleep_ms(1000);
 }
 
 void loop() {

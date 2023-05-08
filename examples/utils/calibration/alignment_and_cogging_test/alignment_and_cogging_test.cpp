@@ -19,7 +19,7 @@ MagneticSensorI2C sensor = MagneticSensorI2C(0x36, 12, 0X0C, 4);
 void testAlignmentAndCogging(int direction) {
 
   motor.move(0);
-  _delay(200);
+  sleep_ms(200);
 
   sensor.update();
   float initialAngle = sensor.getAngle();
@@ -39,7 +39,7 @@ void testAlignmentAndCogging(int direction) {
     float electricAngle = (float) shaftAngle * motor.pole_pairs;
     // move and wait
     motor.move(shaftAngle * PI / 180);
-    _delay(5);
+    sleep_ms(5);
 
     // measure
     sensor.update();

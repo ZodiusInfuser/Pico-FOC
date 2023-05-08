@@ -5,7 +5,6 @@
 #include "hardware/i2c.h"
 #include "../common/base_classes/Sensor.h"
 #include "../common/foc_utils.h"
-#include "../common/time_utils.h"
 
 struct MagneticSensorI2CConfig_s  {
   int chip_address;

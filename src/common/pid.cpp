@@ -10,13 +10,13 @@ PIDController::PIDController(float P, float I, float D, float ramp, float limit)
     , output_prev(0.0f)
     , integral_prev(0.0f)
 {
-    timestamp_prev = _micros();
+    timestamp_prev = time_us_64();
 }
 
 // PID controller function
 float PIDController::operator() (float error){
     // calculate the time from the last call
-    unsigned long timestamp_now = _micros();
+    unsigned long timestamp_now = time_us_64();
     float Ts = (timestamp_now - timestamp_prev) * 1e-6f;
     // quick fix for strange cases (micros overflow)
     if(Ts <= 0 || Ts > 0.5f) Ts = 1e-3f;

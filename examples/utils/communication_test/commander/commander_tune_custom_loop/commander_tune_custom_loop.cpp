@@ -58,7 +58,7 @@ void setup() {
   command.add('F', doFilter, "tune velocity LPF");
   command.add('T', doTarget, "motor target");
 
-  _delay(1000);
+  sleep_ms(1000);
   printf("Commander listening\n");
   printf(" - Send ? to see the node list...\n");
 }

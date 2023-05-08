@@ -32,20 +32,20 @@ void setup() {
     command.add('A', doAnalog, "analog read A0-A1");
 
     printf("Commander running\n");
-    _delay(1000);
+    sleep_ms(1000);
 }
 
 
 void loop() {
     // user communication
     command.run("?"); 
-    _delay(2000);
+    sleep_ms(2000);
     command.run("L0"); 
-    _delay(1000);
+    sleep_ms(1000);
     command.run("A0"); 
-    _delay(1000);
+    sleep_ms(1000);
     command.run("A1"); 
-    _delay(1000);
+    sleep_ms(1000);
     command.run("L1"); 
-    _delay(1000);
+    sleep_ms(s(1000);
 }

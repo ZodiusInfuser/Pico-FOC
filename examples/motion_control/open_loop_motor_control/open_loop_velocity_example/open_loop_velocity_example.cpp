@@ -1,13 +1,10 @@
 #include "pico/stdlib.h"
+#include "stdio.h"
 
-int main() {
-  stdio_init_all();
-
-  return 0;
-}
-#ifdef OLD_CODE
 // Open loop motor control example
 #include <SimpleFOC.h>
+#include <drivers/BLDCDriver3PWM.h>
+#include <communication/Commander.h>
 
 
 // BLDC motor & driver instance
@@ -25,11 +22,12 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(9, 5, 6, 8);
 float target_velocity = 0;
 
 // instantiate the commander
-Commander command = Commander(Serial);
+Commander command = Commander();
 void doTarget(char* cmd) { command.scalar(&target_velocity, cmd); }
 void doLimit(char* cmd) { command.scalar(&motor.voltage_limit, cmd); }
 
-void setup() {
+int main() {
+  stdio_init_all();
 
   // driver config
   // power supply voltage [V]
@@ -58,19 +56,19 @@ void setup() {
   command.add('T', doTarget, "target velocity");
   command.add('L', doLimit, "voltage limit");
 
-  Serial.begin(115200);
+  //Serial.begin(115200);
   printf("Motor ready!\n");
   printf("Set target velocity [rad/s]\n");
-  _delay(1000);
+  sleep_ms(1000);
+
+  while(true) {
+    // open loop velocity movement
+    // using motor.voltage_limit and motor.velocity_limit
+    motor.move(target_velocity);
+
+    // user communication
+    command.run();
+  }
+
+  return 0;
 }
-
-void loop() {
-
-  // open loop velocity movement
-  // using motor.voltage_limit and motor.velocity_limit
-  motor.move(target_velocity);
-
-  // user communication
-  command.run();
-}
-#endif

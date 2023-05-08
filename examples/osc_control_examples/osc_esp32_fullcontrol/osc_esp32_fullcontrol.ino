@@ -165,7 +165,7 @@ void setup() {
 	sendMotorParams(motor1, m1Prefix);
 	sendMotorParams(motor2, m2Prefix);
 	printf("All initialization complete.\n");
-	_delay(1000);
+	sleep_ms(1000);
 }
 
 

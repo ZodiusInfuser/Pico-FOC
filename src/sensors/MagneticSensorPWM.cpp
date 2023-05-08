@@ -18,7 +18,7 @@ MagneticSensorPWM::MagneticSensorPWM(uint8_t _pinPWM, int _min_raw_count, int _m
     is_interrupt_based = false;
 
     // define as not set
-    last_call_us = _micros();
+    last_call_us = time_us_64();
 }
 
 
@@ -46,7 +46,7 @@ MagneticSensorPWM::MagneticSensorPWM(uint8_t _pinPWM, int freqHz, int _total_pwm
     min_elapsed_time = 1.0f/freqHz; // set the minimum time between two readings
 
     // define as not set
-    last_call_us = _micros();
+    last_call_us = time_us_64();
 }
 
 
@@ -81,7 +81,7 @@ int MagneticSensorPWM::getRawCount(){
 
 void MagneticSensorPWM::handlePWM() {
     //  unsigned long now_us = ticks();
-    unsigned long now_us = _micros();
+    unsigned long now_us = time_us_64();
 
     // if falling edge, calculate the pulse length
     if (!digitalRead(pinPWM)) pulse_length_us = now_us - last_call_us;

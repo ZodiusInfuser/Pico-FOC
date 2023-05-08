@@ -2,7 +2,6 @@
 #define HARDWARE_UTILS_CURRENT_H
 
 #include "../common/foc_utils.h"
-#include "../common/time_utils.h"
 
 // flag returned if current sense init fails
 #define SIMPLEFOC_CURRENT_SENSE_INIT_FAILED ((void*)-1)

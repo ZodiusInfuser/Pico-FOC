@@ -62,7 +62,7 @@ void LowsideCurrentSense::calibrateOffsets(){
         if(_isset(pinA)) offset_ia += (_readADCVoltageLowSide(pinA, params));
         if(_isset(pinB)) offset_ib += (_readADCVoltageLowSide(pinB, params));
         if(_isset(pinC)) offset_ic += (_readADCVoltageLowSide(pinC, params));
-        _delay(1);
+        sleep_ms(1);
     }
     // calculate the mean offsets
     if(_isset(pinA)) offset_ia = offset_ia / calibration_rounds;
@@ -96,7 +96,7 @@ int LowsideCurrentSense::driverAlign(float voltage){
     if(_isset(pinA)){
         // set phase A active and phases B and C down
         driver->setPwm(voltage, 0, 0);
-        _delay(2000);
+        sleep_ms(2000);
         PhaseCurrent_s c = getPhaseCurrents();
         // read the current 100 times ( arbitrary number )
         for (int i = 0; i < 100; i++) {
@@ -104,7 +104,7 @@ int LowsideCurrentSense::driverAlign(float voltage){
             c.a = c.a*0.6f + 0.4f*c1.a;
             c.b = c.b*0.6f + 0.4f*c1.b;
             c.c = c.c*0.6f + 0.4f*c1.c;
-            _delay(3);
+            sleep_ms(3);
         }
         driver->setPwm(0, 0, 0);
         // align phase A
@@ -143,7 +143,7 @@ int LowsideCurrentSense::driverAlign(float voltage){
     if(_isset(pinB)){
         // set phase B active and phases A and C down
         driver->setPwm(0, voltage, 0);
-        _delay(200);
+        sleep_ms(200);
         PhaseCurrent_s c = getPhaseCurrents();
         // read the current 50 times
         for (int i = 0; i < 100; i++) {
@@ -151,7 +151,7 @@ int LowsideCurrentSense::driverAlign(float voltage){
             c.a = c.a*0.6 + 0.4f*c1.a;
             c.b = c.b*0.6 + 0.4f*c1.b;
             c.c = c.c*0.6 + 0.4f*c1.c;
-            _delay(3);
+            sleep_ms(3);
         }
         driver->setPwm(0, 0, 0);
         float ba_ratio = c.a ? fabs(c.b / c.a) : 0;
@@ -190,7 +190,7 @@ int LowsideCurrentSense::driverAlign(float voltage){
     if(_isset(pinC)){
         // set phase C active and phases A and B down
         driver->setPwm(0, 0, voltage);
-        _delay(200);
+        sleep_ms(200);
         PhaseCurrent_s c = getPhaseCurrents();
         // read the adc voltage 500 times ( arbitrary number )
         for (int i = 0; i < 100; i++) {
@@ -198,7 +198,7 @@ int LowsideCurrentSense::driverAlign(float voltage){
             c.a = c.a*0.6 + 0.4f*c1.a;
             c.b = c.b*0.6 + 0.4f*c1.b;
             c.c = c.c*0.6 + 0.4f*c1.c;
-            _delay(3);
+            sleep_ms(3);
         }
         driver->setPwm(0, 0, 0);
         float ca_ratio = c.a ? fabs(c.c / c.a) : 0;

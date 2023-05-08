@@ -1,12 +1,11 @@
 #include "Sensor.h"
 #include "../foc_utils.h"
-#include "../time_utils.h"
 
 
 
 void Sensor::update() {
     float val = getSensorAngle();
-    angle_prev_ts = _micros();
+    angle_prev_ts = time_us_64();
     float d_angle = val - angle_prev;
     // if overflow happened track it as full rotation
     if(abs(d_angle) > (0.8f*_2PI) ) full_rotations += ( d_angle > 0 ) ? -1 : 1; 
@@ -35,12 +34,12 @@ void Sensor::init() {
     getSensorAngle(); // call once
     delayMicroseconds(1);
     vel_angle_prev = getSensorAngle(); // call again
-    vel_angle_prev_ts = _micros();
+    vel_angle_prev_ts = time_us_64();
     delay(1);
     getSensorAngle(); // call once
     delayMicroseconds(1);
     angle_prev = getSensorAngle(); // call again
-    angle_prev_ts = _micros();
+    angle_prev_ts = time_us_64();
 }
 
 

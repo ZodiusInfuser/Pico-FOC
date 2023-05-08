@@ -45,7 +45,7 @@ void setup() {
   // enable driver
   driver.enable();
   
-  _delay(1000);
+  sleep_ms(1000);
 }
 
 void loop() {

@@ -42,7 +42,7 @@ void HallSensor::handleC() {
  * Updates the state and sector following an interrupt
  */
 void HallSensor::updateState() {
-  long new_pulse_timestamp = _micros();
+  long new_pulse_timestamp = time_us_64();
 
   int8_t new_hall_state = C_active + (B_active << 1) + (A_active << 2);
 
@@ -114,7 +114,7 @@ float HallSensor::getMechanicalAngle() {
 */
 float HallSensor::getVelocity(){
   long last_pulse_diff = pulse_diff;
-  if (last_pulse_diff == 0 || ((long)(_micros() - pulse_timestamp) > last_pulse_diff) ) { // last velocity isn't accurate if too old
+  if (last_pulse_diff == 0 || ((long)(time_us_64() - pulse_timestamp) > last_pulse_diff) ) { // last velocity isn't accurate if too old
     return 0;
   } else {
     float vel = direction * (_2PI / (float)cpr) / (last_pulse_diff / 1000000.0f);
@@ -168,7 +168,7 @@ void HallSensor::init(){
   C_active = digitalRead(pinC);
   updateState();
 
-  pulse_timestamp = _micros();
+  pulse_timestamp = time_us_64();
 
   // we don't call Sensor::init() here because init is handled in HallSensor class.
 }

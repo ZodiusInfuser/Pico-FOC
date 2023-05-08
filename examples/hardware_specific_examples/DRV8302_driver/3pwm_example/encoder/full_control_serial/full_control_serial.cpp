@@ -112,7 +112,7 @@ void setup() {
   printf("Initial motion control loop is voltage loop.\n");
   printf("Initial target voltage 2V.\n");
 
-  _delay(1000);
+  sleep_ms(1000);
 }
 
 

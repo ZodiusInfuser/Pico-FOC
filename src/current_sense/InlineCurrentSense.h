@@ -3,7 +3,6 @@
 
 #include "pico/stdlib.h"
 #include "../common/foc_utils.h"
-#include "../common/time_utils.h"
 #include "../common/defaults.h"
 #include "../common/base_classes/CurrentSense.h"
 #include "../common/lowpass_filter.h"

@@ -29,7 +29,7 @@ void setup() {
   // enable driver
   driver.enable();
   
-  _delay(1000);
+  sleep_ms(s(1000);
 }
 
 void loop() {

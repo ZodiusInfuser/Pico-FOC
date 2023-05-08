@@ -62,27 +62,27 @@ void setup() {
   motor.controller = MotionControlType::angle_openloop;
   motor.voltage_limit=pp_search_voltage;
   motor.move(0);
-  _delay(1000);
+  sleep_ms(1000);
   // read the encoder angle
   encoder.update(); 
   float angle_begin = encoder.getAngle();
-  _delay(50);
+  sleep_ms(50);
 
   // move the motor slowly to the electrical angle pp_search_angle
   float motor_angle = 0;
   while(motor_angle <= pp_search_angle){
     motor_angle += 0.01f;
     motor.move(motor_angle);
-    _delay(1);
+    sleep_ms(1);
   }
-  _delay(1000);
+  sleep_ms(1000);
   // read the encoder value for 180
   encoder.update(); 
   float angle_end = encoder.getAngle();
-  _delay(50);
+  sleep_ms(50);
   // turn off the motor
   motor.move(0);
-  _delay(1000);
+  sleep_ms(1000);
 
   // calculate the pole pair number
   int pp = round((pp_search_angle)/(angle_end-angle_begin));
@@ -118,7 +118,7 @@ void setup() {
   motor.pole_pairs = pp;
   //align encoder and start FOC
   motor.initFOC();
-  _delay(1000);
+  sleep_ms(1000);
 
   printf("\n Motor ready.\n");
   printf("Set the target voltage using serial terminal:\n");

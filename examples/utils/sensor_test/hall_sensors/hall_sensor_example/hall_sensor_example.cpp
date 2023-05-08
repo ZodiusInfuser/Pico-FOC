@@ -33,7 +33,7 @@ void setup() {
   sensor.enableInterrupts(doA, doB, doC);
 
   printf("Sensor ready");
-  _delay(1000);
+  sleep_ms(1000);
 }
 
 void loop() {

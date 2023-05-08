@@ -146,7 +146,7 @@ int MagneticSensorI2C::checkBus(uint8_t sda_pin, uint8_t scl_pin) {
       // SDA still blocked
       return 2;
     }
-    _delay(1000);
+    sleep_ms(1000);
   }
   // SDA is clear (HIGH)
   pinMode(sda_pin, INPUT);

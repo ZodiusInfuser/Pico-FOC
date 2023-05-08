@@ -27,7 +27,9 @@ void doTarget(char* cmd) { command.scalar(&target_position, cmd); }
 void doLimit(char* cmd) { command.scalar(&motor.voltage_limit, cmd); }
 void doVelocity(char* cmd) { command.scalar(&motor.velocity_limit, cmd); }
 
-void setup() {
+
+int main() {
+  stdio_init_all();
 
   // driver config
   // power supply voltage [V]
@@ -62,26 +64,15 @@ void setup() {
   //Serial.begin(115200);
   printf("Motor ready!\n");
   printf("Set target position [rad]\n");
-  _delay(1000);
-}
-
-void loop() {
-  // open  loop angle movements
-  // using motor.voltage_limit and motor.velocity_limit
-  motor.move(target_position);
-  
-  // user communication
-  command.run();
-}
-
-
-int main() {
-  stdio_init_all();
-
-  setup();
+  sleep_ms(1000);
 
   while(true) {
-    loop();
+    // open  loop angle movements
+    // using motor.voltage_limit and motor.velocity_limit
+    motor.move(target_position);
+    
+    // user communication
+    command.run();
   }
 
   return 0;

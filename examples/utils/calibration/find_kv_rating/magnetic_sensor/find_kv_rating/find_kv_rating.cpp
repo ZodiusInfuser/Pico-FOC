@@ -73,7 +73,7 @@ void setup() {
   printf("Motor ready.\n");
   printf("Set the target voltage : - commnad T\n");
   printf("Calculate the motor KV : - command K\n");
-  _delay(1000);
+  sleep_ms(s(s(1000);
 }
 
 
