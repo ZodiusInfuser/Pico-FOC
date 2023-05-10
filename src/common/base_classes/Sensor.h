@@ -1,5 +1,4 @@
-#ifndef SENSOR_H
-#define SENSOR_H
+#pragma once
 
 #include <inttypes.h>
 
@@ -39,7 +38,7 @@ enum Pullup : uint8_t {
  * revolutions in a precise way, but if you wish you can additionally override these methods to provide more
  * optimal implementations for your hardware.
  */
-class Sensor{
+class Sensor {
   public:
     /**
      * Get mechanical shaft angle in the range 0 to 2PI. This value will be as precise as possible with
@@ -133,4 +132,3 @@ class Sensor{
     int32_t full_rotations = 0; // full rotation tracking
     int32_t vel_full_rotations = 0; // previous full rotation value for velocity calculation
 };
-#endif

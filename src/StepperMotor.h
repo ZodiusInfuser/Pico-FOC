@@ -1,10 +1,4 @@
-/**
- *  @file StepperMotor.h
- *
- */
-
-#ifndef StepperMotor_h
-#define StepperMotor_h
+#pragma once
 
 #include "pico/stdlib.h"
 #include "common/base_classes/FOCMotor.h"
@@ -14,18 +8,17 @@
 #include "common/defaults.h"
 
 /**
- Stepper Motor class
-*/
-class StepperMotor: public FOCMotor
-{
+ * Stepper Motor class
+ */
+class StepperMotor: public FOCMotor {
   public:
     /**
-      StepperMotor class constructor
-      @param pp  pole pair number
-     @param R  motor phase resistance - [Ohm]
-     @param KV  motor KV rating (1/K_bemf) - rpm/V
-     @param L  motor phase inductance - [H]
-    */
+     * StepperMotor class constructor
+     * @param pp pole pair number
+     * @param R motor phase resistance - [Ohm]
+     * @param KV motor KV rating (1/K_bemf) - rpm/V
+     * @param L motor phase inductance - [H]
+     */
     StepperMotor(int pp,  float R = NOT_SET, float KV = NOT_SET, float L = NOT_SET);
 
     /**
@@ -36,9 +29,9 @@ class StepperMotor: public FOCMotor
     void link_driver(StepperDriver* driver);
 
     /**
-      * StepperDriver link:
-      * - 4PWM  - L298N for example
-    */
+     * StepperDriver link:
+     * - 4PWM  - L298N for example
+     */
     StepperDriver* driver;
 
     /**  Motor hardware init function */
@@ -59,6 +52,7 @@ class StepperMotor: public FOCMotor
      *
      */
     int init_foc( float zero_electric_offset = NOT_SET , Direction sensor_direction = Direction::CW) override;
+
     /**
      * Function running FOC algorithm in real-time
      * it calculates the gets motor angle and sets the appropriate voltages
@@ -66,6 +60,7 @@ class StepperMotor: public FOCMotor
      * - the faster you can run it the better Arduino UNO ~1ms, Bluepill ~ 100us
      */
     void loop_foc() override;
+
     /**
      * Function executing the control loops set by the controller parameter of the StepperMotor.
      *
@@ -76,20 +71,19 @@ class StepperMotor: public FOCMotor
      */
     void move(float target = NOT_SET) override;
 
-    float	Ualpha,Ubeta; //!< Phase voltages U alpha and U beta used for inverse Park and Clarke transform
+    float	Ualpha, Ubeta; //!< Phase voltages U alpha and U beta used for inverse Park and Clarke transform
 
-  /**
-    * Method using FOC to set Uq to the motor at the optimal angle
-    * Heart of the FOC algorithm
-    *
-    * @param Uq Current voltage in q axis to set to the motor
-    * @param Ud Current voltage in d axis to set to the motor
-    * @param angle_el current electrical angle of the motor
-    */
+    /**
+     * Method using FOC to set Uq to the motor at the optimal angle
+     * Heart of the FOC algorithm
+     *
+     * @param Uq Current voltage in q axis to set to the motor
+     * @param Ud Current voltage in d axis to set to the motor
+     * @param angle_el current electrical angle of the motor
+     */
     void set_phase_voltage(float Uq, float Ud, float angle_el) override;
 
   private:
-
     /** Sensor alignment to electrical 0 angle of the motor */
     int align_sensor();
     /** Motor and sensor alignment to the sensors absolute 0 angle  */
@@ -103,6 +97,7 @@ class StepperMotor: public FOCMotor
      * @param target_velocity - rad/s
      */
     float velocity_openloop(float target_velocity);
+
     /**
      * Function (iterative) generating open loop movement towards the target angle
      * it uses voltage_limit and velocity_limit variables
@@ -110,6 +105,7 @@ class StepperMotor: public FOCMotor
      * @param target_angle - rad
      */
     float angle_openloop(float target_angle);
+
     // open loop variables
     long open_loop_timestamp;
 };

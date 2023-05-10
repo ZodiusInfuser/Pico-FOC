@@ -1,6 +1,4 @@
-#ifndef LOWPASS_FILTER_H
-#define LOWPASS_FILTER_H
-
+#pragma once
 
 #include "foc_utils.h"
 
@@ -22,4 +20,3 @@ class LowPassFilter {
     unsigned long timestamp_prev; //!< Last execution timestamp
     float y_prev; //!< filtered value in previous execution step
 };
-#endif

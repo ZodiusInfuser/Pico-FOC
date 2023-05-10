@@ -1,5 +1,4 @@
-#ifndef LOWSIDE_CS_LIB_H
-#define LOWSIDE_CS_LIB_H
+#pragma once
 
 #include "pico/stdlib.h"
 #include "../common/foc_utils.h"
@@ -68,4 +67,3 @@ class LowsideCurrentSense: public CurrentSense {
      */
     void calibrate_offsets();
 };
-#endif

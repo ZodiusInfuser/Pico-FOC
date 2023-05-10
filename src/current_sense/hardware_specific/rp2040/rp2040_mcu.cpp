@@ -1,7 +1,3 @@
-
-#if defined(TARGET_RP2040)
-
-
 #include "../../hardware_api.h"
 #include "./rp2040_mcu.h"
 #include "../../../drivers/hardware_specific/rp2040/rp2040_mcu.h"
@@ -90,7 +86,7 @@ void* _configureADCInline(const void *driver_params, const int pin_a, const int 
 
 volatile int rp2040_intcount = 0;
 
-void _adcConversionFinishedHandler() {
+void _adc_conversion_finished_handler() {
     // conversion of all channels finished. copy results.
     volatile uint8_t* from = engine.samples;
     if (engine.channelsEnabled[0])
@@ -110,11 +106,7 @@ void _adcConversionFinishedHandler() {
     rp2040_intcount++;
 };
 
-
-
 /* ADC engine implementation */
-
-
 RP2040ADCEngine::RP2040ADCEngine() {
     channelsEnabled[0] = false;
     channelsEnabled[1] = false;
@@ -123,8 +115,6 @@ RP2040ADCEngine::RP2040ADCEngine() {
     initialized = false;
 };
 
-
-
 void RP2040ADCEngine::add_pin(int pin) {
     if (pin>=26 && pin<=29)
         channelsEnabled[pin-26] = true;
@@ -132,14 +122,9 @@ void RP2040ADCEngine::add_pin(int pin) {
         SIMPLEFOC_DEBUG("RP2040-CUR: ERR: Not an ADC pin: ", pin);
 };
 
-
-
 // void RP2040ADCEngine::setPWMTrigger(uint slice){
 //     triggerPWMSlice = slice;
 // };
-
-
-
 
 bool RP2040ADCEngine::init() {
     if (initialized)
@@ -187,7 +172,7 @@ bool RP2040ADCEngine::init() {
         false           // defer start
     );
     dma_channel_set_irq0_enabled(readDMAChannel, true);
-    irq_add_shared_handler(DMA_IRQ_0, _adcConversionFinishedHandler, PICO_SHARED_IRQ_HANDLER_DEFAULT_ORDER_PRIORITY);
+    irq_add_shared_handler(DMA_IRQ_0, _adc_conversion_finished_handler, PICO_SHARED_IRQ_HANDLER_DEFAULT_ORDER_PRIORITY);
 
     SIMPLEFOC_DEBUG("RP2040-CUR: DMA init");
 
@@ -214,9 +199,6 @@ bool RP2040ADCEngine::init() {
     return initialized;
 };
 
-
-
-
 void RP2040ADCEngine::start() {
     SIMPLEFOC_DEBUG("RP2040-CUR: ADC engine starting");
     irq_set_enabled(DMA_IRQ_0, true);
@@ -236,9 +218,6 @@ void RP2040ADCEngine::start() {
     SIMPLEFOC_DEBUG("RP2040-CUR: ADC engine started");
 };
 
-
-
-
 void RP2040ADCEngine::stop() {
     adc_run(false);
     dma_channel_abort(readDMAChannel);
@@ -248,14 +227,8 @@ void RP2040ADCEngine::stop() {
     SIMPLEFOC_DEBUG("RP2040-CUR: ADC engine stopped");
 };
 
-
-
 ADCResults RP2040ADCEngine::get_last_results() {
     ADCResults r;
     r.value = lastResults.value;
     return r;
 };
-
-
-
-#endif

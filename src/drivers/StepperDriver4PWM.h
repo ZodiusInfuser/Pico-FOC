@@ -1,5 +1,4 @@
-#ifndef STEPPER_DRIVER_4PWM_h
-#define STEPPER_DRIVER_4PWM_h
+#pragma once
 
 #include "../common/base_classes/StepperDriver.h"
 #include "../common/foc_utils.h"
@@ -45,4 +44,3 @@ class StepperDriver4PWM: public StepperDriver {
     */
     void set_pwm(float ua, float ub) override;
 };
-#endif

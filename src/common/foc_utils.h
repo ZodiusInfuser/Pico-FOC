@@ -1,5 +1,4 @@
-#ifndef FOCUTILS_LIB_H
-#define FOCUTILS_LIB_H
+#pragma once
 
 #include "pico/stdlib.h"
 
@@ -93,5 +92,3 @@ float _calc_electrical_angle(float shaft_angle, int pole_pairs);
  * @param value - number
  */
 float _sqrt_approx(float value);
-
-#endif

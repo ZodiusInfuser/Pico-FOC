@@ -1,10 +1,4 @@
-
-
 #pragma once
-
-#if defined(TARGET_RP2040)
-
-
 
 typedef struct RP2040DriverParams {
   int pins[6];
@@ -13,8 +7,3 @@ typedef struct RP2040DriverParams {
   long pwm_frequency;
   float dead_zone;
 } RP2040DriverParams;
-
-
-
-
-#endif

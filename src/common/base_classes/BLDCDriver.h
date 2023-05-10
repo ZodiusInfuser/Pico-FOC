@@ -1,5 +1,4 @@
-#ifndef BLDCDRIVER_H
-#define BLDCDRIVER_H
+#pragma once
 
 #include "pico/stdlib.h"
 
@@ -49,4 +48,3 @@ class BLDCDriver {
      */
     virtual void set_phase_state(PhaseState sa, PhaseState sb, PhaseState sc) = 0;
 };
-#endif

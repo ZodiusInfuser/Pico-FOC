@@ -93,8 +93,7 @@ void loop() {
  *
  */
 
-#ifndef SIMPLEFOC_H
-#define SIMPLEFOC_H
+#pragma once
 
 #include "BLDCMotor.h"
 //#include "StepperMotor.h"
@@ -115,5 +114,3 @@ void loop() {
 //#include "communication/Commander.h"
 //#include "communication/StepDirListener.h"
 //#include "communication/SimpleFOCDebug.h"
-
-#endif

@@ -1,9 +1,8 @@
-#ifndef STEPPERDRIVER_H
-#define STEPPERDRIVER_H
+#pragma once
 
 #include "drivers/hardware_api.h"
 
-class StepperDriver{
+class StepperDriver {
   public:
     /** Initialise hardware */
     virtual int init() = 0;
@@ -27,4 +26,3 @@ class StepperDriver{
     */
     virtual void set_pwm(float ua, float ub) = 0;
 };
-#endif

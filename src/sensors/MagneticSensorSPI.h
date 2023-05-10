@@ -1,6 +1,4 @@
-#ifndef MAGNETICSENSORSPI_LIB_H
-#define MAGNETICSENSORSPI_LIB_H
-
+#pragma once
 
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
@@ -18,20 +16,22 @@ struct MagneticSensorSPIConfig_s  {
   int command_rw_bit;
   int command_parity_bit;
 };
+
 // typical configuration structures
 extern MagneticSensorSPIConfig_s AS5147_SPI,AS5048_SPI,AS5047_SPI, MA730_SPI;
 
-class MagneticSensorSPI: public Sensor{
- public:
+class MagneticSensorSPI: public Sensor {
+  public:
     /**
-     *  MagneticSensorSPI class constructor
+     * MagneticSensorSPI class constructor
      * @param cs  SPI chip select pin
      * @param bit_resolution   sensor resolution bit number
      * @param angle_register  (optional) angle read register - default 0x3FFF
      */
     MagneticSensorSPI(int cs, float bit_resolution, int angle_register = 0);
+
     /**
-     *  MagneticSensorSPI class constructor
+     * MagneticSensorSPI class constructor
      * @param config   SPI config
      * @param cs  SPI chip select pin
      */
@@ -49,7 +49,6 @@ class MagneticSensorSPI: public Sensor{
 
     /* returns the speed of the SPI clock signal */
     long clock_speed;
-
 
   private:
     float cpr; //!< Maximum range of the magnetic sensor
@@ -78,6 +77,3 @@ class MagneticSensorSPI: public Sensor{
 
     spi_inst_t* spi;
 };
-
-
-#endif

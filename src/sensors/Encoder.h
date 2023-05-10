@@ -1,10 +1,8 @@
-#ifndef ENCODER_LIB_H
-#define ENCODER_LIB_H
+#pragma once
 
 #include "pico/stdlib.h"
 #include "../common/foc_utils.h"
 #include "../common/base_classes/Sensor.h"
-
 
 /**
  *  Quadrature mode configuration structure
@@ -14,22 +12,23 @@ enum Quadrature : uint8_t {
   OFF   = 0x01  //!<  Disable quadrature mode / CPR = PPR
 };
 
-class Encoder: public Sensor{
- public:
+class Encoder: public Sensor {
+  public:
     /**
-    Encoder class constructor
-    @param enc_a  encoder B pin
-    @param enc_b  encoder B pin
-    @param ppr  impulses per rotation  (cpr=ppr*4)
-    @param index index pin number (optional input)
-    */
+     * Encoder class constructor
+     * @param enc_a  encoder B pin
+     * @param enc_b  encoder B pin
+     * @param ppr  impulses per rotation  (cpr=ppr*4)
+     * @param index index pin number (optional input)
+     */
     Encoder(int enc_a, int enc_b , float ppr, int index = 0);
 
     /** encoder initialise pins */
     void init() override;
+
     /**
-     *  function enabling hardware interrupts for the encoder channels with provided callback functions
-     *  if callback is not provided then the interrupt is not enabled
+     * function enabling hardware interrupts for the encoder channels with provided callback functions
+     * if callback is not provided then the interrupt is not enabled
      *
      * @param do_a pointer to the A channel interrupt handler function
      * @param do_b pointer to the B channel interrupt handler function
@@ -45,7 +44,6 @@ class Encoder: public Sensor{
     void handle_b();
     /** Index channel callback function */
     void handle_index();
-
 
     // pins A and B
     int pin_a; //!< encoder hardware pin A
@@ -89,6 +87,3 @@ class Encoder: public Sensor{
     float prev_Th, pulse_per_second;
     volatile long prev_pulse_counter, prev_timestamp_us;
 };
-
-
-#endif

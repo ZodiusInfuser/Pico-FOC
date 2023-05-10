@@ -1,27 +1,25 @@
-#ifndef BLDCMotor_h
-#define BLDCMotor_h
+#pragma once
 
 #include "pico/stdlib.h"
 #include "common/base_classes/FOCMotor.h"
 //#include "common/base_classes/Sensor.h"
-//#include "common/base_classes/BLDCDriver.h"
+#include "common/base_classes/BLDCDriver.h"
 #include "common/foc_utils.h"
 //#include "common/defaults.h"
 
 /**
- BLDC motor class
-*/
-class BLDCMotor: public FOCMotor
-{
+ * BLDC motor class
+ */
+class BLDCMotor: public FOCMotor {
   public:
     /**
-     BLDCMotor class constructor
-     @param pp pole pairs number
-     @param R  motor phase resistance - [Ohm]
-     @param KV  motor KV rating (1/K_bemf) - rpm/V
-     @param L  motor phase inductance - [H]
+     * BLDCMotor class constructor
+     * @param pp pole pairs number
+     * @param R  motor phase resistance - [Ohm]
+     * @param KV  motor KV rating (1/K_bemf) - rpm/V
+     * @param L  motor phase inductance - [H]
      */
-    BLDCMotor(int pp,  float R = NOT_SET, float KV = NOT_SET, float L = NOT_SET);
+    BLDCMotor(int pp, float R = NOT_SET, float KV = NOT_SET, float L = NOT_SET);
 
     /**
      * Function linking a motor and a foc driver
@@ -31,10 +29,10 @@ class BLDCMotor: public FOCMotor
     virtual void link_driver(BLDCDriver* driver);
 
     /**
-      * BLDCDriver link:
-      * - 3PWM
-      * - 6PWM
-    */
+     * BLDCDriver link:
+     * - 3PWM
+     * - 6PWM
+     */
     BLDCDriver* driver;
 
     /**  Motor hardware init function */
@@ -48,7 +46,8 @@ class BLDCMotor: public FOCMotor
      * Function initializing FOC algorithm
      * and aligning sensor's and motors' zero position
      */
-    int init_foc( float zero_electric_offset = NOT_SET , Direction sensor_direction = Direction::CW) override;
+    int init_foc(float zero_electric_offset = NOT_SET, Direction sensor_direction = Direction::CW) override;
+
     /**
      * Function running FOC algorithm in real-time
      * it calculates the gets motor angle and sets the appropriate voltages
@@ -70,14 +69,14 @@ class BLDCMotor: public FOCMotor
     float Ua, Ub, Uc;//!< Current phase voltages Ua,Ub and Uc set to motor
     float	Ualpha, Ubeta; //!< Phase voltages U alpha and U beta used for inverse Park and Clarke transform
 
-  /**
-    * Method using FOC to set Uq to the motor at the optimal angle
-    * Heart of the FOC algorithm
-    *
-    * @param Uq Current voltage in q axis to set to the motor
-    * @param Ud Current voltage in d axis to set to the motor
-    * @param angle_el current electrical angle of the motor
-    */
+    /**
+     * Method using FOC to set Uq to the motor at the optimal angle
+     * Heart of the FOC algorithm
+     *
+     * @param Uq Current voltage in q axis to set to the motor
+     * @param Ud Current voltage in d axis to set to the motor
+     * @param angle_el current electrical angle of the motor
+     */
     void set_phase_voltage(float Uq, float Ud, float angle_el) override;
 
   private:
@@ -109,6 +108,3 @@ class BLDCMotor: public FOCMotor
     // open loop variables
     long open_loop_timestamp;
 };
-
-
-#endif

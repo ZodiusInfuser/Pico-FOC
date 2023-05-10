@@ -1,5 +1,4 @@
-#ifndef COMMANDS_h
-#define  COMMANDS_h
+#pragma once
 
 // see docs.simplefoc.com for in depth explanation of the commands
 
@@ -47,5 +46,3 @@
 
 #define SCMD_PWMMOD_TYPE   'T' //!<< Pwm modulation type
 #define SCMD_PWMMOD_CENTER 'C' //!<< Pwm modulation center flag
-
-#endif

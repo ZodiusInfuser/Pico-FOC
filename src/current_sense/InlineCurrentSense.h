@@ -1,5 +1,4 @@
-#ifndef INLINE_CS_LIB_H
-#define INLINE_CS_LIB_H
+#pragma once
 
 #include "pico/stdlib.h"
 #include "../common/foc_utils.h"
@@ -67,4 +66,3 @@ class InlineCurrentSense: public CurrentSense {
      */
     void calibrate_offsets();
 };
-#endif

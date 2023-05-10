@@ -1,11 +1,9 @@
-#ifndef PID_H
-#define PID_H
-
+#pragma once
 
 #include "foc_utils.h"
 
 /**
- *  PID controller class
+ * PID controller class
  */
 class PIDController {
   public:
@@ -34,4 +32,3 @@ class PIDController {
     float integral_prev; //!< last integral component value
     unsigned long timestamp_prev; //!< Last execution timestamp
 };
-#endif

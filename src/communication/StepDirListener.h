@@ -1,14 +1,7 @@
-#ifndef STEPDIR_H
-#define STEPDIR_H
+#pragma once
 
 #include "pico/stdlib.h"
 #include "../common/foc_utils.h"
-
-
-#if defined(_STM32_DEF_) || defined(ESP_H) || defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_SAM_DUE) || defined(CORE_TEENSY) || defined(NRF52_SERIES)
-#define PinStatus int
-#endif
-
 
 /**
  * Step/Dir listenner class for easier interraction with this communication interface.
@@ -62,4 +55,3 @@ class StepDirListener {
     float counter_to_value; //!< step counter to value
     //bool step_active = 0; //!< current step pin status (HIGH/LOW) - debouncing variable
 };
-#endif

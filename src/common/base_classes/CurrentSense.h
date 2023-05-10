@@ -1,5 +1,4 @@
-#ifndef CURRENTSENSE_H
-#define CURRENTSENSE_H
+#pragma once
 
 #include "BLDCDriver.h"
 #include "../foc_utils.h"
@@ -69,4 +68,3 @@ class CurrentSense {
      */
     DQCurrent_s get_foc_currents(float angle_el);
 };
-#endif

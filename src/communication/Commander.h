@@ -1,5 +1,4 @@
-#ifndef COMMANDS_H
-#define COMMANDS_H
+#pragma once
 
 #include "pico/stdlib.h"
 #include "../common/base_classes/FOCMotor.h"
@@ -298,4 +297,3 @@ class Commander {
     void print_error();
     bool is_sentinel(char ch);
 };
-#endif

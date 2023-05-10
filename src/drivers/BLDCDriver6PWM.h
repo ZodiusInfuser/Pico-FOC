@@ -1,5 +1,4 @@
-#ifndef BLDCDriver6PWM_h
-#define BLDCDriver6PWM_h
+#pragma once
 
 #include "../common/base_classes/BLDCDriver.h"
 #include "../common/foc_utils.h"
@@ -59,4 +58,3 @@ class BLDCDriver6PWM: public BLDCDriver {
     */
     virtual void set_phase_state(PhaseState sa, PhaseState sb, PhaseState sc) override;
 };
-#endif

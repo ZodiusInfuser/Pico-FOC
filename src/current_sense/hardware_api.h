@@ -1,5 +1,4 @@
-#ifndef HARDWARE_UTILS_CURRENT_H
-#define HARDWARE_UTILS_CURRENT_H
+#pragma once
 
 #include "../common/foc_utils.h"
 
@@ -60,5 +59,3 @@ float _readADCVoltageLowSide(const int pin_a, const void* cs_params);
  * @param cs_params - current sense parameter structure - hardware specific
  */
 void _driverSyncLowSide(void* driver_params, void* cs_params);
-
-#endif

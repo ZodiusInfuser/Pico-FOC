@@ -1,5 +1,4 @@
-#ifndef GENERIC_CS_LIB_H
-#define GENERIC_CS_LIB_H
+#pragma once
 
 #include "pico/stdlib.h"
 #include "../common/foc_utils.h"
@@ -33,4 +32,3 @@ class GenericCurrentSense: public CurrentSense {
     float offset_ib; //!< zero current B voltage value (center of the adc reading)
     float offset_ic; //!< zero current C voltage value (center of the adc reading)
 };
-#endif

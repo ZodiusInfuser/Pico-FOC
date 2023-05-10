@@ -1,9 +1,7 @@
 
-#ifndef __SIMPLEFOCDEBUG_H__
-#define __SIMPLEFOCDEBUG_H__
+#pragma once
 
 #include "pico/stdlib.h"
-
 
 /**
  * SimpleFOCDebug class
@@ -66,5 +64,3 @@ class SimpleFOCDebug {
 #define SIMPLEFOC_DEBUG(msg, ...)
 
 #endif //ifndef SIMPLEFOC_DISABLE_DEBUG
-
-#endif

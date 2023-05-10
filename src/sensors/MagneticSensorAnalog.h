@@ -1,5 +1,4 @@
-#ifndef MAGNETICSENSORANALOG_LIB_H
-#define MAGNETICSENSORANALOG_LIB_H
+#pragma once
 
 #include "pico/stdlib.h"
 #include "../common/base_classes/Sensor.h"
@@ -9,14 +8,13 @@
  * This sensor has been tested with AS5600 running in 'analog mode'.  This is where output pin of AS6000 is connected to an analog pin on your microcontroller.
  * This approach is very simple but you may more accurate results with MagneticSensorI2C if that is also supported as its skips the DAC -> ADC conversion (ADC supports MagneticSensorI2C)
  */
-class MagneticSensorAnalog: public Sensor{
- public:
+class MagneticSensorAnalog: public Sensor {
+  public:
     /**
      * MagneticSensorAnalog class constructor
      * @param _pin_analog  the pin to read the PWM signal
      */
     MagneticSensorAnalog(uint8_t _pin_analog, int _min = 0, int _max = 0);
-
 
     /** sensor initialise pins */
     void init();
@@ -43,8 +41,4 @@ class MagneticSensorAnalog: public Sensor{
      * it uses angle_register variable
      */
     int get_raw_count();
-
 };
-
-
-#endif

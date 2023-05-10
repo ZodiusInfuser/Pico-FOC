@@ -1,5 +1,4 @@
-#ifndef MAGNETICSENSORI2C_LIB_H
-#define MAGNETICSENSORI2C_LIB_H
+#pragma once
 
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
@@ -21,8 +20,8 @@ extern MagneticSensorI2CConfig_s AS5600_I2C,AS5048_I2C;
 #endif
 
 
-class MagneticSensorI2C: public Sensor{
- public:
+class MagneticSensorI2C: public Sensor {
+  public:
     /**
      * MagneticSensorI2C class constructor
      * @param chip_address  I2C chip address
@@ -72,9 +71,4 @@ class MagneticSensorI2C: public Sensor{
 
     /* the two wire instance for this sensor */
     i2c_inst_t* i2c;
-
-
 };
-
-
-#endif
