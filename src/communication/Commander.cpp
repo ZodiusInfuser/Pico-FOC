@@ -32,6 +32,27 @@ void Commander::run(char eol){
   char eol_tmp = this->eol;
   this->eol = eol;
   //com_port = &serial;
+  int ch;
+  while((ch = getchar_timeout_us(0)) != PICO_ERROR_TIMEOUT) {
+    received_chars[rec_cnt++] = (char)ch;
+    // end of user input
+    if(echo)
+      print((char)ch);
+    if (is_sentinel(ch)) {
+      // execute the user command
+      run(received_chars);
+
+      // reset the command buffer
+      received_chars[0] = 0;
+      rec_cnt=0;
+    }
+    if (rec_cnt>=MAX_COMMAND_LENGTH) { // prevent buffer overrun if message is too long
+        received_chars[0] = 0;
+        rec_cnt=0;
+    }
+  }
+// process character
+
 /*
   // a string to hold incoming data
   while (serial.available()) {

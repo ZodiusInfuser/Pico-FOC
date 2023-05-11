@@ -109,6 +109,3 @@ class StepperMotor: public FOCMotor {
     // open loop variables
     long open_loop_timestamp;
 };
-
-
-#endif

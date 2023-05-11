@@ -138,6 +138,8 @@ void* _configure_6_pwm(long pwm_frequency, float dead_zone, const int pinA_h, co
 
 void write_duty_cycle(float val, uint slice, uint chan) {
   pwm_set_chan_level(slice, chan, (wrapvalues[slice]+1) * val);
+  //Alternative, but no noticably different behaviour
+  //pwm_set_chan_level(slice, chan, (wrapvalues[slice]+1) - ((wrapvalues[slice]+1) * val));
 }
 
 void _write_duty_cycle_1_pwm(float dc_a, void* params) {

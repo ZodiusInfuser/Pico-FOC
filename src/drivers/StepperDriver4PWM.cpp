@@ -1,4 +1,6 @@
 #include "StepperDriver4PWM.h"
+#include "math.h"
+#include "stdio.h"
 
 StepperDriver4PWM::StepperDriver4PWM(int ph1A,int ph1B,int ph2A,int ph2B,int en1, int en2){
   // Pin initialization
@@ -21,10 +23,10 @@ StepperDriver4PWM::StepperDriver4PWM(int ph1A,int ph1B,int ph2A,int ph2B,int en1
 // enable motor driver
 void  StepperDriver4PWM::enable(){
     // enable_pin the driver - if enable_pin pin available
-    if ( _isset(enable_pin1) ) gpio_put(enable_pin1, HIGH);
-    if ( _isset(enable_pin2) ) gpio_put(enable_pin2, HIGH);
+    if ( _isset(enable_pin1) ) gpio_put(enable_pin1, true);
+    if ( _isset(enable_pin2) ) gpio_put(enable_pin2, true);
     // set zero to PWM
-    set_pwm(0,0);
+    set_pwm(0, 0);
 }
 
 // disable motor driver
@@ -33,8 +35,8 @@ void StepperDriver4PWM::disable()
   // set zero to PWM
   set_pwm(0, 0);
   // disable the driver - if enable_pin pin available
-  if ( _isset(enable_pin1) ) gpio_put(enable_pin1, LOW);
-  if ( _isset(enable_pin2) ) gpio_put(enable_pin2, LOW);
+  if ( _isset(enable_pin1) ) gpio_put(enable_pin1, false);
+  if ( _isset(enable_pin2) ) gpio_put(enable_pin2, false);
 
 }
 
@@ -42,12 +44,12 @@ void StepperDriver4PWM::disable()
 int StepperDriver4PWM::init() {
 
   // PWM pins
-  pinMode(pwm1A, OUTPUT);
-  pinMode(pwm1B, OUTPUT);
-  pinMode(pwm2A, OUTPUT);
-  pinMode(pwm2B, OUTPUT);
-  if( _isset(enable_pin1) ) pinMode(enable_pin1, OUTPUT);
-  if( _isset(enable_pin2) ) pinMode(enable_pin2, OUTPUT);
+  gpio_set_function(pwm1A, GPIO_FUNC_PWM);
+  gpio_set_function(pwm1B, GPIO_FUNC_PWM);
+  gpio_set_function(pwm2A, GPIO_FUNC_PWM);
+  gpio_set_function(pwm2B, GPIO_FUNC_PWM);
+  if( _isset(enable_pin1) ) gpio_set_function(enable_pin1, GPIO_FUNC_SIO);
+  if( _isset(enable_pin2) ) gpio_set_function(enable_pin2, GPIO_FUNC_SIO);
 
   // sanity check for the voltage limit configuration
   if( !_isset(voltage_limit) || voltage_limit > voltage_power_supply) voltage_limit =  voltage_power_supply;
@@ -76,6 +78,7 @@ void StepperDriver4PWM::set_pwm(float Ualpha, float Ubeta) {
     duty_cycle2B = _constrain(abs(Ubeta)/voltage_power_supply,0.0f,1.0f);
   else
     duty_cycle2A = _constrain(abs(Ubeta)/voltage_power_supply,0.0f,1.0f);
+  printf("c1A = %f, c1B = %f, c2A = %f, c2B = %f\n", duty_cycle1A, duty_cycle1B, duty_cycle2A, duty_cycle2B);
   // write to hardware
   _write_duty_cycle_4_pwm(duty_cycle1A, duty_cycle1B, duty_cycle2A, duty_cycle2B, params);
 }
